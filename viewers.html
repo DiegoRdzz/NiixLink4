@@ -1,0 +1,115 @@
+<div class="main-content">
+  <div class="header">
+    <h2><i class="bi bi-instagram"></i> Comprar Viewers (Reproducciones)</h2>
+    <p>Aumenta el alcance de tus videos con viewers de alta calidad.</p>
+  </div>
+
+  <div class="main" id="viewers">
+    <div class="col-left">
+      <div class="card">
+        <h3>1. Cantidad de Viewers</h3>
+        <div class="range-group">
+          <button class="btn-round" onclick="cambiarRango(-1000, 'viewers')">−</button>
+          <input
+            type="range"
+            id="rango-viewers"
+            min="1000"
+            max="100000000"
+            step="1000"
+            value="3000"
+            oninput="actualizarSalida('viewers')"
+          />
+          <button class="btn-round" onclick="cambiarRango(1000, 'viewers')">+</button>
+        </div>
+        <div class="range-labels">
+          <span>1,000</span>
+          <span>100,000,000</span>
+        </div>
+        <div class="output">
+          <span id="output-viewers">1,000</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Enlace de la Publicación</h3>
+        <div class="input-group">
+          <i class="bi bi-instagram"></i>
+          <input
+            type="text"
+            id="instagramInput-viewers"
+            placeholder="https://www.instagram.com/reel/C_abcDeFgh/"
+            oninput="validateInstagramLink('viewers')">
+        </div>
+        <small id="instagramFeedback-viewers">Ejemplo: https://www.instagram.com/p/DMRIVoRPV_b/</small>
+      </div>
+
+      <div class="card resumen">
+        <h3>Resumen</h3>
+        <div class="line"><span>Publicación:</span><span>-</span></div>
+        <div class="line"><span>Cantidad de Viewers:</span><span id="res-cantidad-viewers">1,000</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-viewers">Pago Único</span></div>
+        <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
+        <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
+        <div class="line"><strong>Total:</strong><span style="color:#ff416c;"><strong>MXN$0.00</strong></span></div>
+        <div class="buttons">
+            <button class="btn-primary" onclick="handlePurchase(event, 'viewers', true)">¡Compra con 1-Click!</button>
+            <button class="btn-outline" onclick="handlePurchase(event, 'viewers', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+            <small id="purchaseWarning-viewers" style="color: red; display: none; font-size: 14px;">⚠️ Agrega un enlace de publicación válido para continuar.</small>
+            <small>Al hacer clic en "¡Compra con 1-Click!" aceptas nuestros términos y condiciones</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab(event, 'info-viewers')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-viewers')">Actualizaciones</div>
+        </div>
+        
+        <div class="tab-content">
+          <div id="info-viewers" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu video o Reel.</p>
+            <p><strong>Inicio estimado:</strong> 0-1 hora después del pago.</p>
+            <p><strong>Velocidad diaria:</strong> 50k-100k viewers diarios.</p>
+            <p><strong>Calidad:</strong> Reproducciones de alta calidad.</p>
+            <p><strong>Nota:</strong> Tu perfil debe ser público para recibir los viewers.</p>
+          </div>
+          <div id="updates-viewers" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card instructions">
+        <h3>Instrucciones</h3>
+        <div class="tabs2">
+          <div class="tab active" onclick="showInstruction(event, 'basicos-viewers')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'ordenar-viewers')">Ordenar</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-viewers')">Reglas</div>
+        </div>
+        <div class="tab-content">
+          <div id="basicos-viewers" class="tab-section active">
+            <ol>
+                <li>Selecciona la cantidad de viewers que deseas.</li>
+                <li>Introduce el enlace de tu video o Reel de Instagram.</li>
+                <li>Asegúrate de que tu perfil sea público.</li>
+                <li>Procede con el pago o agrega al carrito.</li>
+            </ol>
+          </div>
+          <div id="ordenar-viewers" class="tab-section">
+            <h4>Links de enlace</h4>
+            <p>Utiliza el formato de enlace correcto a una publicación (video o Reel). Ejemplo: <strong>https://www.instagram.com/reel/CODIGO_POST/</strong></p>
+          </div>
+          <div id="reglas-viewers" class="tab-section">
+            <ul>
+                <li>No configures tu perfil como privado durante el proceso.</li>
+                <li>No cambies el enlace de la publicación una vez realizado el pedido.</li>
+                <li>No solicites viewers para la misma publicación en otros servicios simultáneamente.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

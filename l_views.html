@@ -1,0 +1,112 @@
+<div class="main-content">
+  <div class="header">
+    <h2><i class="bi bi-instagram"></i> Comprar Live Views</h2>
+    <p>Atrae a más espectadores a tus transmisiones en vivo.</p>
+  </div>
+
+  <div class="main" id="l_views">
+    <!-- IZQUIERDA -->
+    <div class="col-left">
+      <div class="card">
+        <h3>1. Cantidad de Espectadores</h3>
+        <div class="range-group">
+          <button class="btn-round" onclick="cambiarRango(-100, 'l_views')">−</button>
+          <input
+            type="range"
+            id="rango-l_views"
+            min="100"
+            max="5000"
+            step="100"
+            value="300"
+            oninput="actualizarSalida('l_views')"
+          />
+          <button class="btn-round" onclick="cambiarRango(100, 'l_views')">+</button>
+        </div>
+        <div class="range-labels">
+          <span>100</span>
+          <span>5,000</span>
+        </div>
+        <div class="output">
+          <span id="output-l_views">100</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Enlace del Perfil</h3>
+        <div class="input-group">
+          <i class="bi bi-instagram"></i>
+          <input
+            type="text"
+            id="instagramInput-l_views"
+            placeholder="https://www.instagram.com/tu_usuario"
+            oninput="validateInstagramLink('l_views')">
+        </div>
+        <small id="instagramFeedback-l_views">Ejemplo: https://www.instagram.com/Tu_usuario</small>
+      </div>
+
+      <div class="card resumen">
+        <h3>Resumen</h3>
+        <div class="line"><span>Usuario:</span><span>-</span></div>
+        <div class="line"><span>Espectadores en Vivo:</span><span id="res-cantidad-l_views">100</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-l_views">Pago Único</span></div>
+        <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
+        <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
+        <div class="line"><strong>Total:</strong><span style="color:#ff416c;"><strong>MXN$0.00</strong></span></div>
+        <div class="buttons">
+            <button class="btn-primary" onclick="handlePurchase(event, 'l_views', true)">¡Compra con 1-Click!</button>
+            <button class="btn-outline" onclick="handlePurchase(event, 'l_views', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+            <small id="purchaseWarning-l_views" style="color: red; display: none; font-size: 14px;">⚠️ Agrega un enlace de perfil válido para continuar.</small>
+            <small>Al hacer clic en "¡Compra con 1-Click!" aceptas nuestros términos y condiciones</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="col-right">
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab(event, 'info-l_views')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-l_views')">Actualizaciones</div>
+        </div>
+        
+        <div class="tab-content">
+          <div id="info-l_views" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu perfil de Instagram.</p>
+            <p><strong>Importante:</strong> Debes realizar el pedido MIENTRAS estás transmitiendo en vivo.</p>
+            <p><strong>Inicio estimado:</strong> 0-5 minutos.</p>
+            <p><strong>Duración:</strong> Los espectadores permanecerán durante toda la transmisión.</p>
+            <p><strong>Nota:</strong> Tu perfil debe ser público para recibir los espectadores.</p>
+          </div>
+          <div id="updates-l_views" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card instructions">
+        <h3>Instrucciones</h3>
+        <div class="tabs2">
+          <div class="tab active" onclick="showInstruction(event, 'basicos-l_views')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-l_views')">Reglas</div>
+        </div>
+        <div class="tab-content">
+          <div id="basicos-l_views" class="tab-section active">
+            <ol>
+                <li><strong>Inicia tu transmisión en vivo</strong> en Instagram.</li>
+                <li>Con el Live ya iniciado, ven a nuestra página y selecciona la cantidad de espectadores.</li>
+                <li>Introduce el enlace de tu perfil.</li>
+                <li>Procede con el pago. Los espectadores llegarán en minutos.</li>
+            </ol>
+          </div>
+          <div id="reglas-l_views" class="tab-section">
+            <ul>
+                <li>El pedido debe realizarse durante la transmisión en vivo.</li>
+                <li>No se puede cancelar el pedido una vez enviado.</li>
+                <li>Asegúrate de que tu perfil no sea privado.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

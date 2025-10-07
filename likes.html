@@ -1,0 +1,115 @@
+<div class="main-content">
+  <div class="header">
+    <h2><i class="bi bi-instagram"></i> Comprar Likes</h2>
+    <p>Personaliza tu pedido y recibe likes de alta calidad</p>
+  </div>
+
+  <div class="main" id="likes">
+    <div class="col-left">
+      <div class="card">
+        <h3>1. Cantidad de Likes</h3>
+        <div class="range-group">
+          <button class="btn-round" onclick="cambiarRango(-1000, 'likes')">−</button>
+          <input
+            type="range"
+            id="rango-likes"
+            min="1000"
+            max="1000000"
+            step="1000"
+            value="3000"
+            oninput="actualizarSalida('likes')"
+          />
+          <button class="btn-round" onclick="cambiarRango(1000, 'likes')">+</button>
+        </div>
+        <div class="range-labels">
+          <span>1,000</span>
+          <span>1,000,000</span>
+        </div>
+        <div class="output">
+          <span id="output-likes">1,000</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Enlace de la Publicación</h3>
+        <div class="input-group">
+          <i class="bi bi-instagram"></i>
+          <input
+            type="text"
+            id="instagramInput-likes"
+            placeholder="https://www.instagram.com/p/C0_aBcDeFgh/"
+            oninput="validateInstagramLink('likes')">
+        </div>
+        <small id="instagramFeedback-likes" style="color: #000000;">Ejemplo: https://www.instagram.com/p/DMRIVoRPV_b/</small>
+      </div>
+
+      <div class="card resumen">
+        <h3>Resumen</h3>
+        <div class="line"><span>Publicación:</span><span>-</span></div>
+        <div class="line"><span>Cantidad de Likes:</span><span id="res-cantidad-likes">1,000</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-likes">Pago Único</span></div>
+        <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
+        <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
+        <div class="line"><strong>Total:</strong><span style="color:#ff416c;"><strong>MXN$0.00</strong></span></div>
+        <div class="buttons">
+            <button class="btn-primary" onclick="handlePurchase(event, 'likes', true)">¡Compra con 1-Click!</button>
+            <button class="btn-outline" onclick="handlePurchase(event, 'likes', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+            <small id="purchaseWarning-likes" style="color: red; display: none; font-size: 14px;">⚠️ Agrega un enlace de publicación válido para continuar.</small>
+            <small>Al hacer clic en "¡Compra con 1-Click!" aceptas nuestros términos y condiciones</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-right">
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab(event, 'info-likes')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-likes')">Actualizaciones</div>
+        </div>
+        
+        <div class="tab-content">
+          <div id="info-likes" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu publicación (foto o video).</p>
+            <p><strong>Inicio estimado:</strong> 0-1 hora después del pago.</p>
+            <p><strong>Velocidad diaria:</strong> 10k-20k likes diarios.</p>
+            <p><strong>Garantía:</strong> Recarga de 30 días si el número de likes baja.</p>
+            <p><strong>Nota:</strong> Tu perfil debe ser público para recibir los likes.</p>
+          </div>
+          <div id="updates-likes" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card instructions">
+        <h3>Instrucciones</h3>
+        <div class="tabs2">
+          <div class="tab active" onclick="showInstruction(event, 'basicos-likes')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'ordenar-likes')">Ordenar</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-likes')">Reglas</div>
+        </div>
+        <div class="tab-content">
+          <div id="basicos-likes" class="tab-section active">
+            <ol>
+              <li>Selecciona la cantidad de likes que deseas.</li>
+              <li>Introduce el enlace de tu publicación de Instagram.</li>
+              <li>Asegúrate de que tu perfil sea público.</li>
+              <li>Procede con el pago o agrega al carrito.</li>
+            </ol>
+          </div>
+          <div id="ordenar-likes" class="tab-section">
+            <h4>Links de enlace</h4>
+            <p>Utiliza el formato de enlace correcto a una publicación. Ejemplo: <strong>https://www.instagram.com/p/CODIGO_POST/</strong></p>
+          </div>
+          <div id="reglas-likes" class="tab-section">
+            <ul>
+              <li>No configures tu perfil como privado durante el proceso.</li>
+              <li>No cambies el enlace de la publicación una vez realizado el pedido.</li>
+              <li>No solicites likes para la misma publicación en otros servicios simultáneamente.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
