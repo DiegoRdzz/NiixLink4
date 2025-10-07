@@ -61,7 +61,7 @@ function initSection(section) {
 
 function initContent() {
   setupHorizontalScroll();
-  const sections = ['seguidores_face', 'likes', 'viewers', 'l_views', 'l_likes', 'l_views_hombre', 'l_views_mujer'];
+  const sections = ['seguidores', 'likes', 'viewers', 'l_views', 'l_likes', 'l_views_hombre', 'l_views_mujer'];
   sections.forEach(section => {
     if (document.getElementById(section)) {
       initSection(section);
@@ -338,4 +338,5 @@ window.togglePlanText = togglePlanText;
 window.validateInstagramLink = validateInstagramLink;
 window.handlePurchase = handlePurchase;
 window.showTab = showTab;
+
 window.showInstruction = showInstruction;
