@@ -1,0 +1,169 @@
+<div class="main-content">
+  <div class="header">
+    <h2><i class="bi bi-spotify"></i> Compra Plays [USA, UK, Canada] en Spotify</h2>
+    <p>Impulsa tus canciones con reproducciones de alta calidad.</p>
+  </div>
+
+  <div class="main" id="plays_spo">
+    <!-- IZQUIERDA -->
+    <div class="col-left">
+      <div class="card">
+        <h3>1. Cantidad de Plays</h3>
+        <div class="range-group">
+          <button class="btn-round" onclick="cambiarRango(-1000, 'plays_spo')">−</button>
+          <input
+            type="range"
+            id="rango-plays_spo"
+            min="1000"
+            max="100000000"
+            step="1000"
+            value="1000"
+            oninput="actualizarSalida('plays_spo')"
+          />
+          <button class="btn-round" onclick="cambiarRango(1000, 'plays_spo')">+</button>
+        </div>
+        <div class="range-labels">
+          <span>1,000</span>
+          <span>100,000,000</span>
+        </div>
+        <div class="output">
+          <span id="output-plays_spo">1,000</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Tipo de Plan</h3>
+        <div class="switch">
+          <span>Mensual</span>
+          <input type="checkbox" id="togglePlan-plays_spo" onchange="togglePlanText('plays_spo')">
+          <span>Anual <small style="color:rgb(4, 194, 4); font-size: 14px;">(20% Dcto)</small></span>
+        </div>
+        <p id="planText-plays_spo" style="margin-top:10px;">Costo por Play</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Enlace de tu Canción</h3>
+        <div class="input-group">
+          <i class="bi bi-spotify"></i>
+          <input
+            type="text"
+            id="spotifyInput-plays_spo"
+            placeholder="https://open.spotify.com/track/..."
+            oninput="validateAndSetIdentifier('plays_spo')"
+          />
+        </div>
+        <small id="spotifyFeedback-plays_spo">Pega aquí el enlace de tu canción de Spotify.</small>
+      </div>
+
+      <div class="card resumen">
+        <h3>Resumen</h3>
+        <div class="line"><span>Enlace:</span><span>-</span></div>
+        <div class="line"><span>Plays por Mes:</span><span id="res-cantidad-plays_spo">1,000</span></div>
+        <div class="line" style="display: none;"><span>Total Anual:</span><span id="res-total-plays_spo">1,000</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-plays_spo">Mensual</span></div>
+        <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
+        <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
+        <div class="line"><strong>Total:</strong><span style="color:#1DB954;"><strong>MXN$0.00</strong></span></div>
+        <div class="buttons">
+          <button class="btn-primary" onclick="handlePurchase(event, 'plays_spo', true)">¡Compra con 1-Click!</button>
+          <button class="btn-outline" onclick="handlePurchase(event, 'plays_spo', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+          <small id="purchaseWarning-plays_spo" style="color: red; display: none;">⚠️ Agrega un enlace válido para continuar.</small>
+        </div>
+      </div>
+    </div>
+
+
+
+    
+
+    <!-- DERECHA -->
+    <div class="col-right">
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab(event, 'info-seguidores')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-seguidores')">Actualizaciones</div>
+        </div>
+        
+        <div class="tab-content">
+          <div id="info-seguidores" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu perfil.</p>
+            <p><strong>Inicio estimado:</strong> 0-2 horas después del pago.</p>
+            <p><strong>Velocidad diaria:</strong> 5k-10k seguidores diarios.</p>
+            <p><strong>Garantía:</strong> Recarga de 90 días si el numero de seguidores baja del 5%.</p>
+            <p><strong>Nota:</strong> Puedes solicitar un máximo de 100,000. Si necesitas más, vuelve a utilizar nuestros servicios</p>
+          </div>
+          <div id="updates-seguidores" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card instructions">
+        <h3>Instrucciones</h3>
+        <div class="tabs2">
+          <div class="tab active" onclick="showInstruction(event, 'basicos-seguidores')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'ordenar-seguidores')">Ordenar</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-seguidores')">Reglas</div>
+          <div class="tab" onclick="showInstruction(event, 'conteo-seguidores')">Conteo Inicial</div>
+          <div class="tab" onclick="showInstruction(event, 'ofertas-seguidores')">Ofertas</div>
+        </div>
+        <div class="tab-content">
+          <div id="basicos-seguidores" class="tab-section active">
+            <ol>
+              <li>Selecciona un servicio de un paquete de la izquierda.</li>
+              <li>Introduce tu enlace y la cantidad que necesitas de seguidores.</li>
+              <li>Revisa bien tu enlace antes de realizar tu pedido.</li>
+              <li>Asegurate de que tu página no sea privada ni este restringida y de que tu número de seguidores
+                /me gusta sea visible.</li>
+              <li>Consulta el progreso de tus pedidos en el historial de pedidos.</li>
+            </ol>
+          </div>
+
+          <div id="ordenar-seguidores" class="tab-section">
+            <h4>Links de enlace</h4>
+            <p>Utilice el formato de enlace correcto, como se muestra arriba en la sección de ejemplos de enlaces. 
+                (Por ejemplo, si solicita "Me gusta" en Instagram, debe usar un enlace de publicación y, 
+                si solicita visualizaciones de YouTube, un enlace de video).
+            </p>
+            <h4>Cantidad</h4>
+            <p>La cantidad que ingrese debe ser superior al mínimo y inferior al máximo. 
+                Esto varía según el paquete.
+            </p>
+          </div>
+
+          <div id="reglas-seguidores" class="tab-section">
+            <ul>
+              <li>No configure su página ni publicación como privada.</li>
+              <li>No restringa ni oculte su número de "Me gusta" ni seguidores Si lo hace, su pedidos´
+                podria ser rechazado y se anúlara la garantía.</li>
+              <li>Después de enviar los pedidos, es posible que no pueda cambiar el enlace ni cancelar el pedido. Siempre
+                revise los detalles de su pedido.</li>
+              <li>No le reembolsaremos el importe si elimina su página o publicación.</li>
+              <li>Para garantizar que su pedido se complete, no utilice otros anuncios ni promociones mientras usa
+                nuestro sitio.</li>
+              <li>Las plataformas de redes sociales actualizan sus sistemas a diario, lo que a veces puede causar interrupciones.</li>
+              <li>Si se causara una interrupción puede crear un ticket de soporte y tener paciencia mientras nuestro equipo
+                trabaja para resolver el problema.</li>
+            </ul>
+          </div>
+
+          <div id="conteo-seguidores" class="tab-section">
+            <h4>Conteo</h4>
+            <p>El sistema establecerá un conteo de inicio al realizar un pedido. Su pedido se completará cuando alcance la cantidad solicitada. 
+                Para garantizar que su pedido se entregue en su totalidad, evite confusiones en los conteos de inicio.</p>
+            <h4>Ejemplo</h4>
+            <p>No cree dos pedidos de visualizaciones de YouTube para el mismo enlace antes de que el primero alcance la cantidad deseada. 
+                Puede crear varios pedidos de visualizaciones para diferentes enlaces a la vez, o pedir visualizaciones, "me gusta", "compartir", etc., para el mismo enlace simultáneamente. 
+                Esta lógica se aplica a otros servicios y redes sociales.</p>
+          </div>
+
+          <div id="ofertas-seguidores" class="tab-section">
+            <p>Aprovecha los descuentos por pagos anuales.</p>
+            <p>Todos los servicios están garantizados.</p>
+            <p>Si requieres un servicio especial favor contactarnos hi@niixlink.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

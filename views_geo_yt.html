@@ -1,0 +1,192 @@
+<div class="main-content">
+  <div class="header">
+    <h2><i class="bi bi-youtube"></i> Views GEO + [<span class="reg">México</span> | Real ads]</h2>
+    <p>Obtén visualizaciones segmentadas geográficamente para tu video.</p>
+  </div>
+
+  <div class="main" id="views_geo_yt">
+    <div class="col-left">
+      <div class="card">
+        <h3>1. Cantidad de Visualizaciones</h3>
+        <div class="range-group">
+          <button class="btn-round" onclick="cambiarRango(-1000, 'views_geo_yt')">−</button>
+          <input
+            type="range"
+            id="rango-views_geo_yt"
+            min="1000"
+            max="100000000"
+            step="1000"
+            value="1000"
+            oninput="actualizarSalida('views_geo_yt')"
+          />
+          <button class="btn-round" onclick="cambiarRango(1000, 'views_geo_yt')">+</button>
+        </div>
+        <div class="range-labels">
+          <span>1,000</span>
+          <span>100,000,000</span>
+        </div>
+        <div class="output">
+          <span id="output-views_geo_yt">1,000</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>2. Región</h3>
+        <select class="region" id="regionSelect-views_geo_yt" onchange="actualizarRegion('views_geo_yt')">
+            <option value="México" selected>México</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="French">French</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Arabic Speaking">Arabic Speaking</option>
+            <option value="Albania">Albania</option>
+            <option value="Algeria">Algeria</option>
+            <option value="Angola">Angola</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Bulgaria">Bulgaria</option>
+            <option value="Canada">Canada</option>
+            <option value="Chile">Chile</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="Dominican Republic">Dominican Republic</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Egypt">Egypt</option>
+            <option value="El Salvador">El Salvador</option>
+            <option value="Germany">Germany</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Honduras">Honduras</option>
+            <option value="Japan">Japan</option>
+            <option value="Peru">Peru</option>
+            <option value="Puerto Rico">Puerto Rico</option>
+            <option value="Russian">Russian</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Spain">Spain</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Hong Kong">Hong Kong</option>
+            <option value="Venezuela">Venezuela</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <h3>3. Enlace de tu Video</h3>
+        <div class="input-group">
+          <i class="bi bi-youtube"></i>
+          <input
+            type="text"
+            id="youtubeInput-views_geo_yt"
+            placeholder="https://www.youtube.com/watch?v=..."
+            oninput="validateAndSetIdentifier('views_geo_yt')"
+          />
+        </div>
+        <small id="youtubeFeedback-views_geo_yt">Pega aquí el enlace a tu video de YouTube.</small>
+      </div>
+
+      <div class="card resumen">
+        <h3>Resumen</h3>
+        <div class="line"><span>Video:</span><span>-</span></div>
+        <div class="line"><span>Región:</span><span id="res-region-views_geo_yt">México</span></div>
+        <div class="line"><span>Visualizaciones:</span><span id="res-cantidad-views_geo_yt">1,000</span></div>
+        <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
+        <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
+        <div class="line"><strong>Total:</strong><span style="color:#ff0000;"><strong>MXN$0.00</strong></span></div>
+        <div class="buttons">
+          <button class="btn-primary" onclick="handlePurchase(event, 'views_geo_yt', true)">¡Compra con 1-Click!</button>
+          <button class="btn-outline" onclick="handlePurchase(event, 'views_geo_yt', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+          <small id="purchaseWarning-views_geo_yt" style="color: red; display: none;">⚠️ Agrega un enlace de video válido para continuar.</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="col-right">
+      <div class="card">
+        <div class="tabs">
+          <div class="tab active" onclick="showTab(event, 'info-seguidores')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-seguidores')">Actualizaciones</div>
+        </div>
+        
+        <div class="tab-content">
+          <div id="info-seguidores" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu perfil.</p>
+            <p><strong>Inicio estimado:</strong> 0-2 horas después del pago.</p>
+            <p><strong>Velocidad diaria:</strong> 5k-10k seguidores diarios.</p>
+            <p><strong>Garantía:</strong> Recarga de 90 días si el numero de seguidores baja del 5%.</p>
+            <p><strong>Nota:</strong> Puedes solicitar un máximo de 100,000. Si necesitas más, vuelve a utilizar nuestros servicios</p>
+          </div>
+          <div id="updates-seguidores" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card instructions">
+        <h3>Instrucciones</h3>
+        <div class="tabs2">
+          <div class="tab active" onclick="showInstruction(event, 'basicos-seguidores')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'ordenar-seguidores')">Ordenar</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-seguidores')">Reglas</div>
+          <div class="tab" onclick="showInstruction(event, 'conteo-seguidores')">Conteo Inicial</div>
+          <div class="tab" onclick="showInstruction(event, 'ofertas-seguidores')">Ofertas</div>
+        </div>
+        <div class="tab-content">
+          <div id="basicos-seguidores" class="tab-section active">
+            <ol>
+              <li>Selecciona un servicio de un paquete de la izquierda.</li>
+              <li>Introduce tu enlace y la cantidad que necesitas de seguidores.</li>
+              <li>Revisa bien tu enlace antes de realizar tu pedido.</li>
+              <li>Asegurate de que tu página no sea privada ni este restringida y de que tu número de seguidores
+                /me gusta sea visible.</li>
+              <li>Consulta el progreso de tus pedidos en el historial de pedidos.</li>
+            </ol>
+          </div>
+
+          <div id="ordenar-seguidores" class="tab-section">
+            <h4>Links de enlace</h4>
+            <p>Utilice el formato de enlace correcto, como se muestra arriba en la sección de ejemplos de enlaces. 
+                (Por ejemplo, si solicita "Me gusta" en Instagram, debe usar un enlace de publicación y, 
+                si solicita visualizaciones de YouTube, un enlace de video).
+            </p>
+            <h4>Cantidad</h4>
+            <p>La cantidad que ingrese debe ser superior al mínimo y inferior al máximo. 
+                Esto varía según el paquete.
+            </p>
+          </div>
+
+          <div id="reglas-seguidores" class="tab-section">
+            <ul>
+              <li>No configure su página ni publicación como privada.</li>
+              <li>No restringa ni oculte su número de "Me gusta" ni seguidores Si lo hace, su pedidos´
+                podria ser rechazado y se anúlara la garantía.</li>
+              <li>Después de enviar los pedidos, es posible que no pueda cambiar el enlace ni cancelar el pedido. Siempre
+                revise los detalles de su pedido.</li>
+              <li>No le reembolsaremos el importe si elimina su página o publicación.</li>
+              <li>Para garantizar que su pedido se complete, no utilice otros anuncios ni promociones mientras usa
+                nuestro sitio.</li>
+              <li>Las plataformas de redes sociales actualizan sus sistemas a diario, lo que a veces puede causar interrupciones.</li>
+              <li>Si se causara una interrupción puede crear un ticket de soporte y tener paciencia mientras nuestro equipo
+                trabaja para resolver el problema.</li>
+            </ul>
+          </div>
+
+          <div id="conteo-seguidores" class="tab-section">
+            <h4>Conteo</h4>
+            <p>El sistema establecerá un conteo de inicio al realizar un pedido. Su pedido se completará cuando alcance la cantidad solicitada. 
+                Para garantizar que su pedido se entregue en su totalidad, evite confusiones en los conteos de inicio.</p>
+            <h4>Ejemplo</h4>
+            <p>No cree dos pedidos de visualizaciones de YouTube para el mismo enlace antes de que el primero alcance la cantidad deseada. 
+                Puede crear varios pedidos de visualizaciones para diferentes enlaces a la vez, o pedir visualizaciones, "me gusta", "compartir", etc., para el mismo enlace simultáneamente. 
+                Esta lógica se aplica a otros servicios y redes sociales.</p>
+          </div>
+
+          <div id="ofertas-seguidores" class="tab-section">
+            <p>Aprovecha los descuentos por pagos anuales.</p>
+            <p>Todos los servicios están garantizados.</p>
+            <p>Si requieres un servicio especial favor contactarnos hi@niixlink.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

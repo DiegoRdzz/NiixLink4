@@ -1,0 +1,232 @@
+.resumen-mensajes {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tarjeta-resumen {
+  flex: 1;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.tarjeta-resumen h3 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #333;
+}
+
+.numero {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Colores para los números */
+.numero.total {
+  color: #000; /* Negro para total */
+}
+
+.numero.problemas {
+  color:rgb(255, 25, 0); /* Rojo para problemas */
+}
+
+.numero.personalizados {
+  color:rgb(0, 153, 255); /* Azul para personalizados */
+}
+
+.numero.dudas {
+  color:rgb(255, 204, 0); /* Amarillo para dudas */
+}
+
+.icono {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.icono.advertencia {
+  color:rgb(255, 157, 0); /* Naranja para problemas */
+}
+
+.icono.personalizado {
+  color:rgb(0, 153, 255); /* Azul para personalizados */
+}
+
+.icono.duda {
+  color:rgb(199, 163, 213); /* Morado para dudas */
+}
+
+.filtros-container {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.filtro-busqueda {
+  flex: 1 1 300px;
+}
+
+.input-busqueda {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.select-filtro {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.titulo-filtros {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+/* Recuadro blanco completo incluyendo el título */
+.tabla-contenedor {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+/* Título dentro del cuadro */
+.titulo-contactos {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+/* Tabla completa */
+.tabla-contacto {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+/* Encabezado de tabla */
+.tabla-contacto thead {
+  background-color: transparent;
+}
+
+.tabla-contacto thead th {
+  text-align: left;
+  padding: 0.75rem 0.5rem;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #eee;
+}
+
+
+/* Celdas del cuerpo */
+.tabla-contacto tbody td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+  color: #444;
+}
+
+/* Hover en filas */
+.tabla-contacto tbody tr:hover {
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.tabla-contacto tbody td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+  color: #444;
+  font-weight: normal;
+  font-size: 0.95rem;
+}
+
+
+/* Truncar mensaje si es muy largo (opcional) */
+.tabla-contacto td:nth-child(4) {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contenedor-principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.mensaje-truncado {
+  max-width: 300px;
+}
+
+.mensaje-contenido {
+  max-height: 3.6em; /* ~2 líneas */
+  overflow: hidden;
+  white-space: pre-line;
+  text-overflow: ellipsis;
+  position: relative;
+  transition: max-height 0.3s ease;
+}
+
+.mensaje-contenido.expandido {
+  max-height: none;
+}
+
+.btn-vermas {
+  background: none;
+  border: none;
+  color: #007BFF;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  padding: 0;
+}
+
+.btn-accion {
+  background-color: #fafafa; /* fondo claro */
+  border: 1px solid #e0e0e0; /* borde suave */
+  border-radius: 6px; /* esquinas más pequeñas */
+  padding: 4px; /* menos espacio interno */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center; /* centra verticalmente */
+  justify-content: center; /* centra horizontalmente */
+  width: 32px; /* tamaño fijo */
+  height: 32px;
+}
+
+.btn-accion i {
+  font-size: 1rem; /* tamaño del icono más pequeño */
+  color: #000; /* color del icono */
+}
+
+.btn-accion:hover {
+  background-color: #f0f0f0; /* color al pasar el mouse */
+}
+
+

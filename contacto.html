@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - NixLink</title>
+  <link rel="stylesheet" href="contacto.css">
+  <link rel="stylesheet" href="resposive_contacto.css">
+  <link rel="stylesheet" href="carrito.css">
+  <link rel="stylesheet" href="menu.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>  
+    <div class="toast-container" id="toastContainer"></div>
+ <nav class="menu">
+  <div class="menu-left">
+    <a href="index.html">
+      <img src="Logotipos.png" alt="NiixLink">
+    </a>
+    <ul class="menu-desktop">
+      <li><a href="index.html" class="index">Inicio</a></li>
+      <li><a href="contacto.html" class="contac">Contacto</a></li>
+    </ul>
+  </div>
+
+  <div class="menu-right">
+    <button class="cart" onclick="mostrarCarrito()">
+      <i class="bi bi-cart"></i>
+      <span id="notificacionCarrito"></span>
+    </button>
+    <button class="menu-hamburguesa" id="btnHamburguesa">
+      <i class="fas fa-bars"></i>
+    </button>
+   <!--<button class="sesion" onclick="window.location.href='contacto.html'">
+      <i class="fa-solid fa-user"></i> <span class="texto-sesion">Iniciar sesión</span>-->
+    </button>
+  </div>
+</nav>
+
+<div class="menu-desplegable" id="menuDesplegable">
+  <ul>
+    <li><a href="index.html" class="index">Inicio</a></li>
+    <li><a href="contacto.html" class="contac">Contacto</a></li>
+    <!--<li><a href="login.html" class="sesion-mobile"><i class="fa-solid fa-user"></i> Iniciar sesión</a></li>-->
+  </ul>
+</div>
+
+  <div class="header">
+    <h1>Contacta con nosotros</h1>
+    <p>Estamos aquí para ayudarte a crecer en redes sociales. ¿Tienes alguna pregunta o buscas un pedido a tu medida?<br>¡Contáctanos!</p>
+  </div>
+
+  <div class="contenedor"> 
+    <div class="formulario">
+      <h3>Envíanos un mensaje</h3>
+<form id="formContacto">
+  <div class="fila">
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre">
+    </div>
+    <div class="campo">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="Tu correo electrónico">
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="tipo_mensaje">Tipo de mensaje</label>
+    <select id="tipo_mensaje" name="tipo_mensaje">
+      <option value="">Selecciona una opción</option>
+      <option value="pedido">Pedido personalizado</option>
+      <option value="problema">Problema con mi pedido</option>
+      <option value="duda">Dudas o preguntas generales</option>
+    </select>
+  </div>
+
+  <label for="mensaje">Mensaje</label>
+  <textarea id="mensaje" name="mensaje" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+  <button class="enviar" type="submit"><i class="bi bi-send-fill"></i> Enviar mensaje</button>
+</form>
+
+    </div>
+
+    <div class="info-contacto">
+      <h4>Preguntas frecuentes</h4>
+      
+      <div class="preguntas-scroll">
+        <div class="pregunta">¿Necesitan mi contraseña?</div>
+        <div class="respuesta">No, jamás. Solo necesitamos tu @usuario. Tu cuenta está 100% segura.</div>
+
+        <div class="pregunta">¿Los seguidores son reales y activos?</div>
+        <div class="respuesta">Sí, nos enfocamos en perfiles reales de alta calidad para asegurar un crecimiento auténtico.</div>
+
+        <div class="pregunta">¿Qué servicios ofrecemos?</div>
+        <div class="respuesta">Por ahora nos especializamos en Instagram, ofreciendo seguidores, likes, viewers y servicios para transmisiones en vivo. ¡Pronto añadiremos más redes sociales!</div>
+
+        <div class="pregunta">¿Cuánto tarda en llegar mi pedido?</div>
+        <div class="respuesta">Empezarás a ver resultados en 24 a 48 horas.</div>
+
+        <div class="pregunta">¿Puedo cancelar un pedido ya realizado?</div>
+        <div class="respuesta">Debido a nuestro sistema automatizado para una entrega rápida, no es posible cancelar un pedido una vez ingresado. Por favor, revisa bien tus datos antes de comprar.</div>
+      </div>
+
+      <hr>
+      <h5>Nuestro compromiso</h5>
+      <p>En NixLink nos comprometemos a ofrecer el mejor servicio de crecimiento en redes sociales, con atención personalizada y resultados garantizados.</p>
+      <blockquote>"Nuestro objetivo es ayudarte a crecer de forma sostenible en todas tus redes sociales."</blockquote>
+    </div>
+  </div>
+
+<div id="overlayCarrito" class="modal-overlay" onclick="cerrarCarrito()"></div>
+
+<div id="modalCarrito" class="modal-carrito">
+  <span class="cerrar-modal" onclick="cerrarCarrito()">×</span>
+
+  <header class="car">Tu Carrito</header>
+
+  <div id="carritoContenido" class="carrito-scroll">
+    </div>
+
+  <div class="resumen-carrito" id="resumenCarrito">
+
+    <div class="resumen-linea">
+      <span>Subtotal</span>
+      <span id="subtotal">MXN$0</span>
+    </div>
+    <div class="resumen-linea">
+      <span>IVA <small style="font-size: 0.9em; color: #6b7280; margin-left: 4px;">(16%)</small></span>
+      <span id="iva">MXN$0</span>
+    </div>
+    <hr style="border: none; border-top: 1px solid #eee; margin: 10px 0;">
+    <div class="resumen-linea total">
+      <strong>Total</strong>
+      <strong id="totalFinal">MXN$0</strong>
+    </div>
+
+    <div class="finalizar-compra-container">
+      <button class="btn-finalizar" id="btnFinalizar">Finalizar compra</button>
+    </div>
+  </div>
+</div>
+  <script src="carrito.js"></script>
+  <script src="contacto.js"></script>
+</body>
+</html>

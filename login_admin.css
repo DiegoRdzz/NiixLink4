@@ -1,0 +1,123 @@
+        :root {
+            --color-primario: #ff4136;
+            --color-exito: #28a745;
+            --color-error: #dc3545;
+            --color-fondo: #f4f7f9;
+            --color-texto: #333;
+            --color-borde: #dee2e6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-fondo);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 2.5em;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 400px;
+        }
+        /* --- ESTILOS PARA EL LOGO (MODIFICADO) --- */
+        .logo-container {
+            text-align: center; /* Centra el logo horizontalmente */
+            margin-bottom: 1.5em; /* Crea espacio debajo del logo */
+        }
+        .logo-container img {
+            width: 80px; /* Ajusta el tamaño de tu logo como prefieras */
+            height: auto;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--color-borde);
+            margin-bottom: 1.5em;
+        }
+        .tab-link {
+            flex: 1;
+            padding: 1em;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .tab-link.active {
+            color: var(--color-primario);
+            border-bottom-color: var(--color-primario);
+        }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .form-group { margin-bottom: 1.25em; }
+        label {
+            font-weight: 600;
+            font-size: 0.9em;
+            display: block;
+            margin-bottom: 0.5em;
+        }
+        input {
+            width: 100%;
+            padding: 0.8em;
+            border: 1px solid var(--color-borde);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 0.9em;
+            background: var(--color-primario);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            opacity: 0.9;
+        }
+        .mensaje {
+            padding: 1em;
+            margin-top: 1.5em;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .mensaje-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .mensaje-exito {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* --- ESTILOS PARA VALIDACIÓN DE FORMULARIO --- */
+.error-message {
+    color: #dc3545; /* Color de error */
+    font-size: 0.8em;
+    font-weight: 500;
+    margin-top: 5px;
+    display: none; /* Oculto por defecto hasta que JS lo muestre */
+}
+
+input.input-error {
+    border-color: #dc3545; /* Borde rojo para el campo inválido */
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25); /* Sombra sutil de error */
+}
+
+/* Opcional: para que el contorno de foco no interfiera con la sombra de error */
+input.input-error:focus {
+     outline: none;
+}

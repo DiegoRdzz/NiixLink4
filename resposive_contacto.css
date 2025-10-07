@@ -1,0 +1,87 @@
+/* ========================================= */
+/* ESTILOS RESPONSIVOS PARA CONTACTO.HTML */
+/* ========================================= */
+
+/* --- VISTA TABLET Y MÓVIL (hasta 768px) --- */
+@media (max-width: 768px) {
+  /* Hacemos que el grid de 2 columnas pase a ser de 1 sola */
+  .contenedor {
+    grid-template-columns: 1fr; /* Una sola columna que ocupe todo el ancho */
+    margin-top: 20px;
+    padding: 0 15px;
+  }
+
+  /* Ajustamos la fila del formulario para que los inputs se apilen */
+  .fila {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+
+/* --- AJUSTES DE TAMAÑO DE FUENTE POR DISPOSITIVO --- */
+
+/* Tablets y laptops pequeñas (hasta 1024px) */
+@media (max-width: 1024px) {
+  .header h1 {
+    font-size: 2em;
+  }
+  .header p {
+    font-size: 1em;
+  }
+  .formulario h3,
+  .info-contacto h4,
+  .info-contacto h5 {
+    font-size: 1.2em;
+  }
+  .pregunta {
+    font-size: 1em;
+  }
+  .respuesta,
+  .info-contacto p,
+  .info-contacto blockquote {
+    font-size: 0.95em;
+  }
+}
+
+/* Móviles (hasta 600px) */
+@media (max-width: 600px) {
+  .header {
+    padding: 90px 20px;
+  }
+  .pregunta {
+    font-size: 0.95em;
+  }
+  .respuesta {
+    font-size: 0.9em;
+  }
+}
+
+/* Móviles muy pequeños (hasta 480px) */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.6em;
+  }
+  .header p {
+    font-size: 0.95em;
+  }
+  .formulario h3,
+  .info-contacto h4,
+  .info-contacto h5 {
+    font-size: 1.1em;
+  }
+  .formulario input,
+  .formulario textarea,
+  .formulario select,
+  .formulario label {
+    font-size: 0.95em;
+  }
+  .pregunta,
+  .info-contacto p,
+  .info-contacto blockquote {
+    font-size: 0.9em;
+  }
+  .respuesta {
+    font-size: 0.85em;
+  }
+}

@@ -1,0 +1,438 @@
+/* ==================== */
+/* ESTILOS GENERALES PARA TABS */
+/* ==================== */
+.tab-section {
+  display: none;
+  padding: 10px 0;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+
+
+/* ==================== */
+/* ESTILOS PARA TABLET */
+/* ==================== */
+@media (max-width: 1024px) and (min-width: 601px) {
+  body {
+    padding: 70px 20px 20px;
+  }
+
+  .main {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .col-left {
+    width: 55%;
+  }
+
+  .col-right {
+    width: 43%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  .range-labels {
+    padding: 0 40px;
+  }
+
+  .output span {
+    font-size: 1.6rem;
+  }
+
+  .buttons button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  /* Tabs de instrucciones mejorados */
+  .tabs2 {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    height: auto;
+    white-space: nowrap;
+  }
+
+  .tabs2 .tab {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .tabs2 .tab.active {
+    border-bottom: 3px solid #ff0000;
+    color: #ff0000;
+    font-weight: bold;
+  }
+
+  /* Contenido de instrucciones */
+  .instructions .tab-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .instructions ol, 
+  .instructions ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  .instructions li {
+    margin-bottom: 8px;
+  }
+}
+
+/* ==================== */
+/* ESTILOS PARA MÓVIL - CORREGIDOS */
+/* ==================== */
+@media (max-width: 600px) {
+  body {
+    padding: 70px 10px 20px;
+  }
+
+  .header {
+    padding: 10px;
+  }
+
+  .header h2 {
+    font-size: 1.3rem;
+  }
+
+  .header p {
+    font-size: 0.9rem;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .col-left, 
+  .col-right {
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Específico para col-right */
+  .col-right {
+    margin-top: 15px;
+  }
+
+  .col-right .card {
+    padding: 15px;
+    margin: 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  /* Contenido dentro de col-right */
+  .col-right h3 {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .col-right .resumen {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .col-right .line {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+  }
+
+  .col-right .line.total {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+  }
+
+  .col-right .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .col-right .buttons button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 6px;
+  }
+
+  .range-group {
+    gap: 5px;
+  }
+
+  .btn-round {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+
+  .range-labels {
+    padding: 0 30px;
+    font-size: 0.8rem;
+  }
+
+  .output span {
+    font-size: 1.5rem;
+  }
+
+  .switch {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .input-group input {
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Tabs mejorados */
+  .tabs, .tabs2 {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    white-space: nowrap;
+  }
+
+  .tab {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    flex: 0 0 auto;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .tab.active {
+    border-bottom: 3px solid #ff0000;
+    color: #ff0000;
+    font-weight: bold;
+  }
+
+  .tab-content {
+    font-size: 0.85rem;
+    margin-top: 8px;
+    line-height: 1.5;
+    padding: 0 5px;
+  }
+
+  .instructions ol, 
+  .instructions ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+
+  .instructions li {
+    margin-bottom: 8px;
+  }
+
+  .service-tabs-container {
+    padding: 5px 10px;
+  }
+
+  .service-tab {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+  }
+}
+
+/* ============================= */
+/* AJUSTES PARA MÓVILES PEQUEÑOS (≤400px) */
+/* ============================= */
+@media (max-width: 400px) {
+  .range-labels {
+    padding: 0 20px;
+  }
+
+  .output span {
+    font-size: 1.3rem;
+  }
+
+  /* Ajustes específicos para col-right */
+  .col-right .card {
+    padding: 12px;
+  }
+
+  .col-right h3 {
+    font-size: 1.1rem;
+  }
+
+  .col-right .line {
+    font-size: 0.85rem;
+  }
+
+  .col-right .buttons button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Tabs más compactos */
+  .tabs2 .tab, 
+  .tabs .tab {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    min-width: 80px;
+  }
+
+  .tab-content {
+    font-size: 0.8rem;
+  }
+
+  .service-tab {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+/* ==================== */
+/* ESTILOS GLOBALES PARA TABS */
+/* ==================== */
+/* Asegurar que todos los tabs de contenido estén ocultos por defecto */
+#info-seguidores,
+#updates-seguidores,
+#info-likes,
+#updates-likes,
+#info-viewers,
+#updates-viewers,
+#basicos-seguidores,
+#ordenar-seguidores,
+#reglas-seguidores,
+#conteo-seguidores,
+#ofertas-seguidores,
+#basicos-likes,
+#ordenar-likes,
+#reglas-likes,
+#conteo-likes,
+#ofertas-likes,
+#basicos-viewers,
+#ordenar-viewers,
+#reglas-viewers,
+#conteo-viewers,
+#ofertas-viewers {
+  display: none;
+}
+
+/* Mostrar solo el contenido activo */
+#info-seguidores.active,
+#updates-seguidores.active,
+#info-likes.active,
+#updates-likes.active,
+#info-viewers.active,
+#updates-viewers.active,
+#basicos-seguidores.active,
+#ordenar-seguidores.active,
+#reglas-seguidores.active,
+#conteo-seguidores.active,
+#ofertas-seguidores.active,
+#basicos-likes.active,
+#ordenar-likes.active,
+#reglas-likes.active,
+#conteo-likes.active,
+#ofertas-likes.active,
+#basicos-viewers.active,
+#ordenar-viewers.active,
+#reglas-viewers.active,
+#conteo-viewers.active,
+#ofertas-viewers.active {
+  display: block;
+}
+
+/* ======================================= */
+/* ESTILOS RESPONSIVOS PARA TABS DE SERVICIO */
+/* ======================================= */
+
+.service-tabs-container {
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0; /* Línea divisoria sutil */
+  background-color: #f9fafb;
+  padding: 5px 0; /* Espacio vertical ligero */
+}
+
+.service-tabs {
+  display: flex;              /* 1. Alinea los tabs en una sola fila. */
+  overflow-x: auto;           /* 2. Permite el desplazamiento horizontal si los tabs no caben. */
+  white-space: nowrap;        /* 3. Evita que los tabs salten a la línea de abajo. */
+  -webkit-overflow-scrolling: touch; /* Desplazamiento suave en móviles (iOS). */
+  padding: 0 10px;            /* Agrega un poco de espacio en los extremos. */
+
+  /* Opcional: Oculta la barra de scroll visualmente pero mantiene la funcionalidad */
+  scrollbar-width: none;      /* Para Firefox */
+  -ms-overflow-style: none;   /* Para Internet Explorer y Edge */
+}
+
+/* Ocultar barra de scroll para Chrome, Safari y Opera */
+.service-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.service-tab {
+  flex: 0 0 auto; /* Evita que los tabs se encojan o estiren. */
+  padding: 12px 18px;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  color: #6b7280; /* Un color gris suave */
+  cursor: pointer;
+  border-bottom: 3px solid transparent; /* Borde inferior para el estado activo */
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+/* Estilo al pasar el cursor por encima */
+.service-tab:hover {
+  background-color: #f9fafb; /* Un fondo muy ligero para feedback */
+  color: #111827;
+}
+
+/* Estilo para la pestaña activa */
+.service-tab.active {
+  color: #ff0000; /* Tu color de acento principal */
+  font-weight: 600;
+  border-bottom-color: #ff0000;
+}

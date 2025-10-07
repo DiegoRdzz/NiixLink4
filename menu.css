@@ -1,0 +1,193 @@
+/* ========================================= */
+/* ESTILOS DEL MENÚ PRINCIPAL (DESKTOP) */
+/* ========================================= */
+
+.menu {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid #f0f0f0;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* --- Lado Izquierdo: Logo y Navegación --- */
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-left: 200px; 
+}
+
+.menu img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.menu-desktop {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+.menu-desktop a {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+.menu-desktop a.index { color: #333; }
+.menu-desktop a.contac { color: #6b7280; }
+.menu-desktop a:hover { color: #fc3c34; }
+
+
+/* --- Lado Derecho: Botones --- */
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-right: 200px;
+}
+.sesion, .cart {
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.3s ease;
+}
+.cart:hover { color: #fc3c34; }
+#notificacionCarrito {
+  margin-top: -12px;
+  margin-left: -5px;
+  font-size: 16px;
+  color: red;
+}
+
+/* ========================================= */
+/* ESTILOS DEL MENÚ MÓVIL (HAMBURGUESA) */
+/* ========================================= */
+
+.menu-hamburguesa {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 5px;
+  transition: color 0.3s ease;
+}
+.menu-hamburguesa:hover { color: #fc3c34; }
+
+.menu-desplegable {
+  position: fixed;
+  top: 71px;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 999;
+  border-top: 1px solid #eee;
+}
+.menu-desplegable.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.menu-desplegable ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.menu-desplegable li {
+  padding: 14px 25px;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.2s;
+}
+.menu-desplegable li:last-child { border-bottom: none; }
+.menu-desplegable li:hover { background: #f9f9f9; }
+.menu-desplegable a {
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-desplegable a.index { color: #000; font-weight: 600; }
+.menu-desplegable a.contac { color: #6b7280; }
+.menu-desplegable a.sesion-mobile { color: #333; font-weight: 500; }
+.menu-desplegable i {
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+/* ========================================= */
+/* ESTILOS RESPONSIVOS */
+/* ========================================= */
+
+/* --- VISTA TABLET (hasta 1024px) --- */
+@media (max-width: 1024px) {
+  .menu {
+    /* Quitamos los márgenes fijos y usamos padding */
+    padding: 10px 30px; 
+  }
+  .menu-left, .menu-right {
+    margin: 0;
+  }
+}
+
+/* --- VISTA MÓVIL (hasta 768px) --- */
+@media (max-width: 768px) {
+  .menu {
+    padding: 10px 20px; /* Un padding un poco más pequeño para móviles */
+  }
+  .menu-desktop, .sesion { 
+    display: none; 
+  }
+  .menu-hamburguesa {
+    display: flex;
+    align-items: center;
+    order: 3;
+  }
+  .cart {
+    order: 1;
+    margin-left: auto;
+    font-size: 24px;
+  }
+  .menu-right {
+    gap: 15px;
+  }
+   #notificacionCarrito {
+    font-size: 12px;
+  }
+}
+
+/* --- VISTA MÓVIL PEQUEÑO (hasta 400px) --- */
+@media (max-width: 400px) {
+  .menu img {
+    height: 40px;
+  }
+  .menu-hamburguesa {
+    font-size: 20px;
+  }
+  .cart i {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,331 @@
+// =================================================================
+// FUNCIONES GENERALES (NO TOCAR)
+// =================================================================
+
+function setupHorizontalScroll() {
+    const containers = document.querySelectorAll('.tabs2');
+    containers.forEach(container => {
+        container.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            container.scrollLeft += evt.deltaY;
+        });
+    });
+}
+
+function showTab(event, tabId) {
+    const card = event.target.closest('.card');
+    if (!card) return;
+    const tabContent = card.querySelector('.tab-content');
+    if (tabContent) tabContent.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    const tabs = card.querySelector('.tabs');
+    if (tabs) tabs.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const tabElement = document.getElementById(tabId);
+    if (tabElement) {
+        tabElement.classList.add('active');
+        event.target.classList.add('active');
+    }
+}
+
+function showInstruction(event, sectionId) {
+    const instructionsCard = event.target.closest('.instructions');
+    if (!instructionsCard) return;
+    instructionsCard.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    instructionsCard.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const sectionElement = document.getElementById(sectionId);
+    if (sectionElement) {
+        sectionElement.classList.add('active');
+        event.target.classList.add('active');
+    }
+}
+
+function initSection(section) {
+    const config = pageConfig[section];
+    if (!config) {
+        console.warn(`Advertencia: No se encontró configuración para la sección "${section}". Saltando inicialización.`);
+        return;
+    }
+    const range = document.getElementById(`rango-${section}`);
+    if (!range) return;
+    range.addEventListener('input', () => actualizarSalida(section));
+    actualizarSalida(section);
+}
+
+function initContent() {
+    setupHorizontalScroll();
+    const sections = ['fanPageLikes', 'PageLikes', 'profileFollowsFan', 'profileFollows', 'paq_visual', 'l_stream_v_30', 'l_stream_v_60', 'l_stream_v_90', 'l_stream_v_120', 'l_stream_v_150', 'l_stream_v_180', 'l_stream_v_240', 'l_stream_v_300'];
+    sections.forEach(section => {
+        if (document.getElementById(section)) {
+            initSection(section);
+        }
+    });
+}
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('#btnHamburguesa')) {
+        const menu = document.getElementById('menuDesplegable');
+        if (menu) menu.classList.toggle('active');
+        const icon = e.target.closest('#btnHamburguesa').querySelector('i');
+        if (icon) { icon.classList.toggle('fa-times'); icon.classList.toggle('fa-bars'); }
+    }
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.menu-desplegable a')) {
+        const menu = document.getElementById('menuDesplegable');
+        if (menu) menu.classList.remove('active');
+        const btnHamburguesa = document.getElementById('btnHamburguesa');
+        if (btnHamburguesa) {
+            const icon = btnHamburguesa.querySelector('i');
+            if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+        }
+    }
+});
+
+let temporizadorInactividad;
+const TIEMPO_LIMITE_INACTIVIDAD_MS = 5 * 60 * 1000;
+function reiniciarTemporizadorInactividad() {
+    clearTimeout(temporizadorInactividad);
+    temporizadorInactividad = setTimeout(() => {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        if (carrito.length > 0) {
+            localStorage.removeItem('carrito');
+            actualizarNotificacionCarrito();
+            mostrarToast("El contenido del carrito se ha borrado por inactividad.", "info");
+        }
+    }, TIEMPO_LIMITE_INACTIVIDAD_MS);
+}
+["click", "mousemove", "keydown", "scroll", "touchstart"].forEach(evento =>
+    document.addEventListener(evento, reiniciarTemporizadorInactividad)
+);
+
+function mostrarToast(mensaje, tipo = "info") {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${tipo}`;
+    toast.style.cssText = `
+        background: white; color: #333; padding: 16px 24px; margin-top: 12px;
+        border-left: 6px solid ${tipo === "error" ? "#e53935" : tipo === "success" ? "#43a047" : "#ff9800"};
+        border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); font-size: 16px;
+        min-width: 280px; max-width: 380px; animation: fadein 0.3s ease, fadeout 0.5s ease 2.5s; opacity: 1;
+    `;
+    toast.textContent = mensaje;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+function actualizarNotificacionCarrito() {
+    const notificacion = document.getElementById('notificacionCarrito');
+    if (notificacion) {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        if (carrito.length > 0) {
+            notificacion.textContent = carrito.length;
+            notificacion.style.display = 'flex';
+        } else {
+            notificacion.style.display = 'none';
+        }
+    }
+}
+
+// =================================================================
+// DESDE AQUI SE DEBE DE CENTRALIZAR
+// =================================================================
+
+// ---- FUNCIONES DE VALIDACIÓN REUTILIZABLES ----
+const validateFacebookLink = value => {
+    const match = value.match(/^https?:\/\/(www\.|m\.|web\.)?facebook\.com\/.+/);
+    return match 
+        ? { isValid: true, identifier: 'Enlace de Facebook', feedback: "✅ Enlace de Facebook válido." } 
+        : { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de que sea un enlace de Facebook." };
+};
+
+// --- CONFIGURACIÓN CENTRALIZADA DE PRODUCTOS ---
+const pageConfig = {
+    'fanPageLikes': {
+        min: 1000, max: 70000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 559.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Fanpage Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'PageLikes': {
+        min: 1000, max: 150000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Page Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'profileFollowsFan': {
+        min: 1000, max: 5000000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Followers (Fanpage)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'profileFollows': {
+        min: 1000, max: 10000000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Followers (Profile)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'paq_visual': {
+        min: 0, max: 1, step: 0,
+        calculatePrice: cantidad => 3010.00, // Precio fijo
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Watch Time Package', usuario: data.identifier, cantidad: '1 Paquete', total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_30': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 1290.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (30 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_60': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 2150.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (60 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_90': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 3010.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (90 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_120': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 4300.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (120 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_150': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 5590.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (150 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_180': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 6880.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (180 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_240': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 8170.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (240 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'l_stream_v_300': {
+        min: 1000, max: 5000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 9460.00,
+        validateLink: validateFacebookLink,
+        buildProduct: data => ({ tipo: 'FB Live Views (300 min)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+};
+
+function calcularPrecio(section) {
+    const config = pageConfig[section];
+    const range = document.getElementById(`rango-${section}`);
+    const resumen = document.querySelector(`#${section} .resumen`);
+    if (!config || !range || !resumen) return;
+    const cantidad = parseInt(range.value);
+    const subtotal = config.calculatePrice(cantidad);
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+}
+
+function actualizarSalida(section) {
+    const config = pageConfig[section];
+    if (!config) return; 
+    const range = document.getElementById(`rango-${section}`);
+    const output = document.getElementById(`output-${section}`);
+    if (!range || !output) return;
+    const val = parseInt(range.value);
+    const porcentaje = (config.max - config.min > 0) ? ((val - config.min) / (config.max - config.min)) * 100 : 100;
+    range.style.setProperty('--progress', `${porcentaje}%`);
+    output.textContent = val.toLocaleString('es-MX');
+    const resCantidad = document.getElementById(`res-cantidad-${section}`);
+    if (resCantidad) resCantidad.textContent = val.toLocaleString('es-MX');
+    calcularPrecio(section);
+}
+
+function cambiarRango(cambio, section) {
+    const config = pageConfig[section];
+    if (!config) return;
+    const range = document.getElementById(`rango-${section}`);
+    if (!range) return;
+    let nuevoValor = parseInt(range.value) + cambio;
+    if (nuevoValor >= config.min && nuevoValor <= config.max) {
+        range.value = nuevoValor;
+        actualizarSalida(section);
+    }
+}
+
+function validateAndSetIdentifier(section) {
+    const config = pageConfig[section];
+    if (!config) return false; 
+    const input = document.getElementById(`facebookInput-${section}`); // Cambiado para ser más genérico
+    const feedback = document.getElementById(`facebookFeedback-${section}`);
+    if (!input || !feedback) return false;
+    const value = input.value.trim();
+    if (value === "") {
+        feedback.textContent = "Por favor, pega un enlace.";
+        feedback.style.color = "#000000";
+        return false;
+    }
+    const validationResult = config.validateLink(value);
+    feedback.textContent = validationResult.feedback;
+    feedback.style.color = validationResult.isValid ? "green" : "red";
+    if (validationResult.isValid) {
+        const resumenUsuarioSpan = document.querySelector(`#${section} .resumen .line span:nth-child(2)`);
+        if (resumenUsuarioSpan) resumenUsuarioSpan.textContent = validationResult.identifier;
+    }
+    return validationResult.isValid;
+}
+
+function handlePurchase(event, tipo, esCompraRapida = false) {
+    event.preventDefault();
+    if (!validateAndSetIdentifier(tipo)) {
+        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
+        return;
+    }
+    const config = pageConfig[tipo];
+    const resumen = document.querySelector(`#${tipo} .resumen`);
+    if (!config || !resumen) return;
+    
+    const summaryData = {
+        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
+        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
+        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
+        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
+    };
+    
+    const producto = config.buildProduct(summaryData);
+
+    if (esCompraRapida) {
+        localStorage.setItem("compraDirecta", JSON.stringify(producto));
+        sessionStorage.setItem('iniciando_checkout', 'true');
+        window.location.href = "compra_final.html";
+    } else {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(producto);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarToast("Producto agregado al carrito", "success");
+        actualizarNotificacionCarrito();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    reiniciarTemporizadorInactividad();
+    actualizarNotificacionCarrito();
+});
+
+// Exportar las funciones correctas
+window.initContent = initContent;
+window.cambiarRango = cambiarRango;
+window.actualizarSalida = actualizarSalida;
+window.validateAndSetIdentifier = validateAndSetIdentifier;
+window.handlePurchase = handlePurchase;
+window.showTab = showTab;
+window.showInstruction = showInstruction;

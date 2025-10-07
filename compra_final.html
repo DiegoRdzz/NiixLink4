@@ -1,0 +1,84 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Finalizar Compra</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="compra_final.css">
+</head>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
+  <div class="container">
+    <div class="header">
+      <a href="planes_insta.html" class="back-arrow" aria-label="Regresar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <h2>Finalizar Compra</h2>
+      <span>Completa tu pedido de servicios de Instagram</span>
+    </div>
+
+    <div class="flex">
+      <!-- Sección Formulario -->
+      <div class="form-section">
+        <h3>Resumen del Pedido</h3>
+        <div id="resumenProductos"></div>
+        <div class="mensaje-stripe">
+  <i class="bi bi-shield-check"></i>
+  El pago se procesará de forma segura a través de Stripe
+</div>
+     <div class="terminos-container">
+          <input type="checkbox" id="aceptoTerminos" name="terminos">
+          <label for="aceptoTerminos">
+            He leído y acepto los <a href="terminos-y-condiciones-niixlink.pdf" target="_blank" rel="noopener noreferrer">Términos y Condiciones</a> y la <a href="politica-de-privacidad-nixlink.pdf" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>.
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Sección Resumen -->
+      <div class="summary-section">
+        <h3>Resumen de pago</h3>
+        <div id="resumenProductos"></div>
+        <!-- Descuento -->
+         <div class="descuento-wrapper">
+          <button type="button" class="toggle-descuento" onclick="toggleDescuentoBox('resumen')">
+    <span class="icon-label">
+      <i class="bi bi-tag"></i>
+      <span>¿Tienes un código de descuento?</span>
+    </span>
+    <i id="flechaIcono" class="bi bi-chevron-down"></i>
+  </button>
+
+  <div id="descuentoBox" class="descuento-box" style="display: none;">
+    <input type="text" id="codigoDescuentoInput" placeholder="Código de descuento" />
+    <button id="btnAplicarCodigo" onclick="aplicarCodigoDescuento('resumen')">Aplicar</button>
+    <p class="mensaje-descuento" id="mensajeDescuento"></p>
+
+    <div id="codigoAplicadoBox" class="codigo-aplicado" style="display: none;">
+      <span id="codigoAplicadoTexto"></span>
+      <i class="bi bi-x-circle-fill icono-eliminar" onclick="eliminarCodigoDescuento('resumen')" title="Quitar código"></i>
+    </div>
+  </div>
+</div>
+<hr>
+        <div class="item"><span>Subtotal</span><span id="subtotal">MXN$0</span></div>
+        <!-- Se mostrará solo si se aplica un descuento -->
+         <div class="item" id="descuentoLinea" style="display: none;">
+          <span id="descuentoTexto">Descuento</span><span id="descuentoMonto">-MXN$0</span>
+        </div>
+        <div class="item"><span>IVA (16%)</span><span id="iva">MXN$0</span></div>
+        <div class="item total"><span>Total</span><span id="total">MXN$0</span></div>
+        <button class="pay-button" id="btnPagar" disabled>Pagar</button>
+        
+      </div>
+    </div>
+  </div>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="compra_final.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+/* ========================================= */
+/* ESTILOS GENERALES Y DEL HEADER */
+/* ========================================= */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* === HEADER RESTAURADO A SU ESTADO ORIGINAL === */
+.header {
+  background: linear-gradient(to right, #ff4136, #ff4136);
+  color: white;
+  text-align: center;
+  padding: 120px 20px;
+}
+
+/* ========================================= */
+/* CONTENEDOR PRINCIPAL Y COLUMNAS */
+/* ========================================= */
+/* === CONTENEDOR RESTAURADO (SIN SUPERPOSICIÓN) === */
+.contenedor {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  align-items: start;
+}
+
+/* ========================================= */
+/* ESTILOS UNIFICADOS PARA CAJAS BLANCAS */
+/* ========================================= */
+.formulario, .info-contacto {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px; /* Padding original restaurado */
+}
+
+/* ========================================= */
+/* COLUMNA IZQUIERDA: FORMULARIO */
+/* ========================================= */
+.formulario {
+  border-top: 4px solid #ff4136;
+}
+.formulario h3 {
+  color: #ff4136;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.fila {
+  display: flex;
+  gap: 15px;
+  flex-wrap: nowrap; /* evita que se rompan */
+}
+
+.campo {
+  flex: 1; /* ambos ocupan el mismo espacio */
+  margin-bottom: 10px;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  font-size: 14px;
+}
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  box-sizing: border-box; /* <-- importante */
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #ff4136;
+  box-shadow: 0 0 5px rgba(255, 65, 54, 0.2);
+}
+.enviar {
+  background-color: #ff4136;
+  color: white;
+  width: auto; /* Ancho automático restaurado */
+  padding: 10px 20px; /* Padding original */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: normal; /* Peso de fuente normal */
+  margin-top: 0; /* Margen restaurado */
+}
+.enviar:hover {
+  background-color: #e63946;
+}
+
+/* ========================================= */
+/* COLUMNA DERECHA: INFO Y FAQ */
+/* ========================================= */
+.info-contacto {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 5px solid #ff4136; /* Borde izquierdo original */
+}
+.info-contacto h4,
+.info-contacto h5 {
+  color: #ff4136;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.info-contacto h5 {
+  padding-top: 10px;
+}
+.info-contacto hr {
+  display: block; /* Muestra el HR original */
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 15px 0;
+}
+.info-contacto p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+.info-contacto blockquote {
+  font-size: 12px;
+  font-style: italic;
+  background: #f9f9f9;
+  padding: 10px;
+  color: #6b7280;
+  border-left: 4px solid #ff4136;
+  margin: 15px 0 0 0;
+  border-radius: 4px;
+}
+.preguntas-scroll {
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 5px;
+  flex: 1;
+  min-height: 0;
+}
+.pregunta {
+  background: #f1f1f1;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.3s ease;
+}
+.pregunta:hover {
+  background: #e0e0e0;
+}
+.respuesta {
+  display: none;
+  padding: 10px;
+  background-color: #fafafa;
+  border-left: 4px solid #ff4136;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #444;
+}
+.preguntas-scroll::-webkit-scrollbar { width: 6px; }
+.preguntas-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.preguntas-scroll::-webkit-scrollbar-thumb { background: #c2c2c2; border-radius: 10px; }
+.preguntas-scroll::-webkit-scrollbar-thumb:hover { background: #a0a0a0; }

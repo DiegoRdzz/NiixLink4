@@ -1,0 +1,137 @@
+/* ========================================= */
+/* ESTILOS RESPONSIVOS OPTIMIZADOS */
+/* ========================================= */
+
+/* ----------------------------------------- */
+/* 1. VISTA TABLET (601px a 1024px) */
+/* ----------------------------------------- */
+@media (max-width: 1024px) {
+  
+  /* --- ESTRUCTURA GENERAL --- */
+  .uno, .dos, .tres, .cuatro {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  /* --- SECCIÓN PRINCIPAL (UNO) --- */
+  .uno {
+    flex-direction: column;
+    padding-top: 120px;
+    padding-bottom: 80px;
+    gap: 40px;
+  }
+  .info1, .info2 {
+    width: 100%;
+    max-width: none;
+  }
+  .p1, .titulo {
+    font-size: 34px;
+  }
+  .p2, .desc {
+    font-size: 16px;
+  }
+  .card {
+    padding: 25px;
+  }
+
+  /* --- SECCIÓN TARJETAS (DOS) --- */
+  .dos, .tres {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .info3 {
+    gap: 20px;
+    padding: 0 15px;
+  }
+  .tarjeta {
+    width: calc(50% - 10px);
+  }
+
+  /* --- SECCIÓN REDES (TRES) --- */
+  .info4 {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
+  .tarjeta_insta, 
+  .tarjeta_face, 
+  .tarjeta_yt, 
+  .tarjeta_tiktok,
+  .tarjeta_apple,   /* <-- AÑADIDO */
+  .tarjeta_spotify { /* <-- AÑADIDO */
+    width: calc(50% - 15px);
+  }
+
+  /* --- SECCIÓN PASOS (CUATRO) --- */
+  .pasos-contenedor {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  .cuadro1, .cuadro2, .cuadro3 {
+    width: 100%;
+    max-width: 400px;
+  }
+  .divisor {
+    display: none;
+  }
+}
+
+/* ----------------------------------------- */
+/* 2. VISTA MÓVIL (hasta 600px) */
+/* ----------------------------------------- */
+@media (max-width: 600px) {
+
+  /* --- ESTRUCTURA GENERAL --- */
+  .uno, .dos, .tres, .cuatro {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  
+  /* --- SECCIÓN PRINCIPAL (UNO) --- */
+  .uno {
+    padding-top: 90px;
+    padding-bottom: 60px;
+  }
+  .p1, .titulo {
+    font-size: 28px;
+  }
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* --- SECCIÓN TARJETAS (DOS) --- */
+  .info3 {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tarjeta {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* --- SECCIÓN REDES (TRES) --- */
+  .info4 {
+    flex-direction: column;
+    align-items: center;
+  }
+  .tarjeta_insta, 
+  .tarjeta_face, 
+  .tarjeta_yt, 
+  .tarjeta_tiktok,
+  .tarjeta_apple,   /* <-- AÑADIDO */
+  .tarjeta_spotify { /* <-- AÑADIDO */
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+/* ----------------------------------------- */
+/* 3. VISTA MÓVIL PEQUEÑO (hasta 400px) */
+/* ----------------------------------------- */
+@media (max-width: 400px) {
+  .uno, .dos, .tres, .cuatro {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
