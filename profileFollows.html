@@ -1,77 +1,77 @@
 <div class="main-content">
   <div class="header">
-    <h2><i class="bi bi-facebook"></i> Paquete de Visualización [600K minutos]</h2>
-    <p>Un paquete completo para tu video de 2 horas o más.</p>
+    <h2><i class="bi bi-facebook"></i> Compra Seguidores para tu Perfil</h2>
+    <p>Aumenta tu audiencia con seguidores reales para tu perfil de Facebook.</p>
   </div>
 
-  <div class="main" id="paq_visual">
+  <div class="main" id="profileFollows">
     <div class="col-left">
       <div class="card">
-        <h3>1. Cantidad de Paquetes</h3>
+        <h3>1. Cantidad de Seguidores</h3>
         <div class="range-group">
-          <button class="btn-round" onclick="cambiarRango(-1, 'paq_visual')">−</button>
+          <button class="btn-round" onclick="cambiarRango(-1000, 'profileFollows')">−</button>
           <input
             type="range"
-            id="rango-paq_visual"
-            min="0"
-            max="1"
-            step="1"
-            value="1"
-            oninput="actualizarSalida('paq_visual')"
+            id="rango-profileFollows"
+            min="1000"
+            max="10000000"
+            step="1000"
+            value="3000"
+            oninput="actualizarSalida('profileFollows')"
           />
-          <button class="btn-round" onclick="cambiarRango(1, 'paq_visual')">+</button>
+          <button class="btn-round" onclick="cambiarRango(1000, 'profileFollows')">+</button>
         </div>
         <div class="range-labels">
-          <span>0</span>
-          <span>1</span>
+          <span>1,000</span>
+          <span>10,000,000</span>
         </div>
         <div class="output">
-          <span id="output-paq_visual">1</span>
+          <span id="output-profileFollows">1,000</span>
         </div>
       </div>
 
-      <!--<div class="card">
+      <div class="card">
         <h3>2. Tipo de Plan</h3>
         <div class="switch">
           <span>Mensual</span>
-          <input type="checkbox" id="togglePlan-paq_visual" onchange="togglePlanText('paq_visual')">
+          <input type="checkbox" id="togglePlan-profileFollows" onchange="togglePlanText('profileFollows')">
           <span>Anual <small style="color:rgb(4, 194, 4); font-size: 14px;">(20% Dcto)</small></span>
         </div>
-        <p id="planText-paq_visual" style="margin-top:10px;">Costo por Paquete</p>
-      </div>-->
+        <p id="planText-profileFollows" style="margin-top:10px;">Costo por Seguidor</p>
+      </div>
 
       <div class="card">
-        <h3>2. Enlace del Video</h3>
+        <h3>3. Enlace de tu Perfil</h3>
         <div class="input-group">
           <i class="bi bi-facebook"></i>
           <input
             type="text"
-            id="facebookInput-paq_visual"
-            placeholder="https://www.facebook.com/watch/?v=123456"
-            oninput="validateAndSetIdentifier('paq_visual')"
+            id="facebookInput-profileFollows"
+            placeholder="https://www.facebook.com/tu_perfil"
+            oninput="validateAndSetIdentifier('profileFollows')"
           />
         </div>
-        <small id="facebookFeedback-paq_visual">Pega aquí el enlace a tu video (debe durar 2 horas o más).</small>
+        <small id="facebookFeedback-profileFollows">Pega aquí el enlace a tu perfil de Facebook.</small>
       </div>
 
       <div class="card resumen">
         <h3>Resumen</h3>
         <div class="line"><span>Enlace:</span><span>-</span></div>
-        <div class="line"><span>Paquetes:</span><span id="res-cantidad-paq_visual">1</span></div>
-        <div class="line" style="display: none;"><span>Total Anual:</span><span id="res-total-paq_visual">1</span></div>
-        <div class="line"><span>Plan:</span><span id="res-plan-paq_visual">Mensual</span></div>
+        <div class="line"><span>Seguidores por Mes:</span><span id="res-cantidad-profileFollows">1,000</span></div>
+        <div class="line" style="display: none;"><span>Total Anual:</span><span id="res-total-profileFollows">1,000</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-profileFollows">Mensual</span></div>
         <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
         <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
         <div class="line"><strong>Total:</strong><span style="color:#1877F2;"><strong>MXN$0.00</strong></span></div>
         <div class="buttons">
-          <button class="btn-primary" onclick="handlePurchase(event, 'paq_visual', true)">¡Compra con 1-Click!</button>
-          <button class="btn-outline" onclick="handlePurchase(event, 'paq_visual', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
-          <small id="purchaseWarning-paq_visual" style="color: red; display: none;">⚠️ Agrega un enlace de video válido para continuar.</small>
+          <button class="btn-primary" onclick="handlePurchase(event, 'profileFollows', true)">¡Compra con 1-Click!</button>
+          <button class="btn-outline" onclick="handlePurchase(event, 'profileFollows', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+          <small id="purchaseWarning-profileFollows" style="color: red; display: none;">⚠️ Agrega un enlace válido para continuar.</small>
           <small>Al hacer clic en "¡Compra con 1-Click!" aceptas nuestros términos y condiciones</small>
         </div>
       </div>
     </div>
-
+    
 
     <!-- DERECHA -->
     <div class="col-right">
