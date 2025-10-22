@@ -48,6 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
                <span>Total Anual: ${item.totalSeguidores} Seguidores</span>
              </div>` : '';
 
+        let regionHTML = '';
+    // Revisa si el producto tiene una propiedad 'region'
+    if (item.region) {
+        regionHTML = `
+            <div class="item-info">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Región: ${item.region}</span>
+            </div>
+        `;
+    }
+    
         resumenCont.innerHTML += `
             <div class="summary-box">
                 <div class="item-titulo">
