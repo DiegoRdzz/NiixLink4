@@ -9,17 +9,17 @@
       <div class="card">
         <h3>1. Paquete de Ranking</h3>
         <div class="range-group">
-          <button class="btn-round" disabled>−</button>
+          <button class="btn-round" onclick="cambiarRango(-1, 'ranking_video_yt')">−</button>
           <input
             type="range"
             id="rango-ranking_video_yt"
             min="0"
             max="1"
             step="1"
-            value="0"
+            value="1"
             oninput="actualizarSalida('ranking_video_yt')"
           />
-          <button class="btn-round" disabled>+</button>
+          <button class="btn-round" onclick="cambiarRango(1, 'ranking_video_yt')">+</button>
         </div>
         <div class="range-labels">
           <span>0 Paquete</span>
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <!--<div class="card">
         <h3>2. Tipo de Plan</h3>
         <div class="switch">
           <span>Mensual</span>
@@ -38,10 +38,10 @@
           <span>Anual <small style="color:rgb(4, 194, 4); font-size: 14px;">(20% Dcto)</small></span>
         </div>
         <p id="planText-ranking_video_yt" style="margin-top:10px;">Costo por Paquete</p>
-      </div>
+      </div>-->
 
       <div class="card">
-        <h3>3. Enlace de tu Video</h3>
+        <h3>2. Enlace de tu Video</h3>
         <div class="input-group">
           <i class="bi bi-youtube"></i>
           <input
