@@ -1,75 +1,77 @@
 <div class="main-content">
   <div class="header">
-    <h2><i class="bi bi-tiktok"></i> Compra Live Stream Views (4 horas)</h2>
-    <p>Atrae espectadores a tu transmisión en vivo de YouTube.</p>
+    <h2><i class="bi bi-tiktok"></i> Compra Likes para TikTok</h2>
+    <p>Aumenta la interacción y la visibilidad de tus videos.</p>
   </div>
 
-  <div class="main" id="live_4_yt">
+  <div class="main" id="likes_tt">
     <div class="col-left">
       <div class="card">
-        <h3>1. Cantidad de Espectadores</h3>
+        <h3>1. Cantidad de Likes</h3>
         <div class="range-group">
-          <button class="btn-round" onclick="cambiarRango(-1000, 'live_4_yt')">−</button>
+          <button class="btn-round" onclick="cambiarRango(-1000, 'likes_tt')">−</button>
           <input
             type="range"
-            id="rango-live_4_yt"
+            id="rango-likes_tt"
             min="1000"
             max="5000"
             step="1000"
-            value="1000"
-            oninput="actualizarSalida('live_4_yt')"
+            value="3000"
+            oninput="actualizarSalida('likes_tt')"
           />
-          <button class="btn-round" onclick="cambiarRango(1000, 'live_4_yt')">+</button>
+          <button class="btn-round" onclick="cambiarRango(1000, 'likes_tt')">+</button>
         </div>
         <div class="range-labels">
           <span>1,000</span>
           <span>5,000</span>
         </div>
         <div class="output">
-          <span id="output-live_4_yt">1,000</span>
+          <span id="output-likes_tt">1,000</span>
         </div>
       </div>
 
-      <div class="card">
+      <!--<div class="card">
         <h3>2. Tipo de Plan</h3>
         <div class="switch">
           <span>Mensual</span>
-          <input type="checkbox" id="togglePlan-live_4_yt" onchange="togglePlanText('live_4_yt')">
+          <input type="checkbox" id="togglePlan-likes_tt" onchange="togglePlanText('likes_tt')">
           <span>Anual <small style="color:rgb(4, 194, 4); font-size: 14px;">(20% Dcto)</small></span>
         </div>
-        <p id="planText-live_4_yt" style="margin-top:10px;">Costo por Espectador</p>
-      </div>
+        <p id="planText-likes_tt" style="margin-top:10px;">Costo por Like</p>
+      </div>-->
 
       <div class="card">
-        <h3>3. Enlace de tu Canal</h3>
+        <h3>2. Enlace de tu Video</h3>
         <div class="input-group">
-          <i class="bi bi-youtube"></i>
+          <i class="bi bi-tiktok"></i>
           <input
             type="text"
-            id="youtubeInput-live_4_yt"
-            placeholder="https://www.youtube.com/channel/..."
-            oninput="validateAndSetIdentifier('live_4_yt')"
+            id="tiktokInput-likes_tt"
+            placeholder="https://www.tiktok.com/@usuario/video/..."
+            oninput="validateAndSetIdentifier('likes_tt')"
           />
         </div>
-        <small id="youtubeFeedback-live_4_yt">Pega aquí el enlace a tu canal de YouTube.</small>
+        <small id="youtubeFeedback-likes_tt">Pega aquí el enlace a tu video de TikTok.</small>
       </div>
 
       <div class="card resumen">
         <h3>Resumen</h3>
-        <div class="line"><span>Canal:</span><span>-</span></div>
-        <div class="line"><span>Espectadores por Mes:</span><span id="res-cantidad-live_4_yt">1,000</span></div>
-        <div class="line" style="display: none;"><span>Total Anual:</span><span id="res-total-live_4_yt">1,000</span></div>
-        <div class="line"><span>Plan:</span><span id="res-plan-live_4_yt">Mensual</span></div>
+        <div class="line"><span>Video:</span><span>-</span></div>
+        <div class="line"><span>Likes:</span><span id="res-cantidad-likes_tt">1,000</span></div>
+        <div class="line" style="display: none;"><span>Total Anual:</span><span id="res-total-likes_tt">1,000</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-likes_tt">Mensual</span></div>
         <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
         <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
         <div class="line"><strong>Total:</strong><span style="color:#ff0000;"><strong>MXN$0.00</strong></span></div>
         <div class="buttons">
-          <button class="btn-primary" onclick="handlePurchase(event, 'live_4_yt', true)">¡Compra con 1-Click!</button>
-          <button class="btn-outline" onclick="handlePurchase(event, 'live_4_yt', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
-          <small id="purchaseWarning-live_4_yt" style="color: red; display: none;">⚠️ Agrega un enlace de canal válido para continuar.</small>
+          <button class="btn-primary" onclick="handlePurchase(event, 'likes_tt', true)">¡Compra con 1-Click!</button>
+          <button class="btn-outline" onclick="handlePurchase(event, 'likes_tt', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+          <small id="purchaseWarning-likes_tt" style="color: red; display: none;">⚠️ Agrega un enlace de video válido para continuar.</small>
         </div>
       </div>
     </div>
+ 
+
 
 
 
