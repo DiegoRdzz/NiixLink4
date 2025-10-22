@@ -61,7 +61,8 @@ function initSection(section) {
 
 function initContent() {
     setupHorizontalScroll();
-    const sections = ['likes_yt', 'shares_yt', 'subscribers_yt', 'ranking_video_yt', 'real_views_yt', 'views_yt', 'views_geo_yt', 'time_package_yt', 'live_30_yt', 'live_1_yt', 'live_2_yt', 'live_3_yt', 'live_4_yt', 'live_5_yt', 'premier_views_yt'];
+    // Lista de secciones para Apple Music
+    const sections = ['ratings_am']; 
     sections.forEach(section => {
         if (document.getElementById(section)) {
             initSection(section);
@@ -136,125 +137,44 @@ function actualizarNotificacionCarrito() {
     }
 }
 
-
 // =================================================================
-// DESDE AQUI SE DEBE DE CENTRALIZAR
+// SECCIÓN CENTRALIZADA PARA APPLE MUSIC
 // =================================================================
 
-// ---- FUNCIONES DE VALIDACIÓN REUTILIZABLES ----
-const validateYouTubeVideoLink = value => {
-    const match = value.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+// ---- FUNCIÓN DE VALIDACIÓN PARA APPLE MUSIC ----
+const validateAppleMusicLink = value => {
+    const match = value.match(/^https?:\/\/music\.apple\.com\/.+/);
     return match 
-        ? { isValid: true, identifier: 'Video de YouTube', feedback: "✅ Enlace de video válido." } 
-        : { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de que sea un enlace de video de YouTube." };
+        ? { isValid: true, identifier: 'Enlace de Apple Music', feedback: "✅ Enlace válido." } 
+        : { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de que sea un enlace de music.apple.com." };
 };
-
-const validateYouTubeChannelLink = value => {
-    // La expresión regular ya captura el ID del canal o el @usuario
-    const match = value.match(/youtube\.com\/(channel\/UC[\w-]{21}[A-Za-z0-9]+|@[\w.-]+)/);
-    
-    if (match && match[1]) {
-        // match[1] contiene el identificador del canal (ej: @MrBeast o channel/UC...)
-        return { isValid: true, identifier: match[1], feedback: "✅ Enlace de canal válido." };
-    } else {
-        return { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de que sea un enlace de canal (no de un video)." };
-    }
-};
-
 
 // --- CONFIGURACIÓN CENTRALIZADA DE PRODUCTOS ---
 const pageConfig = {
-    'likes_yt': {
-        min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 864.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    'ratings_am': {
+        min: 1000, max: 100000, step: 1000, hasPlanToggle: true,
+        planText: { 
+            mensual: 'Costo por Rating - <strong>MXN$134.40 / mes</strong>', 
+            anual: 'Costo por Rating - <strong>MXN$107.52 / año (20% Dcto)</strong>' 
+        },
+        calculatePrice: (cantidad, esAnual) => {
+            // PRECIO DE EJEMPLO: 134,400 por cada 1000 ratings.
+            // Si es anual, se aplica un 20% de descuento al total de 12 meses.
+            const precioBase = (cantidad / 1000) * 134400.00;
+            return esAnual ? precioBase : precioBase;
+        },
+        validateLink: validateAppleMusicLink,
+        buildProduct: data => ({ 
+            tipo: 'Apple Music Ratings', 
+            usuario: data.identifier, 
+            cantidad: data.cantidad, 
+            total: data.total, 
+            plan: data.plan, 
+            link: data.link,
+            totalAnual: data.totalAnual
+        })
     },
-    'shares_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 301.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Shares', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'subscribers_yt': {
-        min: 1000, max: 1000000, step: 1000, hasPlanToggle: true,
-        planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 2688.00,
-        validateLink: validateYouTubeChannelLink,
-        buildProduct: data => ({ tipo: 'YouTube Subscribers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
-    },
-    'ranking_video_yt': {
-        min: 0, max: 1, step: 1,
-        calculatePrice: cantidad => cantidad * 2021.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Ranking Video', usuario: data.identifier, cantidad: '1 Paquete', total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'real_views_yt': {
-        min: 1000, max: 10000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 210.70,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Real Views (Music)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'views_yt': {
-        min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 129.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Views (Promo)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'views_geo_yt': {
-        min: 1000, max: 100000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 430.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Views GEO (${data.region})`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'time_package_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 2924.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Time Package`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_30_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 421.40,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (30 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_1_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 817.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (60 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_2_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 1505.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (120 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_3_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 2193.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (180 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_4_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 3053.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (240 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'live_5_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 5203.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Live (300 min)`, usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
-    'premier_views_yt': {
-        min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 258.00,
-        validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: `YouTube Premier Views` , usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
-    },
+    // Aquí irán los demás servicios de Apple Music
 };
 
 function togglePlanText(section) {
@@ -274,46 +194,31 @@ function togglePlanText(section) {
     }
 }
 
-// --- FUNCIÓN MODIFICADA ---
 function calcularPrecio(section) {
-    const config = pageConfig[section];
-    const range = document.getElementById(`rango-${section}`);
-    const resumen = document.querySelector(`#${section} .resumen`);
-    if (!config || !range || !resumen) return;
+    const config = pageConfig[section];
+    const range = document.getElementById(`rango-${section}`);
+    const resumen = document.querySelector(`#${section} .resumen`);
+    if (!config || !range || !resumen) return;
 
-    const cantidad = parseInt(range.value);
-    
-    // 1. Obtener el precio base (actualmente el único precio)
-    const precioBase = config.calculatePrice(cantidad);
-    let subtotal = precioBase; // Por defecto, es el precio base
+    const cantidad = parseInt(range.value);
+    const planToggle = config.hasPlanToggle ? document.getElementById(`togglePlan-${section}`) : null;
+    const esAnual = planToggle ? planToggle.checked : false;
+    
+    const subtotal = config.calculatePrice(cantidad, esAnual);
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
 
-    // 2. Lógica futura para descuentos (actualmente desactivada)
-    if (config.hasPlanToggle) {
-        const checkbox = document.getElementById(`togglePlan-${section}`);
-        if (checkbox && checkbox.checked) {
-            // Es Anual
-            // --- INICIO DE LÓGICA FUTURA (PARA CUANDO QUIERAS ACTIVAR DESCUENTOS) ---
-            // const descuento = 0.20; // Ejemplo: 20% de descuento
-            // subtotal = precioBase - (precioBase * descuento);
-            // --- FIN DE LÓGICA FUTURA ---
-            
-            // Requerimiento actual: No aplicar descuento, usar el precio base
-            subtotal = precioBase; 
-        } else {
-            // Es Mensual
-            subtotal = precioBase;
-        }
-    }
-    // --- FIN DE LÓGICA MODIFICADA ---
-
-    const iva = subtotal * 0.16;
-    const total = subtotal + iva;
-    
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    if (section === 'seguidores' && esAnual) {
+        const totalElementContainer = document.getElementById(`res-total-seguidores`)?.parentElement;
+        if (totalElementContainer) {
+            totalElementContainer.style.display = 'flex';
+            document.getElementById(`res-total-seguidores`).innerText = (cantidad * 12).toLocaleString('es-MX');
+        }
+    }
 }
-// --- FIN FUNCIÓN MODIFICADA ---
 
 function actualizarSalida(section) {
     const config = pageConfig[section];
@@ -345,8 +250,8 @@ function cambiarRango(cambio, section) {
 function validateAndSetIdentifier(section) {
     const config = pageConfig[section];
     if (!config) return false; 
-    const input = document.getElementById(`youtubeInput-${section}`);
-    const feedback = document.getElementById(`youtubeFeedback-${section}`);
+    const input = document.getElementById(`appleMusicInput-${section}`);
+    const feedback = document.getElementById(`appleMusicFeedback-${section}`);
     if (!input || !feedback) return false;
     const value = input.value.trim();
     if (value === "") {
@@ -364,104 +269,54 @@ function validateAndSetIdentifier(section) {
     return validationResult.isValid;
 }
 
-// --- FUNCIÓN MODIFICADA ---
 function handlePurchase(event, tipo, esCompraRapida = false) {
-    event.preventDefault();
-    if (!validateAndSetIdentifier(tipo)) {
-        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
-        return;
-    }
-    const config = pageConfig[tipo];
-    const resumen = document.querySelector(`#${tipo} .resumen`);
-    if (!config || !resumen) return;
-    const regionSelect = document.getElementById(`regionSelect-${tipo}`);
-    const region = regionSelect ? regionSelect.value : null;
-    
-    // --- summaryData MODIFICADO ---
-    const summaryData = {
-        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
-        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
-        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
-        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
-        
-        // --- AÑADIDO ---
-        // Lee el plan (Mensual/Anual) y el total (para la lógica de totalSeguidores)
-        plan: document.getElementById(`res-plan-${tipo}`)?.textContent.trim(),
-        totalAnual: document.getElementById(`res-total-${tipo}`)?.textContent.trim(),
-        region: region,
-        // --- FIN AÑADIDO ---
-    };
-    // --- FIN summaryData MODIFICADO ---
-    
-    const producto = config.buildProduct(summaryData);
+    event.preventDefault();
+    if (!validateAndSetIdentifier(tipo)) {
+        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
+        return;
+    }
+    const config = pageConfig[tipo];
+    const resumen = document.querySelector(`#${tipo} .resumen`);
+    if (!config || !resumen) return;
+    
+    const esAnual = document.getElementById(`togglePlan-${tipo}`)?.checked || false;
+    const cantidad = document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim();
+    
+    const summaryData = {
+        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
+        cantidad: cantidad,
+        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
+        link: document.getElementById(`appleMusicInput-${tipo}`)?.value.trim(),
+        plan: resumen.querySelector(`#res-plan-${tipo}`)?.textContent.trim() || 'Pago Único',
+        totalAnual: esAnual ? (parseInt(cantidad.replace(/,/g, '')) * 12).toLocaleString('es-MX') : null
+    };
+    
+    const producto = config.buildProduct(summaryData);
 
-    if (esCompraRapida) {
-        localStorage.setItem("compraDirecta", JSON.stringify(producto));
-        sessionStorage.setItem('iniciando_checkout', 'true');
-        window.location.href = "compra_final.html";
-    } else {
-        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito.push(producto);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarToast("Producto agregado al carrito", "success");
-        actualizarNotificacionCarrito();
-    }
-}
-// --- FIN FUNCIÓN MODIFICADA ---
-
-
-function actualizarRegion(section) {
-    const regionSelect = document.getElementById(`regionSelect-${section}`);
-    const regionResumen = document.getElementById(`res-region-${section}`);
-    const regionTitulo = document.getElementById(section)?.closest('.main-content').querySelector('.header .reg');
-
-    if (regionSelect) {
-        const selectedRegion = regionSelect.value;
-        // Guardar la región seleccionada en localStorage
-        localStorage.setItem(`selectedRegion-${section}`, selectedRegion);
-
-        if (regionResumen) {
-            regionResumen.textContent = selectedRegion;
-        }
-        if (regionTitulo) {
-            regionTitulo.textContent = selectedRegion;
-        }
-        // Llamar a calcularPrecio para que se actualice si el precio depende de la región
-        // Aunque en tu config actual no lo hace, es buena práctica si en el futuro cambias el precio por región.
-        calcularPrecio(section); 
+    if (esCompraRapida) {
+        localStorage.setItem("compraDirecta", JSON.stringify(producto));
+        sessionStorage.setItem('iniciando_checkout', 'true');
+        window.location.href = "compra_final.html";
+    } else {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(producto);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarToast("Producto agregado al carrito", "success");
+        actualizarNotificacionCarrito();
     }
 }
-
 
 document.addEventListener('DOMContentLoaded', function() {
     reiniciarTemporizadorInactividad();
     actualizarNotificacionCarrito();
-
-    // Cargar la región guardada al cargar la página
-    const sectionId = 'views_geo_yt'; // ID de la sección actual
-    const savedRegion = localStorage.getItem(`selectedRegion-${sectionId}`);
-    const regionSelect = document.getElementById(`regionSelect-${sectionId}`);
-    
-    if (regionSelect && savedRegion) {
-        // Asegurarse de que la opción exista antes de seleccionarla
-        if (Array.from(regionSelect.options).some(option => option.value === savedRegion)) {
-            regionSelect.value = savedRegion;
-            actualizarRegion(sectionId); // Actualizar el resumen y el título con la región cargada
-        }
-    } else if (regionSelect) {
-        // Si no hay región guardada, asegúrate de que se muestre la predeterminada (México)
-        // y se guarde en localStorage
-        regionSelect.value = "México"; 
-        actualizarRegion(sectionId);
-    }
 });
 
 // Exportar las funciones correctas
 window.initContent = initContent;
 window.cambiarRango = cambiarRango;
 window.actualizarSalida = actualizarSalida;
+window.togglePlanText = togglePlanText;
 window.validateAndSetIdentifier = validateAndSetIdentifier;
 window.handlePurchase = handlePurchase;
 window.showTab = showTab;
 window.showInstruction = showInstruction;
-window.actualizarRegion = actualizarRegion;
