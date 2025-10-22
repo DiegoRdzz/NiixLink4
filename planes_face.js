@@ -47,6 +47,15 @@ function initSection(section) {
     const range = document.getElementById(`rango-${section}`);
     if (!range) return;
     range.addEventListener('input', () => actualizarSalida(section));
+    if (config.hasPlanToggle) {
+        const planToggle = document.getElementById(`togglePlan-${section}`);
+        if (planToggle) {
+            planToggle.addEventListener('change', () => {
+                togglePlanText(section);
+                calcularPrecio(section);
+            });
+        }
+    }
     actualizarSalida(section);
 }
 
@@ -142,32 +151,36 @@ const validateFacebookLink = value => {
 // --- CONFIGURACIÓN CENTRALIZADA DE PRODUCTOS ---
 const pageConfig = {
     'fanPageLikes': {
-        min: 1000, max: 70000, step: 1000,
+        min: 1000, max: 70000, step: 1000, hasPlanToggle: true,
+        planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: cantidad => (cantidad / 1000) * 559.00,
         validateLink: validateFacebookLink,
-        buildProduct: data => ({ tipo: 'FB Fanpage Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+        buildProduct: data => ({ tipo: 'FB Fanpage Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null})
     },
     'PageLikes': {
-        min: 1000, max: 150000, step: 1000,
+        min: 1000, max: 150000, step: 1000, hasPlanToggle: true,
+        planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: cantidad => (cantidad / 1000) * 774.00,
         validateLink: validateFacebookLink,
-        buildProduct: data => ({ tipo: 'FB Page Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+        buildProduct: data => ({ tipo: 'FB Page Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'profileFollowsFan': {
-        min: 1000, max: 5000000, step: 1000,
+        min: 1000, max: 5000000, step: 1000, hasPlanToggle: true,
+        planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: cantidad => (cantidad / 1000) * 774.00,
         validateLink: validateFacebookLink,
-        buildProduct: data => ({ tipo: 'FB Followers (Fanpage)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+        buildProduct: data => ({ tipo: 'FB Followers (Fanpage)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'profileFollows': {
-        min: 1000, max: 10000000, step: 1000,
+        min: 1000, max: 10000000, step: 1000, hasPlanToggle: true,
+        planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: cantidad => (cantidad / 1000) * 774.00,
         validateLink: validateFacebookLink,
-        buildProduct: data => ({ tipo: 'FB Followers (Profile)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+        buildProduct: data => ({ tipo: 'FB Followers (Profile)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'paq_visual': {
-        min: 0, max: 1, step: 0,
-        calculatePrice: cantidad => 3010.00, // Precio fijo
+        min: 0, max: 1, step: 1,
+        calculatePrice: cantidad => cantidad * 3010.00, // Precio fijo
         validateLink: validateFacebookLink,
         buildProduct: data => ({ tipo: 'FB Watch Time Package', usuario: data.identifier, cantidad: '1 Paquete', total: data.total, plan: 'Pago Único', link: data.link })
     },
@@ -221,104 +234,158 @@ const pageConfig = {
     },
 };
 
-function calcularPrecio(section) {
-    const config = pageConfig[section];
-    const range = document.getElementById(`rango-${section}`);
-    const resumen = document.querySelector(`#${section} .resumen`);
-    if (!config || !range || !resumen) return;
-    const cantidad = parseInt(range.value);
-    const subtotal = config.calculatePrice(cantidad);
-    const iva = subtotal * 0.16;
-    const total = subtotal + iva;
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+function togglePlanText(section) {
+    const config = pageConfig[section];
+    if (!config?.hasPlanToggle) return;
+    const checkbox = document.getElementById(`togglePlan-${section}`);
+    const planText = document.getElementById(`planText-${section}`);
+    const resumenPlan = document.getElementById(`res-plan-${section}`);
+    if (checkbox && planText && resumenPlan) {
+        if (checkbox.checked) {
+            planText.innerHTML = config.planText.anual;
+            resumenPlan.innerText = 'Anual';
+        } else {
+            planText.innerHTML = config.planText.mensual;
+            resumenPlan.innerText = 'Mensual';
+        }
+    }
 }
 
+// --- FUNCIÓN MODIFICADA ---
+function calcularPrecio(section) {
+    const config = pageConfig[section];
+    const range = document.getElementById(`rango-${section}`);
+    const resumen = document.querySelector(`#${section} .resumen`);
+    if (!config || !range || !resumen) return;
+
+    const cantidad = parseInt(range.value);
+    
+    // 1. Obtener el precio base (actualmente el único precio)
+    const precioBase = config.calculatePrice(cantidad);
+    let subtotal = precioBase; // Por defecto, es el precio base
+
+    // 2. Lógica futura para descuentos (actualmente desactivada)
+    if (config.hasPlanToggle) {
+        const checkbox = document.getElementById(`togglePlan-${section}`);
+        if (checkbox && checkbox.checked) {
+            // Es Anual
+            // --- INICIO DE LÓGICA FUTURA (PARA CUANDO QUIERAS ACTIVAR DESCUENTOS) ---
+            // const descuento = 0.20; // Ejemplo: 20% de descuento
+            // subtotal = precioBase - (precioBase * descuento);
+            // --- FIN DE LÓGICA FUTURA ---
+            
+            // Requerimiento actual: No aplicar descuento, usar el precio base
+            subtotal = precioBase; 
+        } else {
+            // Es Mensual
+            subtotal = precioBase;
+        }
+    }
+    // --- FIN DE LÓGICA MODIFICADA ---
+
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
+    
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+}
+// --- FIN FUNCIÓN MODIFICADA ---
+
 function actualizarSalida(section) {
-    const config = pageConfig[section];
-    if (!config) return; 
-    const range = document.getElementById(`rango-${section}`);
-    const output = document.getElementById(`output-${section}`);
-    if (!range || !output) return;
-    const val = parseInt(range.value);
-    const porcentaje = (config.max - config.min > 0) ? ((val - config.min) / (config.max - config.min)) * 100 : 100;
-    range.style.setProperty('--progress', `${porcentaje}%`);
-    output.textContent = val.toLocaleString('es-MX');
-    const resCantidad = document.getElementById(`res-cantidad-${section}`);
-    if (resCantidad) resCantidad.textContent = val.toLocaleString('es-MX');
-    calcularPrecio(section);
+    const config = pageConfig[section];
+    if (!config) return; 
+    const range = document.getElementById(`rango-${section}`);
+    const output = document.getElementById(`output-${section}`);
+    if (!range || !output) return;
+    const val = parseInt(range.value);
+    const porcentaje = (config.max - config.min > 0) ? ((val - config.min) / (config.max - config.min)) * 100 : 100;
+    range.style.setProperty('--progress', `${porcentaje}%`);
+    output.textContent = val.toLocaleString('es-MX');
+    const resCantidad = document.getElementById(`res-cantidad-${section}`);
+    if (resCantidad) resCantidad.textContent = val.toLocaleString('es-MX');
+    calcularPrecio(section);
 }
 
 function cambiarRango(cambio, section) {
-    const config = pageConfig[section];
-    if (!config) return;
-    const range = document.getElementById(`rango-${section}`);
-    if (!range) return;
-    let nuevoValor = parseInt(range.value) + cambio;
-    if (nuevoValor >= config.min && nuevoValor <= config.max) {
-        range.value = nuevoValor;
-        actualizarSalida(section);
-    }
+    const config = pageConfig[section];
+    if (!config) return;
+    const range = document.getElementById(`rango-${section}`);
+    if (!range) return;
+    let nuevoValor = parseInt(range.value) + cambio;
+    if (nuevoValor >= config.min && nuevoValor <= config.max) {
+        range.value = nuevoValor;
+        actualizarSalida(section);
+    }
 }
 
 function validateAndSetIdentifier(section) {
-    const config = pageConfig[section];
-    if (!config) return false; 
-    const input = document.getElementById(`facebookInput-${section}`); // Cambiado para ser más genérico
-    const feedback = document.getElementById(`facebookFeedback-${section}`);
-    if (!input || !feedback) return false;
-    const value = input.value.trim();
-    if (value === "") {
-        feedback.textContent = "Por favor, pega un enlace.";
-        feedback.style.color = "#000000";
-        return false;
-    }
-    const validationResult = config.validateLink(value);
-    feedback.textContent = validationResult.feedback;
-    feedback.style.color = validationResult.isValid ? "green" : "red";
-    if (validationResult.isValid) {
-        const resumenUsuarioSpan = document.querySelector(`#${section} .resumen .line span:nth-child(2)`);
-        if (resumenUsuarioSpan) resumenUsuarioSpan.textContent = validationResult.identifier;
-    }
-    return validationResult.isValid;
+    const config = pageConfig[section];
+    if (!config) return false; 
+    const input = document.getElementById(`facebookInput-${section}`); // Cambiado para ser más genérico
+    const feedback = document.getElementById(`facebookFeedback-${section}`);
+    if (!input || !feedback) return false;
+    const value = input.value.trim();
+    if (value === "") {
+        feedback.textContent = "Por favor, pega un enlace.";
+        feedback.style.color = "#000000";
+        return false;
+    }
+    const validationResult = config.validateLink(value);
+    feedback.textContent = validationResult.feedback;
+    feedback.style.color = validationResult.isValid ? "green" : "red";
+    if (validationResult.isValid) {
+        const resumenUsuarioSpan = document.querySelector(`#${section} .resumen .line span:nth-child(2)`);
+        if (resumenUsuarioSpan) resumenUsuarioSpan.textContent = validationResult.identifier;
+    }
+    return validationResult.isValid;
 }
 
+// --- FUNCIÓN MODIFICADA ---
 function handlePurchase(event, tipo, esCompraRapida = false) {
-    event.preventDefault();
-    if (!validateAndSetIdentifier(tipo)) {
-        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
-        return;
-    }
-    const config = pageConfig[tipo];
-    const resumen = document.querySelector(`#${tipo} .resumen`);
-    if (!config || !resumen) return;
-    
-    const summaryData = {
-        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
-        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
-        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
-        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
-    };
-    
-    const producto = config.buildProduct(summaryData);
+    event.preventDefault();
+    if (!validateAndSetIdentifier(tipo)) {
+        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
+        return;
+    }
+    const config = pageConfig[tipo];
+    const resumen = document.querySelector(`#${tipo} .resumen`);
+    if (!config || !resumen) return;
+    
+    // --- summaryData MODIFICADO ---
+    const summaryData = {
+        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
+        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
+        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
+        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
+        
+        // --- AÑADIDO ---
+        // Lee el plan (Mensual/Anual) y el total (para la lógica de totalSeguidores)
+        plan: document.getElementById(`res-plan-${tipo}`)?.textContent.trim(),
+        totalAnual: document.getElementById(`res-total-${tipo}`)?.textContent.trim() 
+        // --- FIN AÑADIDO ---
+    };
+    // --- FIN summaryData MODIFICADO ---
+    
+    const producto = config.buildProduct(summaryData);
 
-    if (esCompraRapida) {
-        localStorage.setItem("compraDirecta", JSON.stringify(producto));
-        sessionStorage.setItem('iniciando_checkout', 'true');
-        window.location.href = "compra_final.html";
-    } else {
-        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito.push(producto);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarToast("Producto agregado al carrito", "success");
-        actualizarNotificacionCarrito();
-    }
+    if (esCompraRapida) {
+        localStorage.setItem("compraDirecta", JSON.stringify(producto));
+        sessionStorage.setItem('iniciando_checkout', 'true');
+        window.location.href = "compra_final.html";
+    } else {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(producto);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarToast("Producto agregado al carrito", "success");
+        actualizarNotificacionCarrito();
+    }
 }
+// --- FIN FUNCIÓN MODIFICADA ---
 
 document.addEventListener('DOMContentLoaded', function() {
-    reiniciarTemporizadorInactividad();
-    actualizarNotificacionCarrito();
+    reiniciarTemporizadorInactividad();
+    actualizarNotificacionCarrito();
 });
 
 // Exportar las funciones correctas
