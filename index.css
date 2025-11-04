@@ -133,6 +133,8 @@
 .icon.facebook  { background: #1877f2; }
 .icon.youtube   { background: #ff0000; }
 .icon.tiktok    { background: #000; }
+.icon.apple    { background: #ff7a18; }
+.icon.spotify    { background: #1DB954; }
 .name {
   font-weight: bold;
   margin: 5px 0;
@@ -308,9 +310,9 @@ hr {
 }
 
 /* === INICIO: NUEVOS ESTILOS AÑADIDOS === */
-.tarjeta_apple { border: 1px solid #fa233b; }
+.tarjeta_apple { border: 1px solid #ff7a18; }
 .tarjeta_apple i, .tarjeta_apple .apple, .tarjeta_apple .t {
-  background-color: #fa233b;
+  background-color: #ff7a18;
   color: white;
 }
 
