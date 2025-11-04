@@ -4,14 +4,62 @@
   <meta charset="UTF-8">
   <title>Spotify</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="menu.css">
-  <link rel="stylesheet" href="planes_spotify.css">
-  <link rel="stylesheet" href="responsive_yt.css">
-  <link rel="stylesheet" href="carrito.css">
+  <link rel="stylesheet" href="../CSS/menu.css">
+  <link rel="stylesheet" href="../CSS/planes_spotify.css">
+  <link rel="stylesheet" href="../CSS/reponsive_insta.css">
+  <link rel="stylesheet" href="../CSS/carrito.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+<style>
+/* 1. El wrapper principal que contiene todo */
+/* Esta regla es ESENCIAL para que las flechas se posicionen 
+   correctamente sobre tu contenedor de pestañas. */
+.service-tabs-wrapper {
+  position: relative; /* Necesario para posicionar las flechas */
+max-width: 900px;
+  margin: 10px auto 0;
+  display: flex;
+  align-items: center;
+}
+
+/* 2. Estilo de las flechas */
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  
+  background-color: white;
+  color: #1ed760;
+  border: 2px solid #e4e6eb;
+  border-radius: 8px;
+  
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s ease;
+}
+
+.scroll-arrow:hover {
+  border-color: #46c773;
+  transform: translateY(-50%) scale(1.1);
+}
+
+
+.scroll-arrow.left {
+  left: -45px; /* Pegada a la izquierda */
+}
+
+.scroll-arrow.right {
+  right: -45px; /* Pegada a la derecha */
+}
+
+</style>
 <body>
     <div class="toast-container" id="toastContainer"></div>
     
@@ -19,7 +67,7 @@
     <nav class="menu">
       <div class="menu-left">
         <a href="index.html">
-          <img src="Logotipos.png" alt="NiixLink">
+          <img src="../IMAGES/Logotipos.png" alt="NiixLink">
         </a>
         <ul class="menu-desktop">
           <li><a href="index.html" class="index">Inicio</a></li>
@@ -51,8 +99,11 @@
     </div>
 
     <!-- Pestañas superiores -->
+               <div class="service-tabs-wrapper">
+     
+    <button class="scroll-arrow left" id="scroll-left-btn">&lt;</button>
      <div class="service-tabs-container">
-      <div class="service-tabs">
+      <div class="service-tabs" id="tabs-container">
         <div class="service-tab active" onclick="loadContent('plays_spo', event)">Plays</div>
         <div class="service-tab" onclick="loadContent('plays_spoEuro', event)">Plays Europa</div>
         <div class="service-tab" onclick="loadContent('plays_spoAsia', event)">Plays Asia</div>
@@ -61,14 +112,16 @@
         <div class="service-tab" onclick="loadContent('spoPreSaves', event)">Saves Premium</div>
         <div class="service-tab" onclick="loadContent('spoUserFollow', event)">Spotify User Follows</div>
         <div class="service-tab" onclick="loadContent('spoSearchPlays', event)">Spotify search Free Plays</div>
-        <div class="service-tab" onclick="loadContent('pack1', event)">Pack 1</div>
+        <!--<div class="service-tab" onclick="loadContent('pack1', event)">Pack 1</div>
         <div class="service-tab" onclick="loadContent('pack2', event)">Pack 2</div>
         <div class="service-tab" onclick="loadContent('pack3', event)">Pack 3</div>
         <div class="service-tab" onclick="loadContent('pack4', event)">Pack 4</div>
         <div class="service-tab" onclick="loadContent('pack5', event)">Pack 5</div>
-        <div class="service-tab" onclick="loadContent('pack6', event)">Pack 6</div>
+        <div class="service-tab" onclick="loadContent('pack6', event)">Pack 6</div>-->
       </div>
     </div>
+            <button class="scroll-arrow right" id="scroll-right-btn">&gt;</button>
+     </div>
 
     <!-- Contenedor dinámico para el contenido -->
     <div id="dynamic-content"></div>
@@ -111,8 +164,96 @@
       </div>
     </div>
 
-    <script src="planes_spotify.js"></script>
-    <script src="carrito.js"></script>
-    <script src="fetch6.js"></script>
+    <script src="../JS/planes_spotify.js"></script>
+    <script src="../JS/carrito.js"></script>
+    <script src="../JS/fetch6.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // Selecciona los elementos que necesitamos
+        const tabsContainer = document.getElementById('tabs-container');
+        const scrollLeftBtn = document.getElementById('scroll-left-btn');
+        const scrollRightBtn = document.getElementById('scroll-right-btn');
+        
+        // Si no se encuentra el contenedor, no hace nada
+        if (!tabsContainer) return;
+
+        // --- Función para revisar si se deben mostrar las flechas ---
+        // (Esta función es la misma que tenías y sigue siendo necesaria)
+        function checkScroll() {
+            // Un pequeño retraso para asegurar que el DOM se actualice
+            // después del clic antes de calcular el scroll.
+            setTimeout(() => {
+                const scrollLeft = tabsContainer.scrollLeft;
+                const scrollWidth = tabsContainer.scrollWidth;
+                const clientWidth = tabsContainer.clientWidth;
+                const maxScrollLeft = scrollWidth - clientWidth;
+
+                // Margen de 1px para seguridad en los cálculos
+                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
+                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
+            }, 150); // 150ms es usualmente suficiente
+        }
+
+        // --- Event Listeners (Escuchadores de eventos) ---
+
+        // 1. Al hacer clic en la flecha derecha (NUEVA LÓGICA)
+        scrollRightBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return; // Salir si no hay ninguno activo
+
+            // Encontrar el siguiente elemento hermano
+            const nextTab = currentActive.nextElementSibling;
+
+            // Si existe un siguiente tab...
+            if (nextTab && nextTab.classList.contains('service-tab')) {
+                // 1. Simular un clic en él (esto cambia el 'active' y carga el contenido)
+                nextTab.click();
+
+                // 2. Asegurarse de que esté visible
+                nextTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest', // No mover verticalmente
+                    inline: 'nearest'  // Alinear horizontalmente
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 2. Al hacer clic en la flecha izquierda (NUEVA LÓGICA)
+        scrollLeftBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return;
+
+            // Encontrar el elemento hermano anterior
+            const prevTab = currentActive.previousElementSibling;
+
+            // Si existe un tab anterior...
+            if (prevTab && prevTab.classList.contains('service-tab')) {
+                // 1. Simular un clic
+                prevTab.click();
+
+                // 2. Asegurarse de que esté visible
+                prevTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 3. Revisar el scroll CADA VEZ que el usuario mueva la barra
+        tabsContainer.addEventListener('scroll', checkScroll);
+
+        // 4. Revisar el scroll si la ventana cambia de tamaño
+        window.addEventListener('resize', checkScroll);
+        
+        // 5. Revisión inicial al cargar la página
+        setTimeout(checkScroll, 100); 
+    });
+    </script>
 </body>
 </html>
