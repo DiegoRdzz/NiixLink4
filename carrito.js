@@ -95,6 +95,7 @@ function finalizarCompra() {
     return;
   }
   // Lógica para redirigir a la página de pago
+  localStorage.removeItem('compraDirecta');
   sessionStorage.setItem("compraPermitida", "true");
   sessionStorage.setItem("iniciando_checkout", "true");
   window.location.href = "compra_final.html";
@@ -148,25 +149,45 @@ function crearElementoProducto(item, index) {
   const div = document.createElement('div');
   div.className = 'carrito-producto';
 
+  // --- NUEVA LÓGICA PARA DETECTAR LA PLATAFORMA ---
+  let plataforma = "Instagram"; // Valor por defecto
+  const tipoLowerCase = item.tipo.toLowerCase();
+
+  if (tipoLowerCase.includes('fb') || tipoLowerCase.includes('facebook')) {
+      plataforma = "Facebook";
+  } else if (tipoLowerCase.includes('yt') || tipoLowerCase.includes('youtube')) {
+      plataforma = "YouTube";
+  } else if (tipoLowerCase.includes('tt') || tipoLowerCase.includes('tiktok')) {
+      plataforma = "TikTok";
+  } else if (tipoLowerCase.includes('spo') || tipoLowerCase.includes('spotify')) {
+      plataforma = "Spotify";
+  } else if (tipoLowerCase.includes('apple')) {
+      plataforma = "Apple Music";
+  }
+  // --- FIN DE LA NUEVA LÓGICA ---
+
   let detalleExtraHTML = '';
   if (item.totalSeguidores) {
-    detalleExtraHTML = `
-      <p class="carrito-producto__detalle-item">
-        <strong>Total Anual:</strong> ${item.totalSeguidores} Seguidores
-      </p>
-    `;
+    detalleExtraHTML = `<p class="carrito-producto__detalle-item"><strong>Total Anual:</strong> ${item.totalSeguidores} Seguidores</p>`;
   }
 
-  div.innerHTML = `
+  let regionHTML = '';
+  // Revisa si el producto tiene una propiedad 'region'
+  if (item.region) {
+    regionHTML = `<p class="carrito-producto__detalle-item"><strong>Región:</strong> ${item.region}</p>`;
+  }
+
+  // Se actualiza el título para usar la variable 'plataforma'
+div.innerHTML = `
     <span class="carrito-producto__eliminar" onclick="eliminarDelCarrito(${index})">&times;</span>
-    <h3 class="carrito-producto__titulo">${item.tipo} para Instagram</h3>
+    <h3 class="carrito-producto__titulo">${item.tipo} para ${plataforma}</h3>
     <div class="carrito-producto__detalles">
       <p class="carrito-producto__detalle-item">
         <strong>Objetivo:</strong> ${item.usuario}
       </p>
       <p class="carrito-producto__detalle-item"><strong>Cantidad:</strong> ${item.cantidad}</p>
-      <p class="carrito-producto__detalle-item"><strong>Plan:</strong> ${item.plan}</p>
-      ${detalleExtraHTML}
+      <p class="carrito-producto__detalle-item"><strong>Plan:</strong> ${item.plan || 'Pago Único'}</p>
+      ${regionHTML} ${detalleExtraHTML}
       <p class="carrito-producto__detalle-item" style="flex-basis: 100%;">
         <strong>Enlace:</strong> <a href="${item.link}" target="_blank" class="carrito-producto__enlace">Ver enlace</a>
       </p>
