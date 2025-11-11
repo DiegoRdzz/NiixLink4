@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <i class="bi bi-people"></i>
                     <span>Cantidad: ${item.cantidad}</span>
                 </div>
+                ${regionHTML}
                 ${seguidoresTotalesHTML}
             </div>
         `;
