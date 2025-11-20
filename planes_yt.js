@@ -61,7 +61,7 @@ function initSection(section) {
 
 function initContent() {
     setupHorizontalScroll();
-    const sections = ['likes_yt', 'shares_yt', 'subscribers_yt', 'ranking_video_yt', 'real_views_yt', 'views_yt', 'views_geo_yt', 'time_package_yt', 'live_30_yt', 'live_1_yt', 'live_2_yt', 'live_3_yt', 'live_4_yt', 'live_5_yt', 'premier_views_yt'];
+    const sections = ['likes_yt', 'shares_yt', 'subscribers_yt', 'ranking_video_yt', 'real_views_yt', 'real_views_music_yt', 'views_yt', 'views_geo_yt', 'time_package_yt', 'live_30_yt', 'live_1_yt', 'live_2_yt', 'live_3_yt', 'live_4_yt', 'live_5_yt', 'premier_views_yt'];
     sections.forEach(section => {
         if (document.getElementById(section)) {
             initSection(section);
@@ -193,7 +193,13 @@ const pageConfig = {
         min: 1000, max: 10000000, step: 1000,
         calculatePrice: cantidad => (cantidad / 1000) * 210.70,
         validateLink: validateYouTubeVideoLink,
-        buildProduct: data => ({ tipo: 'YouTube Real Views (Music)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+        buildProduct: data => ({ tipo: 'YouTube Real Views (Monetizar)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
+    },
+    'real_views_music_yt': {
+        min: 1000, max: 10000000, step: 1000,
+        calculatePrice: cantidad => (cantidad / 1000) * 421.40,
+        validateLink: validateYouTubeVideoLink,
+        buildProduct: data => ({ tipo: 'YouTube Real Views Music (Monetizar)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'views_yt': {
         min: 1000, max: 1000000, step: 1000,
