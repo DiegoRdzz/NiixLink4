@@ -2,24 +2,60 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="carrito.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="responsive_index.css">
+    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesheet" href="../CSS/menu.css">
+    <link rel="stylesheet" href="../CSS/carrito.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
+    <link rel="stylesheet" href="../CSS/responsive_index.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NiixLink</title>
+    
+    <style>
+        .notification-enter {
+            transform: translateY(1rem);
+            opacity: 0;
+        }
+        .notification-visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .notification-exit {
+            transform: translateY(1rem);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .notification {
+            transition: all 0.5s ease;
+        }
+        /* El fondo gris y la altura mínima de pantalla ya no son necesarios aquí */
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen"> 
+    
+<div id="salesNotification" class="notification notification-enter fixed bottom-6 left-6 z-50 max-w-md rounded-lg border border-gray-200 bg-white px-6 py-4 shadow-lg">
+    <div class="flex items-start gap-3">
+        <div class="flex-1 space-y-1">
+            <p id="notificationMessage" class="text-base font-medium leading-tight text-gray-900">500 pedidos vendidos en las últimas 6 horas</p>
+            <p id="notificationTime" class="text-sm" style="color: #fc3c34;">hace 2 minutos</p> 
+        </div>
+        <button onclick="closeNotification()" class="hover:text-gray-900 transition-colors" style="color: #fc3c34;">
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
     <div class="toast-container" id="toastContainer"></div>
- <!-- Menú principal (actualizado para móviles) -->
+    
 <nav class="menu">
   <div class="menu-left">
     <a href="index.html">
-      <img src="Logotipos.png" alt="NiixLink">
+      <img src="../IMAGES/Logotipos.png" alt="NiixLink">
     </a>
     <ul class="menu-desktop">
       <li><a href="index.html" class="index">Inicio</a></li>
@@ -36,18 +72,15 @@
       <i class="fas fa-bars"></i>
     </button>
     <button class="sesion" onclick="window.location.href='index.html'">
-      <!--<i class="fa-solid fa-user"></i> <span class="texto-sesion">Iniciar sesión</span>-->
-    </button>
+      </button>
   </div>
 </nav>
 
-<!-- Menú desplegable móvil -->
 <div class="menu-desplegable" id="menuDesplegable">
   <ul>
     <li><a href="index.html" class="index">Inicio</a></li>
     <li><a href="contacto.html" class="contac">Contacto</a></li>
-    <!--<li><a href="#" class="sesion-mobile"><i class="fa-solid fa-user"></i> Iniciar sesión</a></li>-->
-  </ul>
+    </ul>
 </div>
 
 
@@ -65,35 +98,22 @@
               <p class="name">Instagram</p>
               <p class="price">Desde MXN$470</p>
             </div>
-            <!--Solo quitar no-disponible para poder entrar-->
             <div class="card" onclick="window.location.href='planes_face.html'">
               <div class="icon facebook"><i class="bi bi-facebook"></i></div>
               <p class="name">Facebook</p>
               <p class="price">Desde MXN$599</p>
             </div>
-            <!--Solo quitar no-disponible para poder entrar-->
             <div class="card" onclick="window.location.href='planes_yt.html'">
               <div class="icon youtube"><i class="bi bi-youtube"></i></div>
               <p class="name">YouTube</p>
               <p class="price">Desde MXN$864</p>
             </div>
-            <!--Solo quitar no-disponible para poder entrar-->
             <div class="card" onclick="window.location.href='planes_tt.html'">
               <div class="icon tiktok"><i class="bi bi-tiktok"></i></div>
               <p class="name">TikTok</p>
               <p class="price">Desde MXN$48</p>
             </div>
-            <!--<div class="card  no-disponible">
-              <div class="icon apple"><i class="bi bi-apple"></i></div>
-              <p class="name">Apple Music</p>
-              <p class="price">Desde MXN$899</p>
             </div>
-            <div class="card  no-disponible">
-              <div class="icon spotify"><i class="bi bi-spotify"></i></div>
-              <p class="name">Spotify</p>
-              <p class="price">Desde MXN$899</p>
-            </div>-->
-          </div>
           <p class="personalizados">
             <a href="contacto.html">¿Buscas algo especial? Diseñamos planes personalizados</a>
           </p>
@@ -101,7 +121,6 @@
     </section>
 
     <section class="dos">
-        <!--Tarjetas--->
         <div class="tarjetas_gen">
         <div class="info3">
             <div class="tarjeta azul">
@@ -129,7 +148,6 @@
     </section>
 
 <section class="dos datos">
-    <!--Tarjetas--->
     <div class="tarjetas_gen">
         <div class="info3">
 
@@ -163,9 +181,7 @@
 
         
 
-        <!--Tarjetas de redes--->
-    <section class="tres" id="tres">
-        <!--<span class="elegir">Elige tu plataforma</span>-->
+        <section class="tres" id="tres">
         <h2>Potencia tu presencia en redes sociales</h2>
         <p style="color: #6b7280;">Impulsa ventas reales con seguidores y audiencia en vivo, optimizados con IA para maximizar confianza y alcance de tu público objetivo.</p>
         <div class="info4">
@@ -189,8 +205,7 @@
                 <button class="f" onclick="window.location.href='planes_face.html'">Ver planes ></button>
             </div>
 
-            <div class="tarjeta_yt"> <!--Solo quitar no-disponible para poder entrar-->
-                <i class="bi bi-youtube"></i>
+            <div class="tarjeta_yt"> <i class="bi bi-youtube"></i>
                 <span class="yt">Popular</span> 
                 <p class="titulo">YouTube</p>
                 <p class="desc">Sin contraseñas, solo tu nombre de usuario</p>
@@ -259,7 +274,7 @@
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-logo">
-      <img src="Logotipos2.png" alt="NixLink">
+      <img src="../IMAGES/Logotipos2.png" alt="NixLink">
       <p>Soluciones de crecimiento para redes sociales, sin contraseñas.</p>
       <p><strong>Servicio independiente y no afiliado a ninguna red social.</strong></p>
       <div class="social-icons">
@@ -274,26 +289,28 @@
       <div class="footer-column">
         <h4>Servicios</h4>
         <ul>
-          <li><a href="planes_insta.html">Seguidores Instagram</a></li>
-          <li><a href="planes_face.html">Seguidores Facebook</a></li>
-          <li><a href="planes_yt.html">Seguidores YouTube</a></li>
-          <li><a href="planes_tt.html">Seguidores TikTok</a></li>
+          <li><a href="planes_insta.html">Instagram</a></li>
+          <li><a href="planes_face.html">Facebook</a></li>
+          <li><a href="planes_yt.html">YouTube</a></li>
+          <li><a href="planes_tt.html">TikTok</a></li>
+          <li><a href="planes_apple.html">Apple Music</a></li>
+          <li><a href="planes_spotify.html">Spotify</a></li>
         </ul>
       </div>
       <div class="footer-column">
         <h4>Empresa</h4>
         <ul>
           <li><a href="javascript:void(0)" data-modal="sobreNosotrosModal">Sobre nosotros</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="../HTML/contacto.html">Contacto</a></li>
           <li><a href="javascript:void(0)" data-modal="reglasModal">Reglas</a></li>
         </ul>
       </div>
 <div class="footer-column">
           <h4>Legal</h4>
           <ul>
-            <li><a id="enlaceTerminos" href="terminos-y-condiciones-niixlink.pdf" target="_blank" rel="noopener noreferrer">Términos</a></li>
+            <li><a id="enlaceTerminos" href="../documentos/terminos-y-condiciones-niixlink.pdf" target="_blank" rel="noopener noreferrer">Términos</a></li>
 
-            <li><a id="enlacePrivacidad" href="politica-de-privacidad-niixlink.pdf" target="_blank" rel="noopener noreferrer">Privacidad</a></li>
+            <li><a id="enlacePrivacidad" href="/documentos/politica-de-privacidad-niixlink.pdf" target="_blank" rel="noopener noreferrer">Privacidad</a></li>
           </ul>
         </div>
     </div>
@@ -304,7 +321,6 @@
 </footer>
 
 
-<!-- Modal genérico para el footer-->
 <div id="modalOverlay" class="modal-overlay-m">
   <div class="modal-content">
     <div class="modal-header">
@@ -317,22 +333,16 @@
 
 
 
-<!-- Fondo oscuro detrás del carrito --> 
 <div id="overlayCarrito" class="modal-overlay" onclick="cerrarCarrito()"></div>
 
-<!-- Modal del carrito -->
 <div id="modalCarrito" class="modal-carrito">
   <span class="cerrar-modal" onclick="cerrarCarrito()">×</span>
 
-  <!-- Encabezado -->
   <header class="car">Tu Carrito</header>
 
-  <!-- Área con scroll para productos -->
   <div id="carritoContenido" class="carrito-scroll">
-    <!-- Aquí se insertan los productos dinámicamente desde JS -->
-  </div>
+    </div>
 
-  <!-- Resumen fijo al fondo -->
   <div class="resumen-carrito" id="resumenCarrito">
 
     <div class="resumen-linea">
@@ -349,18 +359,120 @@
       <strong id="totalFinal">MXN$0</strong>
     </div>
 
-    <!-- Botón Finalizar Compra -->
     <div class="finalizar-compra-container">
       <button class="btn-finalizar" id="btnFinalizar">Finalizar compra</button>
     </div>
   </div>
 </div>
 
-<script src="carrito.js"></script>
-<script src="index.js"></script>
+<script>
+    // Elementos del DOM
+    const notificationElement = document.getElementById('salesNotification');
+    const messageElement = document.getElementById('notificationMessage');
+    const timeElement = document.getElementById('notificationTime');
+
+    let notificationInterval;
+    
+    // --- Algoritmo de Generación Dinámica ---
+    
+    // 1. Genera un número aleatorio de ventas
+    function getRandomSales() {
+        // Genera un número aleatorio entre 50 y 5000 (para simular varias escalas de ventas)
+        const randomNum = Math.floor(Math.random() * 4951) + 50; 
+        
+        // Simula diferentes mensajes basados en el número
+        if (randomNum < 300) {
+            return {
+                amount: randomNum,
+                messageType: "pedidos vendidos en las últimas 2 horas"
+            };
+        } else if (randomNum < 1500) {
+            // Número redondeado a la centena más cercana
+            const rounded = Math.round(randomNum / 100) * 100;
+            return {
+                amount: rounded,
+                messageType: "pedidos vendidos en las últimas 6 horas"
+            };
+        } else {
+            // Número formateado con coma (ej: 2,500)
+            const formatted = randomNum.toLocaleString('es-MX'); 
+            return {
+                amount: formatted,
+                messageType: "pedidos vendidos hoy"
+            };
+        }
+    }
+
+    // 2. Genera un tiempo aleatorio
+    function getRandomTime() {
+        const minutes = Math.floor(Math.random() * 15) + 1; // 1 a 15 minutos
+        
+        if (minutes === 1) {
+            return "justo ahora";
+        } else if (minutes < 5) {
+            return `hace ${minutes} minutos`;
+        } else {
+            return `hace ${minutes} minutos`;
+        }
+    }
+
+    // Función para mostrar notificación
+    function showNotification() {
+        const salesData = getRandomSales();
+        const timeData = getRandomTime();
+        
+        // Formato del mensaje basado en el algoritmo
+        messageElement.textContent = `${salesData.amount} ${salesData.messageType}`;
+        timeElement.textContent = timeData;
+        
+        // Mostrar notificación
+        notificationElement.classList.remove('notification-enter', 'notification-exit');
+        notificationElement.classList.add('notification-visible');
+        
+        // Ocultar después de 5 segundos
+        setTimeout(() => {
+            hideNotification();
+        }, 5000);
+    }
+
+    // Función para ocultar notificación (Mantiene la lógica de transición)
+    function hideNotification() {
+        notificationElement.classList.remove('notification-visible');
+        notificationElement.classList.add('notification-exit');
+        
+        // Espera 0.5s para la animación de salida antes de resetear
+        setTimeout(() => {
+            // Opcional: podrías aumentar el currentIndex aquí si usaras una lista fija
+        }, 500); 
+    }
+
+    // Función para cerrar manualmente
+    function closeNotification() {
+        // Detener el ciclo si se cierra manualmente para no reaparecer inmediatamente
+        clearInterval(notificationInterval);
+        hideNotification();
+        // Opcional: Reanudar el ciclo después de un tiempo más largo, ej: 30 segundos
+        // setTimeout(startNotifications, 30000);
+    }
+
+    // Iniciar el ciclo de notificaciones
+    function startNotifications() {
+        showNotification();
+        // El intervalo de tiempo para que aparezca la siguiente alerta (entre 8 y 15 segundos)
+        const nextInterval = (Math.floor(Math.random() * 7) + 8) * 1000; 
+
+        notificationInterval = setInterval(() => {
+            showNotification();
+        }, nextInterval);
+    }
+
+    // Iniciar cuando se carga la página
+    window.addEventListener('load', startNotifications);
+</script>
+<script src="../JS/carrito.js"></script>
+<script src="../JS/index.js"></script>
 
 </body>
-
 </html>
 
 
