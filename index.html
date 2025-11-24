@@ -456,24 +456,31 @@
     }
 
     // Iniciar el ciclo de notificaciones
+// Iniciar el ciclo de notificaciones (MODIFICADO para loop continuo)
     function startNotifications() {
-        showNotification();
-        // El intervalo de tiempo para que aparezca la siguiente alerta (entre 8 y 15 segundos)
-        const nextInterval = (Math.floor(Math.random() * 7) + 8) * 1000; 
+        // Establecemos un intervalo fijo de 6 segundos.
+        // Esto cubre los 5s de visualización + 0.5s de animación de salida,
+        // asegurando una repetición constante e inmediata.
+        const continuousInterval = 6000; 
 
+        // Llamamos a showNotification inmediatamente para la primera vez
+        showNotification(); 
+        
+        // Y luego la programamos para que se repita continuamente
         notificationInterval = setInterval(() => {
             showNotification();
-        }, nextInterval);
+        }, continuousInterval);
     }
 
     // Iniciar cuando se carga la página
     window.addEventListener('load', startNotifications);
 </script>
-<script src="../JS/carrito.js"></script>
-<script src="../JS/index.js"></script>
+<script src="carrito.js"></script>
+<script src="index.js"></script>
 
 </body>
 </html>
+
 
 
 
