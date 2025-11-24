@@ -1,32 +1,33 @@
 <div class="main-content">
   <div class="header">
-    <h2><i class="bi bi-instagram"></i> Comprar Live Views (Hombres)</h2>
-    <p>Atrae a una audiencia masculina a tus transmisiones.</p>
+    <h2><i class="bi bi-instagram"></i> Comprar Live Views</h2>
+    <p>Atrae a más espectadores a tus transmisiones en vivo.</p>
   </div>
 
-  <div class="main" id="l_views_hombre">
+  <div class="main" id="l_views">
+    <!-- IZQUIERDA -->
     <div class="col-left">
       <div class="card">
         <h3>1. Cantidad de Espectadores</h3>
         <div class="range-group">
-          <button class="btn-round" onclick="cambiarRango(-50, 'l_views_hombre')">−</button>
+          <button class="btn-round" onclick="cambiarRango(-100, 'l_views')">−</button>
           <input
             type="range"
-            id="rango-l_views_hombre"
-            min="50"
+            id="rango-l_views"
+            min="100"
             max="5000"
-            step="50"
-            value="250"
-            oninput="actualizarSalida('l_views_hombre')"
+            step="100"
+            value="300"
+            oninput="actualizarSalida('l_views')"
           />
-          <button class="btn-round" onclick="cambiarRango(50, 'l_views_hombre')">+</button>
+          <button class="btn-round" onclick="cambiarRango(100, 'l_views')">+</button>
         </div>
         <div class="range-labels">
-          <span>50</span>
+          <span>100</span>
           <span>5,000</span>
         </div>
         <div class="output">
-          <span id="output-l_views_hombre">50</span>
+          <span id="output-l_views">100</span>
         </div>
       </div>
 
@@ -36,56 +37,64 @@
           <i class="bi bi-instagram"></i>
           <input
             type="text"
-            id="instagramInput-l_views_hombre"
+            id="instagramInput-l_views"
             placeholder="https://www.instagram.com/tu_usuario"
-            oninput="validateInstagramLink('l_views_hombre')">
+            oninput="validateInstagramLink('l_views')">
         </div>
-        <small id="instagramFeedback-l_views_hombre">Ejemplo: https://www.instagram.com/Tu_usuario</small>
+        <small id="instagramFeedback-l_views">Ejemplo: https://www.instagram.com/Tu_usuario</small>
       </div>
 
       <div class="card resumen">
         <h3>Resumen</h3>
         <div class="line"><span>Usuario:</span><span>-</span></div>
-        <div class="line"><span>Espectadores (Hombres):</span><span id="res-cantidad-l_views_hombre">50</span></div>
-        <div class="line"><span>Plan:</span><span id="res-plan-l_views_hombre">Pago Único</span></div>
+        <div class="line"><span>Espectadores en Vivo:</span><span id="res-cantidad-l_views">100</span></div>
+        <div class="line"><span>Plan:</span><span id="res-plan-l_views">Pago Único</span></div>
         <div class="line" id="line-subtotal"><span>Subtotal:</span><span id="resumenSubtotal">MXN$0.00</span></div>
         <div class="line" id="line-iva"><span>IVA <small>(16%)</small>:</span><span id="resumenIVA">MXN$0.00</span></div>
         <div class="line"><strong>Total:</strong><span style="color:#ff416c;"><strong>MXN$0.00</strong></span></div>
         <div class="buttons">
-            <button class="btn-primary" onclick="handlePurchase(event, 'l_views_hombre', true)">¡Compra con 1-Click!</button>
-            <button class="btn-outline" onclick="handlePurchase(event, 'l_views_hombre', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
-            <small id="purchaseWarning-l_views_hombre" style="color: red; display: none; font-size: 14px;">⚠️ Agrega un enlace de perfil válido para continuar.</small>
+            <button class="btn-primary" onclick="handlePurchase(event, 'l_views', true)">¡Compra con 1-Click!</button>
+            <button class="btn-outline" onclick="handlePurchase(event, 'l_views', false)"><i class="bi bi-cart"></i> Agregar al carrito</button>
+            <small id="purchaseWarning-l_views" style="color: red; display: none; font-size: 14px;">⚠️ Agrega un enlace de perfil válido para continuar.</small>
             <small>Al hacer clic en "¡Compra con 1-Click!" aceptas nuestros términos y condiciones</small>
         </div>
       </div>
     </div>
 
+    <!-- DERECHA -->
     <div class="col-right">
       <div class="card">
         <div class="tabs">
-          <div class="tab active" onclick="showTab(event, 'info-l_views_hombre')">Información</div>
-          <div class="tab" onclick="showTab(event, 'updates-l_views_hombre')">Actualizaciones</div>
+          <div class="tab active" onclick="showTab(event, 'info-l_views')">Información</div>
+          <div class="tab" onclick="showTab(event, 'updates-l_views')">Actualizaciones</div>
         </div>
+        
         <div class="tab-content">
-          <div id="info-l_views_hombre" class="tab-section active">
-            <p><strong>Audiencia:</strong> Espectadores 100% masculinos.</p>
+          <div id="info-l_views" class="tab-section active">
+            <p><strong>Enlace:</strong> Introduce el enlace de tu perfil de Instagram.</p>
             <p><strong>Importante:</strong> Debes realizar el pedido con anticiopacion de 2 HORAS antes de la transmision en vivo.</p>
             <p><strong>Inicio estimado:</strong> 0-5 minutos.</p>
             <p><strong>Duración:</strong> Los espectadores permanecerán durante toda la transmisión.</p>
+            <p><strong>Nota:</strong> Tu perfil debe ser público para recibir los espectadores.</p>
           </div>
-          <div id="updates-l_views_hombre" class="tab-section">
-            <p>No hay actualizaciones recientes.</p>
+          <div id="updates-l_views" class="tab-section">
+            <p>No hay actualizaciones recientes del servicio.</p>
           </div>
         </div>
       </div>
+
       <div class="card instructions">
         <h3>Instrucciones</h3>
         <div class="tabs2">
-          <div class="tab active" onclick="showInstruction(event, 'basicos-l_views_hombre')">Básicos</div>
-          <div class="tab" onclick="showInstruction(event, 'reglas-l_views_hombre')">Reglas</div>
+          <div class="tab active" onclick="showInstruction(event, 'basicos-l_views')">Básicos</div>
+          <div class="tab" onclick="showInstruction(event, 'ordenar-l_views')">Ordenar</div>
+          <div class="tab" onclick="showInstruction(event, 'reglas-l_views')">Reglas</div>
+          <div class="tab" onclick="showInstruction(event, 'conteo-l_views')">Conteo</div>
+          <div class="tab" onclick="showInstruction(event, 'ofertas-l_views')">Ofertas</div>
         </div>
         <div class="tab-content">
-          <div id="basicos-l_views_hombre" class="tab-section active">
+
+          <div id="basicos-l_views" class="tab-section active">
             <ol>
               <li>Selecciona un servicio de un paquete de la izquierda.</li>
               <li>Introduce tu enlace y la cantidad que necesitas.</li>
@@ -94,19 +103,36 @@
                 /me gusta sea visible.</li>
             </ol>
           </div>
-          <div id="reglas-l_views_hombre" class="tab-section">
+
+          <div id="ordenar-l_views" class="tab-section">
+            <h4>Links de enlace</h4>
+            <p>Utiliza el formato de enlace correcto a una publicación (video o Reel). Ejemplo: <strong>https://www.instagram.com/reel/</strong></p>
+          </div>
+
+          <div id="reglas-l_views" class="tab-section">
             <ul>
-              <li>No configure su página ni publicación como privada.</li>
-              <li>No restringa ni oculte su número de "Me gusta" ni seguidores.</li>
-              <li>Después de enviar los pedidos, no es posible que pueda cambiar el enlace ni cancelar el pedido. Siempre
-                revise los detalles de su pedido antes de realizar la compra.</li>
-              <li>No le reembolsaremos si elimina su página o publicación.</li>
-              <li>Para garantizar que su pedido se complete, no utilice otros anuncios ni promociones mientras usa
-                nuestro sitio.</li>
-              <li>Las plataformas de redes sociales actualizan sus sistemas a diario, lo que a veces puede causar interrupciones.</li>
-              <li>Si se causara una interrupción puede contactarnos para solucionar el problema.</li>
+                <li>El pedido debe realizarse con 2 HORAS de anticipacion.</li>
+                <li>No se puede cancelar el pedido una vez enviado.</li>
+                <li>Asegúrate de que tu perfil no sea privado.</li>
             </ul>
           </div>
+
+          <div id="conteo-l_views" class="tab-section">
+            <h4>Conteo</h4>
+            <p>El sistema establecerá un conteo de inicio al realizar un pedido. Su pedido se completará cuando alcance la cantidad solicitada. 
+                Para garantizar que su pedido se entregue en su totalidad, evite confusiones en los conteos de inicio.</p>
+            <h4>Ejemplo</h4>
+            <p>No cree dos pedidos de visualizaciones de YouTube para el mismo enlace antes de que el primero alcance la cantidad deseada. 
+                Puede crear varios pedidos de visualizaciones para diferentes enlaces a la vez, o pedir visualizaciones, "me gusta", "compartir", etc., para el mismo enlace simultáneamente. 
+                Esta lógica se aplica a otros servicios y redes sociales.</p>
+          </div>
+
+          <div id="ofertas-l_views" class="tab-section">
+            <p>Aprovecha los descuentos por pagos anuales.</p>
+            <p>Todos los servicios son seguros y garantizados.</p>
+            <p>Si requieres un servicio especial favor contactarnos hi@niixLink.com</p>
+          </div>
+          
         </div>
       </div>
     </div>
