@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="menu.css">
-    <link rel="stylesheet" href="carrito.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="responsive_index.css">
+    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesheet" href="../CSS/menu.css">
+    <link rel="stylesheet" href="../CSS/carrito.css">
+    <link rel="stylesheet" href="../CSS/footer.css">
+    <link rel="stylesheet" href="../CSS/responsive_index.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -36,14 +36,23 @@
 </head>
 <body class="bg-gray-50 min-h-screen"> 
     
-<div id="salesNotification" class="notification notification-enter fixed bottom-6 left-6 z-50 max-w-md rounded-lg border border-gray-200 bg-white px-6 py-4 shadow-lg">
-    <div class="flex items-start gap-3">
-        <div class="flex-1 space-y-1">
-            <p id="notificationMessage" class="text-base font-medium leading-tight text-gray-900">500 pedidos vendidos en las últimas 6 horas</p>
-            <p id="notificationTime" class="text-sm" style="color: #fc3c34;">hace 2 minutos</p> 
+<div id="salesNotification" class="fixed bottom-6 left-6 z-50 max-w-sm w-full translate-y-20 opacity-0 transition-all duration-500 ease-in-out cursor-default">
+    <div class="flex items-center gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-[0_8px_30px_rgb(0,0,0,0.12)] backdrop-blur-sm">
+        
+        <div id="notifIcon" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-500 transition-colors duration-300">
+            </div>
+
+        <div class="flex-1 min-w-0">
+            <p id="notifTitle" class="text-sm font-bold text-gray-900 leading-tight transition-colors duration-300">
+                Cargando...
+            </p>
+            <p id="notifSubtitle" class="mt-1 text-xs font-medium text-gray-500">
+                Verificando...
+            </p>
         </div>
-        <button onclick="closeNotification()" class="hover:text-gray-900 transition-colors" style="color: #fc3c34;">
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+        <button onclick="closeNotification()" class="shrink-0 hover:opacity-70 transition-opacity" style="color: #fc3c34;">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
@@ -55,7 +64,7 @@
 <nav class="menu">
   <div class="menu-left">
     <a href="index.html">
-      <img src="Logotipos.png" alt="NiixLink">
+      <img src="../IMAGES/Logotipos.png" alt="NiixLink">
     </a>
     <ul class="menu-desktop">
       <li><a href="index.html" class="index">Inicio</a></li>
@@ -274,7 +283,7 @@
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-logo">
-      <img src="Logotipos2.png" alt="NixLink">
+      <img src="../IMAGES/Logotipos2.png" alt="NixLink">
       <p>Soluciones de crecimiento para redes sociales, sin contraseñas.</p>
       <p><strong>Servicio independiente y no afiliado a ninguna red social.</strong></p>
       <div class="social-icons">
@@ -301,11 +310,11 @@
         <h4>Empresa</h4>
         <ul>
           <li><a href="javascript:void(0)" data-modal="sobreNosotrosModal">Sobre nosotros</a></li>
-          <li><a href="contacto.html">Contacto</a></li>
+          <li><a href="../HTML/contacto.html">Contacto</a></li>
           <li><a href="javascript:void(0)" data-modal="reglasModal">Reglas</a></li>
         </ul>
       </div>
-<div class="footer-column">
+      <div class="footer-column">
           <h4>Legal</h4>
           <ul>
             <li><a id="enlaceTerminos" href="../documentos/terminos-y-condiciones-niixlink.pdf" target="_blank" rel="noopener noreferrer">Términos</a></li>
@@ -366,121 +375,99 @@
 </div>
 
 <script>
-    // Elementos del DOM
-    const notificationElement = document.getElementById('salesNotification');
-    const messageElement = document.getElementById('notificationMessage');
-    const timeElement = document.getElementById('notificationTime');
+    const container = document.getElementById('salesNotification');
+    const titleEl = document.getElementById('notifTitle');
+    const subEl = document.getElementById('notifSubtitle');
+    const iconEl = document.getElementById('notifIcon');
 
-    let notificationInterval;
-    
-    // --- Algoritmo de Generación Dinámica ---
-    
-    // 1. Genera un número aleatorio de ventas
-    function getRandomSales() {
-        // Genera un número aleatorio entre 50 y 5000 (para simular varias escalas de ventas)
-        const randomNum = Math.floor(Math.random() * 4951) + 50; 
+    let timeoutId;
+
+    // --- 1. LÓGICA DE DATOS (Tus textos originales) ---
+    function getData() {
+        const rand = Math.random();
         
-        // Simula diferentes mensajes basados en el número
-        if (randomNum < 300) {
+        // Venta reciente (40% de probabilidad)
+        if (rand < 0.40) {
+            const qty = Math.floor(Math.random() * 45) + 5; 
+            const mins = Math.floor(Math.random() * 10) + 1;
             return {
-                amount: randomNum,
-                messageType: "pedidos vendidos en las últimas 2 horas"
+                text: `${qty} nuevos pedidos completados`,
+                sub: `Hace ${mins} minuto${mins > 1 ? 's' : ''}`, 
+                type: 'recent'
             };
-        } else if (randomNum < 1500) {
-            // Número redondeado a la centena más cercana
-            const rounded = Math.round(randomNum / 100) * 100;
+        } 
+        // Total del día (60% de probabilidad)
+        else {
+            const hour = new Date().getHours();
+            const base = (hour * 100) + 150; 
+            const total = Math.floor(Math.random() * 500) + base;
             return {
-                amount: rounded,
-                messageType: "pedidos vendidos en las últimas 6 horas"
-            };
-        } else {
-            // Número formateado con coma (ej: 2,500)
-            const formatted = randomNum.toLocaleString('es-MX'); 
-            return {
-                amount: formatted,
-                messageType: "pedidos vendidos hoy"
+                text: `${total.toLocaleString()} pedidos vendidos hoy`,
+                sub: `Estadística en tiempo real`, 
+                type: 'total'
             };
         }
     }
 
-    // 2. Genera un tiempo aleatorio
-    function getRandomTime() {
-        const minutes = Math.floor(Math.random() * 15) + 1; // 1 a 15 minutos
-        
-        if (minutes === 1) {
-            return "justo ahora";
-        } else if (minutes < 5) {
-            return `hace ${minutes} minutos`;
+    // --- 2. ACTUALIZAR UI (Tus iconos originales) ---
+    function updateUI(data) {
+        titleEl.textContent = data.text;
+        subEl.textContent = data.sub;
+
+        if (data.type === 'total') {
+            iconEl.className = "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-50 text-orange-500";
+            iconEl.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"></path></svg>`;
         } else {
-            return `hace ${minutes} minutos`;
+            iconEl.className = "flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600";
+            iconEl.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>`;
         }
     }
 
-    // Función para mostrar notificación
+    // --- 3. ANIMACIÓN Y TIEMPOS (Configuración Natural/No-Spam) ---
     function showNotification() {
-        const salesData = getRandomSales();
-        const timeData = getRandomTime();
-        
-        // Formato del mensaje basado en el algoritmo
-        messageElement.textContent = `${salesData.amount} ${salesData.messageType}`;
-        timeElement.textContent = timeData;
-        
-        // Mostrar notificación
-        notificationElement.classList.remove('notification-enter', 'notification-exit');
-        notificationElement.classList.add('notification-visible');
-        
-        // Ocultar después de 5 segundos
-        setTimeout(() => {
-            hideNotification();
-        }, 5000);
+        const data = getData();
+        updateUI(data);
+
+        // Mostrar
+        container.classList.remove('translate-y-20', 'opacity-0');
+
+        // Se queda visible por 5 segundos
+        timeoutId = setTimeout(hideNotification, 5000);
     }
 
-    // Función para ocultar notificación (Mantiene la lógica de transición)
     function hideNotification() {
-        notificationElement.classList.remove('notification-visible');
-        notificationElement.classList.add('notification-exit');
+        // Ocultar
+        container.classList.add('translate-y-20', 'opacity-0');
+
+        // === LÓGICA NATURAL ===
+        // Espera mínima: 45 segundos
+        // Variación: hasta 45 segundos extra
+        // Total espera: Entre 45s y 1m 30s
         
-        // Espera 0.5s para la animación de salida antes de resetear
-        setTimeout(() => {
-            // Opcional: podrías aumentar el currentIndex aquí si usaras una lista fija
-        }, 500); 
+        const minTime = 45000; 
+        const variableTime = Math.floor(Math.random() * 45000); 
+        
+        timeoutId = setTimeout(showNotification, minTime + variableTime);
     }
 
-    // Función para cerrar manualmente
     function closeNotification() {
-        // Detener el ciclo si se cierra manualmente para no reaparecer inmediatamente
-        clearInterval(notificationInterval);
-        hideNotification();
-        // Opcional: Reanudar el ciclo después de un tiempo más largo, ej: 30 segundos
-        // setTimeout(startNotifications, 30000);
-    }
-
-    // Iniciar el ciclo de notificaciones
-// Iniciar el ciclo de notificaciones (MODIFICADO para loop continuo)
-    function startNotifications() {
-        // Establecemos un intervalo fijo de 6 segundos.
-        // Esto cubre los 5s de visualización + 0.5s de animación de salida,
-        // asegurando una repetición constante e inmediata.
-        const continuousInterval = 6000; 
-
-        // Llamamos a showNotification inmediatamente para la primera vez
-        showNotification(); 
+        clearTimeout(timeoutId);
+        container.classList.add('translate-y-20', 'opacity-0');
         
-        // Y luego la programamos para que se repita continuamente
-        notificationInterval = setInterval(() => {
-            showNotification();
-        }, continuousInterval);
+        // Si el usuario cierra manual, esperamos 5 minutos para no molestar
+        setTimeout(showNotification, 300000);
     }
 
-    // Iniciar cuando se carga la página
-    window.addEventListener('load', startNotifications);
+    // Carga inicial: Espera 8 segundos para que no sea intrusivo al entrar
+    window.addEventListener('load', () => {
+        setTimeout(showNotification, 8000);
+    });
 </script>
-<script src="carrito.js"></script>
-<script src="index.js"></script>
+<script src="../JS/carrito.js"></script>
+<script src="../JS/index.js"></script>
 
 </body>
 </html>
-
 
 
 
