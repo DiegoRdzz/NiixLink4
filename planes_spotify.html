@@ -4,81 +4,14 @@
   <meta charset="UTF-8">
   <title>Spotify</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="menu.css">
-  <link rel="stylesheet" href="planes_spotify.css">
-  <link rel="stylesheet" href="reponsive_insta.css">
-  <link rel="stylesheet" href="carrito.css">
+  <link rel="stylesheet" href="../CSS/menu.css">
+  <link rel="stylesheet" href="../CSS/planes_spotify.css">
+  <link rel="stylesheet" href="../CSS/reponsive_insta.css">
+  <link rel="stylesheet" href="../CSS/carrito.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<style>
-  /* 1. El wrapper principal que contiene todo (Contenedor Flex) */
-  .service-tabs-wrapper {
-    position: relative; /* 'relative' ya no es crítico, pero no hace daño */
-    max-width: 900px;
-    margin: 10px auto 0;
-    
-    /* Configuración Flexbox */
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Un pequeño espacio entre las flechas y los tabs */
-  }
-
-  /* 2. [NUEVO] El contenedor de los tabs (el hijo flexible) */
-  .service-tabs-container {
-    /* ESTA ES LA CLAVE: 
-       Hace que este div ocupe todo el espacio que sobre 
-       entre las dos flechas. */
-    flex: 1; 
-    
-    /* Esto es importante para que el scroll funcione bien 
-       dentro del contenedor flex */
-    overflow: hidden; 
-  }
-
-  /* 3. Estilo de las flechas (como bloques Flex, NO absolutas) */
-  .scroll-arrow {
-    /* --- YA NO USAMOS 'position: absolute' --- */
-    
-    /* Impide que las flechas se encojan si hay poco espacio */
-    flex-shrink: 0; 
-    
-    background-color: white;
-    color: #1ed760;
-    border: 2px solid #e4e6eb;
-    border-radius: 8px;
-    
-    width: 36px;
-    height: 36px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    
-    /* El JS sigue controlando si se muestra o no */
-    display: none; 
-    transition: all 0.2s ease;
-  }
-
-  .scroll-arrow:hover {
-    border-color: #32c264;
-    /* Mantenemos el escalado en hover */
-    transform: scale(1.1); 
-  }
-
-  /* 4. Ya no necesitamos 'left' y 'right' en estas reglas */
-  .scroll-arrow.left {
-    /* Estaba: left: -45px; (Ya no se necesita) */
-  }
-
-  .scroll-arrow.right {
-    /* Estaba: right: -45px; (Ya no se necesita) */
-  }
-
-  /* 5. Ya no necesitamos la media query de la solución anterior */
-  /* (La eliminamos por completo) */
-
-</style>
 <body>
     <div class="toast-container" id="toastContainer"></div>
     
@@ -86,7 +19,7 @@
     <nav class="menu">
       <div class="menu-left">
         <a href="index.html">
-          <img src="Logotipos.png" alt="NiixLink">
+          <img src="../IMAGES/Logotipos.png" alt="NiixLink">
         </a>
         <ul class="menu-desktop">
           <li><a href="index.html" class="index">Inicio</a></li>
@@ -183,99 +116,8 @@
       </div>
     </div>
 
-    <script src="planes_spotify.js"></script>
-    <script src="carrito.js"></script>
-    <script src="fetch6.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        // Selecciona los elementos que necesitamos
-        const tabsContainer = document.getElementById('tabs-container');
-        const scrollLeftBtn = document.getElementById('scroll-left-btn');
-        const scrollRightBtn = document.getElementById('scroll-right-btn');
-        
-        // Si no se encuentra el contenedor, no hace nada
-        if (!tabsContainer) return;
-
-        // --- Función para revisar si se deben mostrar las flechas ---
-        // (Esta función es la misma que tenías y sigue siendo necesaria)
-        function checkScroll() {
-            // Un pequeño retraso para asegurar que el DOM se actualice
-            // después del clic antes de calcular el scroll.
-            setTimeout(() => {
-                const scrollLeft = tabsContainer.scrollLeft;
-                const scrollWidth = tabsContainer.scrollWidth;
-                const clientWidth = tabsContainer.clientWidth;
-                const maxScrollLeft = scrollWidth - clientWidth;
-
-                // Margen de 1px para seguridad en los cálculos
-                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
-                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
-            }, 150); // 150ms es usualmente suficiente
-        }
-
-        // --- Event Listeners (Escuchadores de eventos) ---
-
-        // 1. Al hacer clic en la flecha derecha (NUEVA LÓGICA)
-        scrollRightBtn.addEventListener('click', () => {
-            const currentActive = tabsContainer.querySelector('.service-tab.active');
-            if (!currentActive) return; // Salir si no hay ninguno activo
-
-            // Encontrar el siguiente elemento hermano
-            const nextTab = currentActive.nextElementSibling;
-
-            // Si existe un siguiente tab...
-            if (nextTab && nextTab.classList.contains('service-tab')) {
-                // 1. Simular un clic en él (esto cambia el 'active' y carga el contenido)
-                nextTab.click();
-
-                // 2. Asegurarse de que esté visible
-                nextTab.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest', // No mover verticalmente
-                    inline: 'nearest'  // Alinear horizontalmente
-                });
-            }
-            // Volver a revisar las flechas después de la animación
-            checkScroll();
-        });
-
-        // 2. Al hacer clic en la flecha izquierda (NUEVA LÓGICA)
-        scrollLeftBtn.addEventListener('click', () => {
-            const currentActive = tabsContainer.querySelector('.service-tab.active');
-            if (!currentActive) return;
-
-            // Encontrar el elemento hermano anterior
-            const prevTab = currentActive.previousElementSibling;
-
-            // Si existe un tab anterior...
-            if (prevTab && prevTab.classList.contains('service-tab')) {
-                // 1. Simular un clic
-                prevTab.click();
-
-                // 2. Asegurarse de que esté visible
-                prevTab.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest',
-                    inline: 'nearest'
-                });
-            }
-            // Volver a revisar las flechas después de la animación
-            checkScroll();
-        });
-
-        // 3. Revisar el scroll CADA VEZ que el usuario mueva la barra
-        tabsContainer.addEventListener('scroll', checkScroll);
-
-        // 4. Revisar el scroll si la ventana cambia de tamaño
-        window.addEventListener('resize', checkScroll);
-        
-        // 5. Revisión inicial al cargar la página
-        setTimeout(checkScroll, 100); 
-    });
-    </script>
+    <script src="../JS/planes_spotify.js"></script>
+    <script src="../JS/carrito.js"></script>
+    <script src="../JS/fetch6.js"></script>
 </body>
 </html>
-
-
-
