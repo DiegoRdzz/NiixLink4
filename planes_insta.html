@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Instagram</title>
+  <title>Facebook</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="menu.css">
-  <link rel="stylesheet" href="planes_insta.css">
+  <link rel="stylesheet" href="planes_face.css">
   <link rel="stylesheet" href="reponsive_insta.css">
   <link rel="stylesheet" href="carrito.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -51,21 +51,27 @@
     </div>
 
     <!-- Pestañas superiores -->
-          <div class="service-tabs-wrapper">
+     <div class="service-tabs-wrapper">
      
     <button class="scroll-arrow left" id="scroll-left-btn">&lt;</button>
-    <div class="service-tabs-container">
+     <div class="service-tabs-container">
       <div class="service-tabs" id="tabs-container">
-        <div class="service-tab active" onclick="loadContent('seguidores', event)">Seguidores</div>
-        <div class="service-tab" onclick="loadContent('likes', event)">Likes</div>
-        <div class="service-tab" onclick="loadContent('viewers', event)">Viewers</div>
-        <div class="service-tab" onclick="loadContent('l_views', event)">Live Views</div>
-        <div class="service-tab" onclick="loadContent('l_likes', event)">Live Likes</div>
-        <div class="service-tab" onclick="loadContent('l_views_hombre', event)">Live Views Hombre</div>
-        <div class="service-tab" onclick="loadContent('l_views_mujer', event)">Live Views Mujeres</div>
+        <div class="service-tab active" onclick="loadContent('fanPageLikes', event)">Fan Page Likes</div>
+        <div class="service-tab" onclick="loadContent('PageLikes', event)">Page Likes</div>
+        <div class="service-tab" onclick="loadContent('profileFollowsFan', event)">Seguidores (Fanpage)</div>
+        <div class="service-tab" onclick="loadContent('profileFollows', event)">Seguidores (Perfil)</div>
+        <div class="service-tab" onclick="loadContent('paq_visual', event)">Paquete de Visualización</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_30', event)">Live Views (30 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_60', event)">Live Views (60 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_90', event)">Live Views (90 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_120', event)">Live Views (120 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_150', event)">Live Views (150 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_180', event)">Live Views (180 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_240', event)">Live Views (240 min)</div>
+        <div class="service-tab" onclick="loadContent('l_stream_v_300', event)">Live Views (300 min)</div>
       </div>
     </div>
-        <button class="scroll-arrow right" id="scroll-right-btn">&gt;</button>
+    <button class="scroll-arrow right" id="scroll-right-btn">&gt;</button>
      </div>
 
     <!-- Contenedor dinámico para el contenido -->
@@ -109,11 +115,8 @@
       </div>
     </div>
 
-    <script src="planes_insta.js"></script>
+    <script src="planes_face.js"></script>
     <script src="carrito.js"></script>
-    <script src="fech.js"></script>
+    <script src="fetch2.js"></script>
 </body>
 </html>
-
-
-
