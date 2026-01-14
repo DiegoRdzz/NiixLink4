@@ -2,6 +2,94 @@
 // FUNCIONES GENERALES (NO TOCAR)
 // =================================================================
 
+//Logica par flechas de tabs
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // Selecciona los elementos que necesitamos
+        const tabsContainer = document.getElementById('tabs-container');
+        const scrollLeftBtn = document.getElementById('scroll-left-btn');
+        const scrollRightBtn = document.getElementById('scroll-right-btn');
+        
+        // Si no se encuentra el contenedor, no hace nada
+        if (!tabsContainer) return;
+
+        // --- Función para revisar si se deben mostrar las flechas ---
+        // (Esta función es la misma que tenías y sigue siendo necesaria)
+        function checkScroll() {
+            // Un pequeño retraso para asegurar que el DOM se actualice
+            // después del clic antes de calcular el scroll.
+            setTimeout(() => {
+                const scrollLeft = tabsContainer.scrollLeft;
+                const scrollWidth = tabsContainer.scrollWidth;
+                const clientWidth = tabsContainer.clientWidth;
+                const maxScrollLeft = scrollWidth - clientWidth;
+
+                // Margen de 1px para seguridad en los cálculos
+                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
+                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
+            }, 150); // 150ms es usualmente suficiente
+        }
+
+        // --- Event Listeners (Escuchadores de eventos) ---
+
+        // 1. Al hacer clic en la flecha derecha (NUEVA LÓGICA)
+        scrollRightBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return; // Salir si no hay ninguno activo
+
+            // Encontrar el siguiente elemento hermano
+            const nextTab = currentActive.nextElementSibling;
+
+            // Si existe un siguiente tab...
+            if (nextTab && nextTab.classList.contains('service-tab')) {
+                // 1. Simular un clic en él (esto cambia el 'active' y carga el contenido)
+                nextTab.click();
+
+                // 2. Asegurarse de que esté visible
+                nextTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest', // No mover verticalmente
+                    inline: 'nearest'  // Alinear horizontalmente
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 2. Al hacer clic en la flecha izquierda (NUEVA LÓGICA)
+        scrollLeftBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return;
+
+            // Encontrar el elemento hermano anterior
+            const prevTab = currentActive.previousElementSibling;
+
+            // Si existe un tab anterior...
+            if (prevTab && prevTab.classList.contains('service-tab')) {
+                // 1. Simular un clic
+                prevTab.click();
+
+                // 2. Asegurarse de que esté visible
+                prevTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 3. Revisar el scroll CADA VEZ que el usuario mueva la barra
+        tabsContainer.addEventListener('scroll', checkScroll);
+
+        // 4. Revisar el scroll si la ventana cambia de tamaño
+        window.addEventListener('resize', checkScroll);
+        
+        // 5. Revisión inicial al cargar la página
+        setTimeout(checkScroll, 100); 
+    });
+    
 function setupHorizontalScroll() {
     const containers = document.querySelectorAll('.tabs2');
     containers.forEach(container => {
@@ -153,28 +241,28 @@ const pageConfig = {
     'fanPageLikes': {
         min: 1000, max: 70000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 559.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 624.00,
         validateLink: validateFacebookLink,
         buildProduct: data => ({ tipo: 'FB Fanpage Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null})
     },
     'PageLikes': {
         min: 1000, max: 150000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 864.00,
         validateLink: validateFacebookLink,
         buildProduct: data => ({ tipo: 'FB Page Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'profileFollowsFan': {
         min: 1000, max: 5000000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 864.00,
         validateLink: validateFacebookLink,
         buildProduct: data => ({ tipo: 'FB Followers (Fanpage)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'profileFollows': {
         min: 1000, max: 10000000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 774.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 864.00,
         validateLink: validateFacebookLink,
         buildProduct: data => ({ tipo: 'FB Followers (Profile)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
@@ -252,43 +340,68 @@ function togglePlanText(section) {
 }
 
 // --- FUNCIÓN MODIFICADA ---
+// --- FUNCIÓN MODIFICADA ---
 function calcularPrecio(section) {
-    const config = pageConfig[section];
-    const range = document.getElementById(`rango-${section}`);
-    const resumen = document.querySelector(`#${section} .resumen`);
-    if (!config || !range || !resumen) return;
+    const config = pageConfig[section];
+    const range = document.getElementById(`rango-${section}`);
+    const resumen = document.querySelector(`#${section} .resumen`);
+    if (!config || !range || !resumen) return;
 
-    const cantidad = parseInt(range.value);
-    
-    // 1. Obtener el precio base (actualmente el único precio)
-    const precioBase = config.calculatePrice(cantidad);
-    let subtotal = precioBase; // Por defecto, es el precio base
+    const cantidad = parseInt(range.value);
+    
+    // 1. Obtener el precio base (actualmente el único precio)
+    const precioBase = config.calculatePrice(cantidad);
+    let subtotal = precioBase; // Por defecto, es el precio base
+    
+    // *** INICIO DE CORRECCIÓN 1: Definir 'esAnual' ***
+    let esAnual = false; 
+    // *** FIN DE CORRECCIÓN 1 ***
 
-    // 2. Lógica futura para descuentos (actualmente desactivada)
-    if (config.hasPlanToggle) {
-        const checkbox = document.getElementById(`togglePlan-${section}`);
-        if (checkbox && checkbox.checked) {
-            // Es Anual
-            // --- INICIO DE LÓGICA FUTURA (PARA CUANDO QUIERAS ACTIVAR DESCUENTOS) ---
-            // const descuento = 0.20; // Ejemplo: 20% de descuento
-            // subtotal = precioBase - (precioBase * descuento);
-            // --- FIN DE LÓGICA FUTURA ---
-            
-            // Requerimiento actual: No aplicar descuento, usar el precio base
-            subtotal = precioBase; 
-        } else {
-            // Es Mensual
-            subtotal = precioBase;
-        }
-    }
-    // --- FIN DE LÓGICA MODIFICADA ---
+    // 2. Lógica futura para descuentos (actualmente desactivada)
+    if (config.hasPlanToggle) {
+        const checkbox = document.getElementById(`togglePlan-${section}`);
+        if (checkbox && checkbox.checked) {
+            
+            // *** INICIO DE CORRECCIÓN 2: Asignar 'esAnual' ***
+            esAnual = true; // Es Anual
+            // *** FIN DE CORRECCIÓN 2 ***
+            
+            // Requerimiento actual: No aplicar descuento, usar el precio base
+            subtotal = precioBase; 
+        } else {
+            // Es Mensual
+            subtotal = precioBase;
+        }
+    }
+    // --- FIN DE LÓGICA MODIFICADA ---
 
-    const iva = subtotal * 0.16;
-    const total = subtotal + iva;
-    
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
+    
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+
+    // *** INICIO DE CORRECCIÓN 3: Reemplazar lógica para mostrar total anual ***
+    
+    // Usamos los IDs correctos de tu HTML:
+    // Contenedor: 'line-total-seguidores'
+    // Span: 'res-total-fanPageLikes' (que se genera con `res-total-${section}`)
+    const totalElementContainer = document.getElementById('line-total-seguidores');
+    const totalElementSpan = document.getElementById(`res-total-${section}`);
+
+    // Solo ejecutamos esto si la sección tiene un toggle y los elementos existen
+    if (config.hasPlanToggle && totalElementContainer && totalElementSpan) { 
+        if (esAnual) {
+            // SI es anual: lo mostramos y calculamos
+            totalElementContainer.style.display = 'flex'; // Usar 'flex' para que se alinee
+            totalElementSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
+        } else {
+            // SI NO es anual (es mensual): lo ocultamos
+            totalElementContainer.style.display = 'none';
+        }
+    }
+    // *** FIN DE CORRECCIÓN 3 ***
 }
 // --- FIN FUNCIÓN MODIFICADA ---
 

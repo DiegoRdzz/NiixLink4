@@ -395,3 +395,102 @@ ol {
     .service-tab:hover:not(.active) {
       color: #333;
     }
+
+
+    /* Estilos para el select de Región */
+.main .card select.region {
+  -webkit-appearance: none; /* Elimina estilos predeterminados de navegador en Webkit */
+  -moz-appearance: none;    /* Elimina estilos predeterminados de navegador en Mozilla */
+  appearance: none;         /* Elimina estilos predeterminados */
+  background-color: #f9fafb; /* Fondo similar al body o botones outline */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 12px; /* Espaciado interno */
+  width: 100%;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Sombra sutil como las cards */
+  transition: all 0.2s ease;
+  
+  /* Icono de flecha personalizado */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#ff0000" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 18px;
+  padding-right: 30px; /* Espacio para el icono de flecha */
+}
+
+.main .card select.region:hover {
+  border-color: #ff0000; /* Borde rojo al pasar el mouse */
+}
+
+.main .card select.region:focus {
+  border-color: #ff0000; /* Borde rojo al enfocar */
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2); /* Sombra de enfoque sutil */
+}
+
+/* Estilos para las opciones dentro del select (limitado por el navegador) */
+.main .card select.region option {
+  padding: 8px 12px;
+  background-color: #ffffff;
+  color: #333;
+  font-size: 13px;
+}
+
+/* Estilo para las opciones seleccionadas en el dropdown al abrirlo */
+.main .card select.region option:checked {
+  background-color: #ff0000; /* Fondo rojo para la opción seleccionada */
+  color: white;
+}
+
+/*Diseño para flechas de tabs*/
+  /* 1. El wrapper principal que contiene todo (Contenedor Flex) */
+  .service-tabs-wrapper {
+    position: relative; /* 'relative' ya no es crítico, pero no hace daño */
+    max-width: 900px;
+    margin: 10px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Un pequeño espacio entre las flechas y los tabs */
+  }
+
+  /* 2. [NUEVO] El contenedor de los tabs (el hijo flexible) */
+  .service-tabs-container {
+    flex: 1; 
+    overflow: hidden; 
+  }
+
+  /* 3. Estilo de las flechas (como bloques Flex, NO absolutas) */
+  .scroll-arrow {
+    flex-shrink: 0; 
+    background-color: white;
+    color: #ff0000;
+    border: 2px solid #e4e6eb;
+    border-radius: 8px;
+    
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none; 
+    transition: all 0.2s ease;
+  }
+
+  .scroll-arrow:hover {
+    border-color: #d44444;
+    transform: scale(1.1); 
+  }
+
+  /* 4. Ya no necesitamos 'left' y 'right' en estas reglas */
+  .scroll-arrow.left {
+    /* Estaba: left: -45px; (Ya no se necesita) */
+  }
+
+  .scroll-arrow.right {
+    /* Estaba: right: -45px; (Ya no se necesita) */
+  }
+
+

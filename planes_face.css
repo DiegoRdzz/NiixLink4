@@ -367,7 +367,20 @@ ol {
       margin: 10px auto 0;
       padding: 10px 10px 10px 10px;
       font-size: 14px;
-    }
+/* --- PROPIEDADES DE SCROLL AÑADIDAS --- */
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+
+  /* Ocultar barra de scroll */
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+
+/* Ocultar barra de scroll para Chrome/Safari */
+.service-tabs-container::-webkit-scrollbar {
+  display: none;
+}
     
     .service-tabs {
       display: flex;
@@ -392,3 +405,49 @@ ol {
     .service-tab:hover:not(.active) {
       color: #333;
     }
+
+/*Diseño de flechas de tabs*/
+  /* 1. El wrapper principal que contiene todo (Contenedor Flex) */
+  .service-tabs-wrapper {
+    position: relative; /* 'relative' ya no es crítico, pero no hace daño */
+    max-width: 900px;
+    margin: 10px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Un pequeño espacio entre las flechas y los tabs */
+  }
+
+  .service-tabs-container {
+    flex: 1; 
+    overflow: hidden; 
+  }
+
+  /* 3. Estilo de las flechas (como bloques Flex, NO absolutas) */
+  .scroll-arrow {
+    flex-shrink: 0; 
+    background-color: white;
+    color: #1877F2;
+    border: 2px solid #e4e6eb;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none; 
+    transition: all 0.2s ease;
+  }
+
+  .scroll-arrow:hover {
+    border-color: #4479be;
+    transform: scale(1.1); 
+  }
+
+  /* 4. Ya no necesitamos 'left' y 'right' en estas reglas */
+  .scroll-arrow.left {
+    /* Estaba: left: -45px; (Ya no se necesita) */
+  }
+
+  .scroll-arrow.right {
+    /* Estaba: right: -45px; (Ya no se necesita) */
+  }

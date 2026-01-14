@@ -1,6 +1,66 @@
 // =================================================================
 // FUNCIONES GENERALES (NO TOCAR)
 // =================================================================
+//Diseño para flechas de los tabs
+  document.addEventListener("DOMContentLoaded", function() {
+
+        // Selecciona los elementos que necesitamos
+        const tabsContainer = document.getElementById('tabs-container');
+        const scrollLeftBtn = document.getElementById('scroll-left-btn');
+        const scrollRightBtn = document.getElementById('scroll-right-btn');
+        
+        // Si no se encuentra el contenedor, no hace nada
+        if (!tabsContainer) return;
+
+        // --- Función para revisar si se deben mostrar las flechas ---
+        // (Esta función es la misma que tenías y sigue siendo necesaria)
+        function checkScroll() {
+            // Un pequeño retraso para asegurar que el DOM se actualice
+            // después del clic antes de calcular el scroll.
+            setTimeout(() => {
+                const scrollLeft = tabsContainer.scrollLeft;
+                const scrollWidth = tabsContainer.scrollWidth;
+                const clientWidth = tabsContainer.clientWidth;
+                const maxScrollLeft = scrollWidth - clientWidth;
+
+                // Margen de 1px para seguridad en los cálculos
+                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
+                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
+            }, 150); // 150ms es usualmente suficiente
+        }
+        
+        scrollRightBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return; // Salir si no hay ninguno activo
+            const nextTab = currentActive.nextElementSibling;
+            if (nextTab && nextTab.classList.contains('service-tab')) {
+                nextTab.click();
+                nextTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest', // No mover verticalmente
+                    inline: 'nearest'  // Alinear horizontalmente
+                });
+            }
+            checkScroll();
+        });
+        scrollLeftBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return;
+            const prevTab = currentActive.previousElementSibling;
+            if (prevTab && prevTab.classList.contains('service-tab')) {
+                prevTab.click();
+                prevTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+            checkScroll();
+        });
+        tabsContainer.addEventListener('scroll', checkScroll);
+        window.addEventListener('resize', checkScroll);
+        setTimeout(checkScroll, 100); 
+    });
 
 function setupHorizontalScroll() {
   const containers = document.querySelectorAll('.tabs2');
@@ -69,7 +129,6 @@ function initContent() {
   });
 }
 
-// ... (El resto de tus funciones generales como menú, toasts, etc. van aquí sin cambios) ...
 document.addEventListener('click', function(e) {
   if (e.target.closest('#btnHamburguesa')) {
     const menu = document.getElementById('menuDesplegable');
@@ -78,6 +137,7 @@ document.addEventListener('click', function(e) {
     if (icon) { icon.classList.toggle('fa-times'); icon.classList.toggle('fa-bars'); }
   }
 });
+
 document.addEventListener('click', function(e) {
   if (e.target.closest('.menu-desplegable a')) {
     const menu = document.getElementById('menuDesplegable');
@@ -89,6 +149,7 @@ document.addEventListener('click', function(e) {
     }
   }
 });
+
 let temporizadorInactividad;
 const TIEMPO_LIMITE_INACTIVIDAD_MS = 5 * 60 * 1000;
 function reiniciarTemporizadorInactividad() {
@@ -105,6 +166,7 @@ function reiniciarTemporizadorInactividad() {
 ["click", "mousemove", "keydown", "scroll", "touchstart"].forEach(evento =>
   document.addEventListener(evento, reiniciarTemporizadorInactividad)
 );
+
 function mostrarToast(mensaje, tipo = "info") {
   const container = document.getElementById("toastContainer");
   if (!container) return;
@@ -120,6 +182,7 @@ function mostrarToast(mensaje, tipo = "info") {
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3000);
 }
+
 function actualizarNotificacionCarrito() {
     const notificacion = document.getElementById('notificacionCarrito');
     if (notificacion) {
@@ -132,6 +195,7 @@ function actualizarNotificacionCarrito() {
         }
     }
 }
+
 // =================================================================
 // DESDE AQUI SE DEBE DE CENTRALIZAR
 // =================================================================
@@ -159,44 +223,43 @@ const pageConfig = {
     'seguidores': {
         min: 1000, max: 100000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: (cantidad, esAnual) => (esAnual ? 0.25 : 0.47) * (esAnual ? cantidad * 12 : cantidad),
+        calculatePrice: (cantidad, esAnual) => (esAnual ? 0.25 : (816/1000)) * (esAnual ? cantidad * 12 : cantidad),
         validateLink: validateProfileLink, // Se usa la función de arriba
         buildProduct: data => ({ tipo: 'Seguidores', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan, link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'likes': {
         min: 100, max: 1000000, step: 1000, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 1000) * 75,
+        calculatePrice: cantidad => (cantidad / 1000) * 352,
         validateLink: validatePostLink, // Se usa la función de arriba
         buildProduct: data => ({ tipo: 'Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
-    // ---- NUEVAS CONFIGURACIONES ----
     'viewers': {
         min: 1000, max: 100000000, step: 1000, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 1000) * 75, // PRECIO DE EJEMPLO
+        calculatePrice: cantidad => (cantidad / 1000) * 90, // PRECIO DE EJEMPLO
         validateLink: validatePostLink, // Reutiliza la validación de POST
         buildProduct: data => ({ tipo: 'Viewers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'l_views': {
         min: 100, max: 5000, step: 100, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 100) * 75, // PRECIO DE EJEMPLO
+        calculatePrice: cantidad => (cantidad / 100) * 516, // PRECIO DE EJEMPLO
         validateLink: validateProfileLink, // Reutiliza la validación de PERFIL
         buildProduct: data => ({ tipo: 'Live Views', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'l_likes': {
-        min: 200, max: 100000, step: 100, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 100) * 75, // PRECIO DE EJEMPLO
+        min: 100, max: 100000, step: 100, hasPlanToggle: false,
+        calculatePrice: cantidad => (cantidad / 100) * 215, // PRECIO DE EJEMPLO
         validateLink: validateProfileLink, // Reutiliza la validación de PERFIL
         buildProduct: data => ({ tipo: 'Live Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'l_views_hombre': {
         min: 50, max: 5000, step: 50, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 50) * 75, // PRECIO DE EJEMPLO
+        calculatePrice: cantidad => (cantidad / 50) * 1075, // PRECIO DE EJEMPLO
         validateLink: validateProfileLink, // Reutiliza la validación de PERFIL
         buildProduct: data => ({ tipo: 'Live Views Hombre', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'l_views_mujer': {
         min: 50, max: 5000, step: 50, hasPlanToggle: false,
-        calculatePrice: cantidad => (cantidad / 50) * 75, // PRECIO DE EJEMPLO
+        calculatePrice: cantidad => (cantidad / 50) * 1075, // PRECIO DE EJEMPLO
         validateLink: validateProfileLink, // Reutiliza la validación de PERFIL
         buildProduct: data => ({ tipo: 'Live Views Mujer', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
@@ -236,14 +299,22 @@ function calcularPrecio(section) {
     resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
     resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
     resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    if (section === 'seguidores' && esAnual) {
-        const totalElementContainer = document.getElementById(`res-total-seguidores`)?.parentElement;
-        if (totalElementContainer) {
-            totalElementContainer.style.display = 'flex';
-            document.getElementById(`res-total-seguidores`).innerText = (cantidad * 12).toLocaleString('es-MX');
-        }
+const totalElementContainer = document.getElementById(`res-total-seguidores`)?.parentElement;
+
+  if (section === 'seguidores' && totalElementContainer) { // Nos aseguramos que exista el contenedor
+    
+    if (esAnual) {
+      // SI es anual: lo mostramos y calculamos
+      totalElementContainer.style.display = 'flex';
+      document.getElementById(`res-total-seguidores`).innerText = (cantidad * 12).toLocaleString('es-MX');
+    } else {
+      // SI NO es anual (es mensual): lo ocultamos
+      totalElementContainer.style.display = 'none';
     }
+
+  }
 }
+
 
 function actualizarSalida(section) {
     const config = pageConfig[section];
@@ -338,5 +409,4 @@ window.togglePlanText = togglePlanText;
 window.validateInstagramLink = validateInstagramLink;
 window.handlePurchase = handlePurchase;
 window.showTab = showTab;
-
 window.showInstruction = showInstruction;

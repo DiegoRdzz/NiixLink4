@@ -218,7 +218,8 @@ input[type="range"]::-moz-range-thumb {
 
 .btn-outline:hover {
   background: linear-gradient(to right, #F56040, #E1306C, #FD9B5A);
-  color: #f9fafb;
+  color: white;
+
 }
 
   .switch {
@@ -390,3 +391,49 @@ ol {
     .service-tab:hover:not(.active) {
       color: #333;
     }
+
+/*Diseño de flechas de los tabs*/
+  /* 1. El wrapper principal que contiene todo (Contenedor Flex) */
+  .service-tabs-wrapper {
+    position: relative; 
+    max-width: 900px;
+    margin: 10px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+
+  /* 2. [NUEVO] El contenedor de los tabs*/
+  .service-tabs-container {
+    flex: 1; 
+    overflow: hidden; 
+  }
+
+  /* 3. Estilo de las flechas */
+  .scroll-arrow {
+    flex-shrink: 0; 
+    background-color: white;
+    color: #C13584;
+    border: 2px solid #e4e6eb;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none; 
+    transition: all 0.2s ease;
+  }
+
+  .scroll-arrow:hover {
+    border-color: #e985be;
+    transform: scale(1.1); 
+  }
+
+  .scroll-arrow.left {
+    /* Estaba: left: -45px; (Ya no se necesita) */
+  }
+
+  .scroll-arrow.right {
+    /* Estaba: right: -45px; (Ya no se necesita) */
+  }

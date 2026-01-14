@@ -163,26 +163,26 @@ const validateTikTokProfileLink = value => {
 const pageConfig = {
     'views_tt': {
         min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 48.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 320.00,
         validateLink: validateTikTokVideoLink,
         buildProduct: data => ({ tipo: 'TT Views', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'likes_tt': {
         min: 1000, max: 5000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 301.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 336.00,
         validateLink: validateTikTokVideoLink,
         buildProduct: data => ({ tipo: 'TT Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'followers_tt': {
         min: 1000, max: 10000000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 432.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 480.00,
         validateLink: validateTikTokProfileLink,
         buildProduct: data => ({ tipo: 'TT Followers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan , link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'postShares_tt': {
         min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => 430.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 480.00,
         validateLink: validateTikTokVideoLink,
         buildProduct: data => ({ tipo: 'TT Post Shares', usuario: data.identifier, cantidad: '1 Paquete', total: data.total, plan: 'Pago Único', link: data.link })
     },
@@ -207,42 +207,66 @@ function togglePlanText(section) {
 
 // --- FUNCIÓN MODIFICADA ---
 function calcularPrecio(section) {
-    const config = pageConfig[section];
-    const range = document.getElementById(`rango-${section}`);
-    const resumen = document.querySelector(`#${section} .resumen`);
-    if (!config || !range || !resumen) return;
+    const config = pageConfig[section];
+    const range = document.getElementById(`rango-${section}`);
+    const resumen = document.querySelector(`#${section} .resumen`);
+    if (!config || !range || !resumen) return;
 
-    const cantidad = parseInt(range.value);
-    
-    // 1. Obtener el precio base (actualmente el único precio)
-    const precioBase = config.calculatePrice(cantidad);
-    let subtotal = precioBase; // Por defecto, es el precio base
+    const cantidad = parseInt(range.value);
+    
+    // 1. Obtener el precio base (actualmente el único precio)
+    const precioBase = config.calculatePrice(cantidad);
+    let subtotal = precioBase; // Por defecto, es el precio base
 
-    // 2. Lógica futura para descuentos (actualmente desactivada)
-    if (config.hasPlanToggle) {
-        const checkbox = document.getElementById(`togglePlan-${section}`);
-        if (checkbox && checkbox.checked) {
-            // Es Anual
-            // --- INICIO DE LÓGICA FUTURA (PARA CUANDO QUIERAS ACTIVAR DESCUENTOS) ---
-            // const descuento = 0.20; // Ejemplo: 20% de descuento
-            // subtotal = precioBase - (precioBase * descuento);
-            // --- FIN DE LÓGICA FUTURA ---
-            
-            // Requerimiento actual: No aplicar descuento, usar el precio base
-            subtotal = precioBase; 
-        } else {
-            // Es Mensual
-            subtotal = precioBase;
-        }
-    }
-    // --- FIN DE LÓGICA MODIFICADA ---
+    // *** INICIO DE CORRECCIÓN 1: Definir 'esAnual' ***
+    let esAnual = false; 
+    // *** FIN DE CORRECCIÓN 1 ***
 
-    const iva = subtotal * 0.16;
-    const total = subtotal + iva;
-    
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    // 2. Lógica futura para descuentos (actualmente desactivada)
+    if (config.hasPlanToggle) {
+        const checkbox = document.getElementById(`togglePlan-${section}`);
+        if (checkbox && checkbox.checked) {
+            
+            // *** INICIO DE CORRECCIÓN 2: Asignar 'esAnual' ***
+            esAnual = true; // Es Anual
+            // *** FIN DE CORRECCIÓN 2 ***
+            
+            // Requerimiento actual: No aplicar descuento, usar el precio base
+            subtotal = precioBase; 
+        } else {
+            // Es Mensual
+            subtotal = precioBase;
+        }
+    }
+    // --- FIN DE LÓGICA MODIFICADA ---
+
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
+    
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+
+    // *** INICIO DE CORRECCIÓN 3: Reemplazar lógica para mostrar total anual ***
+    
+    // Usamos los IDs correctos de tu HTML:
+    // Contenedor: 'line-total-seguidores'
+    // Span: 'res-total-followers_tt' (que se genera con `res-total-${section}`)
+    const totalElementContainer = document.getElementById('line-total-seguidores');
+    const totalElementSpan = document.getElementById(`res-total-${section}`);
+
+    // Solo ejecutamos esto si la sección tiene un toggle y los elementos existen
+    if (config.hasPlanToggle && totalElementContainer && totalElementSpan) { 
+        if (esAnual) {
+            // SI es anual: lo mostramos y calculamos
+            totalElementContainer.style.display = 'flex'; // Usar 'flex' para que se alinee
+            totalElementSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
+        } else {
+            // SI NO es anual (es mensual): lo ocultamos
+            totalElementContainer.style.display = 'none';
+        }
+    }
+    // *** FIN DE CORRECCIÓN 3 ***
 }
 // --- FIN FUNCIÓN MODIFICADA ---
 
@@ -276,8 +300,8 @@ function cambiarRango(cambio, section) {
 function validateAndSetIdentifier(section) {
     const config = pageConfig[section];
     if (!config) return false; 
-    const input = document.getElementById(`youtubeInput-${section}`);
-    const feedback = document.getElementById(`youtubeFeedback-${section}`);
+const input = document.getElementById(`tiktokInput-${section}`);
+    const feedback = document.getElementById(`tiktokFeedback-${section}`);
     if (!input || !feedback) return false;
     const value = input.value.trim();
     if (value === "") {
@@ -297,46 +321,48 @@ function validateAndSetIdentifier(section) {
 
 // --- FUNCIÓN MODIFICADA ---
 function handlePurchase(event, tipo, esCompraRapida = false) {
-    event.preventDefault();
-    if (!validateAndSetIdentifier(tipo)) {
-        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
-        return;
-    }
-    const config = pageConfig[tipo];
-    const resumen = document.querySelector(`#${tipo} .resumen`);
-    if (!config || !resumen) return;
-    
+    event.preventDefault();
+    if (!validateAndSetIdentifier(tipo)) {
+        mostrarToast("Por favor ingresa un enlace válido antes de continuar.", "error");
+        return;
+    }
+    const config = pageConfig[tipo];
+    const resumen = document.querySelector(`#${tipo} .resumen`);
+    if (!config || !resumen) return;
+    
     // --- summaryData MODIFICADO ---
-    const summaryData = {
-        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
-        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
-        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
-        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
+    const summaryData = {
+        identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
+        cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
+        total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
+        
+        // --- CORREGIDO ---
+        link: document.getElementById(`tiktokInput-${tipo}`)?.value.trim(),
+        // --- FIN CORREGIDO ---
         
         // --- AÑADIDO ---
         // Lee el plan (Mensual/Anual) y el total (para la lógica de totalSeguidores)
         plan: document.getElementById(`res-plan-${tipo}`)?.textContent.trim(),
         totalAnual: document.getElementById(`res-total-${tipo}`)?.textContent.trim() 
         // --- FIN AÑADIDO ---
-    };
+    };
     // --- FIN summaryData MODIFICADO ---
-    
-    const producto = config.buildProduct(summaryData);
+    
+    const producto = config.buildProduct(summaryData);
 
-    if (esCompraRapida) {
-        localStorage.setItem("compraDirecta", JSON.stringify(producto));
-        sessionStorage.setItem('iniciando_checkout', 'true');
-        window.location.href = "compra_final.html";
-    } else {
-        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-        carrito.push(producto);
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-        mostrarToast("Producto agregado al carrito", "success");
-        actualizarNotificacionCarrito();
-    }
+    if (esCompraRapida) {
+        localStorage.setItem("compraDirecta", JSON.stringify(producto));
+        sessionStorage.setItem('iniciando_checkout', 'true');
+        window.location.href = "compra_final.html";
+    } else {
+        const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        carrito.push(producto);
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+        mostrarToast("Producto agregado al carrito", "success");
+        actualizarNotificacionCarrito();
+    }
 }
 // --- FIN FUNCIÓN MODIFICADA ---
-
 
 document.addEventListener('DOMContentLoaded', function() {
     reiniciarTemporizadorInactividad();

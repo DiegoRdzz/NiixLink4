@@ -12,7 +12,7 @@ body {
 }
 
 .precio {
-  color: #ff0000 !important;
+  color: #ff7a18 !important;
 }
 
 
@@ -49,7 +49,7 @@ body {
 }
 
 .header {
-  background: linear-gradient(135deg, #fa233b, #ff5e62);
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
   color: white;
   padding: 15px;
   text-align: center;
@@ -108,8 +108,8 @@ input[type="range"] {
   border-radius: 5px;
   background: linear-gradient(
     to right,
-    #fa233b 0%,
-    #ff5e62 var(--progress, 0%),
+    #ff7a18 0%,
+    #ffb347 var(--progress, 0%),
     #f2f2f5 var(--progress, 0%)
   );
   outline: none;
@@ -135,7 +135,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 20px;
   width: 20px;
-  background: #fa233b;
+  background: #ff7a18;
   border-radius: 50%;
   margin-top: -6px;
   border: none; /* Quita borde blanco */
@@ -154,7 +154,7 @@ input[type="range"]::-webkit-slider-runnable-track {
     text-align: center;
     margin-top: 10px;
     font-weight: bold;
-    color: #fa233b;
+    color: #ff7a18;
     font-size: 22px;
   }
 
@@ -175,7 +175,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 .input-group i {
   padding-right: 8px;
-  color: #fa233b;
+  color: #ff7a18;
 }
 
 .input-group input {
@@ -203,24 +203,23 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #fa233b, #ff5e62);
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
   color: white;
   border: none;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #fa233b, #ff5e62);
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
 }
 
 .btn-outline {
-  border: 2px solid #fa233b;
-  color: #fa233b;
+  border: 2px solid #ff7a18;
+  color: #ff7a18;
   background: #f9fafb;
 }
 
 .btn-outline:hover {
-  background: linear-gradient(135deg, #fa233b, #ff5e62);
-
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
   color: #f9fafb;
 }
 
@@ -258,8 +257,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
   /* Estilo cuando está activado */
   .switch input[type="checkbox"]:checked {
-  background: linear-gradient(135deg, #fa233b, #ff5e62);
-
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
   }
 
   .switch input[type="checkbox"]:checked::before {
@@ -286,7 +284,7 @@ input[type="range"]::-webkit-slider-runnable-track {
   background: #f1f1f1;
 }
 .tabs2::-webkit-scrollbar-thumb {
-  background-color: #fa233b;
+  background-color: #ff7a18;
   border-radius: 2px;
 }
 
@@ -298,8 +296,8 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 .tab.active {
-  border-bottom: 3px solid #fa233b;
-  color: #fa233b;
+  border-bottom: 3px solid #ff7a18;
+  color: #ff7a18;
 }
 
 .tab-content {
@@ -388,7 +386,7 @@ ol {
     
     .service-tab.active {
       color: #000;
-      border-bottom: 3px solid #ff0000;
+      border-bottom: 3px solid #ff7a18;
     }
     
     .service-tab:hover:not(.active) {

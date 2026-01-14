@@ -1,7 +1,94 @@
 // =================================================================
 // FUNCIONES GENERALES (NO TOCAR)
 // =================================================================
+//Logica de flechas tabs
+    document.addEventListener("DOMContentLoaded", function() {
 
+        // Selecciona los elementos que necesitamos
+        const tabsContainer = document.getElementById('tabs-container');
+        const scrollLeftBtn = document.getElementById('scroll-left-btn');
+        const scrollRightBtn = document.getElementById('scroll-right-btn');
+        
+        // Si no se encuentra el contenedor, no hace nada
+        if (!tabsContainer) return;
+
+        // --- Función para revisar si se deben mostrar las flechas ---
+        // (Esta función es la misma que tenías y sigue siendo necesaria)
+        function checkScroll() {
+            // Un pequeño retraso para asegurar que el DOM se actualice
+            // después del clic antes de calcular el scroll.
+            setTimeout(() => {
+                const scrollLeft = tabsContainer.scrollLeft;
+                const scrollWidth = tabsContainer.scrollWidth;
+                const clientWidth = tabsContainer.clientWidth;
+                const maxScrollLeft = scrollWidth - clientWidth;
+
+                // Margen de 1px para seguridad en los cálculos
+                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
+                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
+            }, 150); // 150ms es usualmente suficiente
+        }
+
+        // --- Event Listeners (Escuchadores de eventos) ---
+
+        // 1. Al hacer clic en la flecha derecha (NUEVA LÓGICA)
+        scrollRightBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return; // Salir si no hay ninguno activo
+
+            // Encontrar el siguiente elemento hermano
+            const nextTab = currentActive.nextElementSibling;
+
+            // Si existe un siguiente tab...
+            if (nextTab && nextTab.classList.contains('service-tab')) {
+                // 1. Simular un clic en él (esto cambia el 'active' y carga el contenido)
+                nextTab.click();
+
+                // 2. Asegurarse de que esté visible
+                nextTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest', // No mover verticalmente
+                    inline: 'nearest'  // Alinear horizontalmente
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 2. Al hacer clic en la flecha izquierda (NUEVA LÓGICA)
+        scrollLeftBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return;
+
+            // Encontrar el elemento hermano anterior
+            const prevTab = currentActive.previousElementSibling;
+
+            // Si existe un tab anterior...
+            if (prevTab && prevTab.classList.contains('service-tab')) {
+                // 1. Simular un clic
+                prevTab.click();
+
+                // 2. Asegurarse de que esté visible
+                prevTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 3. Revisar el scroll CADA VEZ que el usuario mueva la barra
+        tabsContainer.addEventListener('scroll', checkScroll);
+
+        // 4. Revisar el scroll si la ventana cambia de tamaño
+        window.addEventListener('resize', checkScroll);
+        
+        // 5. Revisión inicial al cargar la página
+        setTimeout(checkScroll, 100); 
+    });
+    
 function setupHorizontalScroll() {
   const containers = document.querySelectorAll('.tabs2');
   containers.forEach(container => {
@@ -166,13 +253,13 @@ const validateYouTubeChannelLink = value => {
 const pageConfig = {
     'likes_yt': {
         min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 864.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 1296.00,
         validateLink: validateYouTubeVideoLink,
         buildProduct: data => ({ tipo: 'YouTube Likes', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
     'shares_yt': {
         min: 1000, max: 100000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 301.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 344.00,
         validateLink: validateYouTubeVideoLink,
         buildProduct: data => ({ tipo: 'YouTube Shares', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
@@ -191,7 +278,7 @@ const pageConfig = {
     },
     'real_views_yt': {
         min: 1000, max: 10000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 210.70,
+        calculatePrice: cantidad => (cantidad / 1000) * 421.40,
         validateLink: validateYouTubeVideoLink,
         buildProduct: data => ({ tipo: 'YouTube Real Views (Monetizar)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },
@@ -203,7 +290,7 @@ const pageConfig = {
     },
     'views_yt': {
         min: 1000, max: 1000000, step: 1000,
-        calculatePrice: cantidad => (cantidad / 1000) * 129.00,
+        calculatePrice: cantidad => (cantidad / 1000) * 421.40,
         validateLink: validateYouTubeVideoLink,
         buildProduct: data => ({ tipo: 'YouTube Views (Promo)', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: 'Pago Único', link: data.link })
     },

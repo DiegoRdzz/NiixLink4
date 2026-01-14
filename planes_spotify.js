@@ -1,7 +1,94 @@
 // =================================================================
 // FUNCIONES GENERALES (NO TOCAR)
 // =================================================================
+//Logica de flechas de tabs
+    document.addEventListener("DOMContentLoaded", function() {
 
+        // Selecciona los elementos que necesitamos
+        const tabsContainer = document.getElementById('tabs-container');
+        const scrollLeftBtn = document.getElementById('scroll-left-btn');
+        const scrollRightBtn = document.getElementById('scroll-right-btn');
+        
+        // Si no se encuentra el contenedor, no hace nada
+        if (!tabsContainer) return;
+
+        // --- Función para revisar si se deben mostrar las flechas ---
+        // (Esta función es la misma que tenías y sigue siendo necesaria)
+        function checkScroll() {
+            // Un pequeño retraso para asegurar que el DOM se actualice
+            // después del clic antes de calcular el scroll.
+            setTimeout(() => {
+                const scrollLeft = tabsContainer.scrollLeft;
+                const scrollWidth = tabsContainer.scrollWidth;
+                const clientWidth = tabsContainer.clientWidth;
+                const maxScrollLeft = scrollWidth - clientWidth;
+
+                // Margen de 1px para seguridad en los cálculos
+                scrollLeftBtn.style.display = (scrollLeft > 1) ? 'block' : 'none';
+                scrollRightBtn.style.display = (scrollLeft < maxScrollLeft - 1) ? 'block' : 'none';
+            }, 150); // 150ms es usualmente suficiente
+        }
+
+        // --- Event Listeners (Escuchadores de eventos) ---
+
+        // 1. Al hacer clic en la flecha derecha (NUEVA LÓGICA)
+        scrollRightBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return; // Salir si no hay ninguno activo
+
+            // Encontrar el siguiente elemento hermano
+            const nextTab = currentActive.nextElementSibling;
+
+            // Si existe un siguiente tab...
+            if (nextTab && nextTab.classList.contains('service-tab')) {
+                // 1. Simular un clic en él (esto cambia el 'active' y carga el contenido)
+                nextTab.click();
+
+                // 2. Asegurarse de que esté visible
+                nextTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest', // No mover verticalmente
+                    inline: 'nearest'  // Alinear horizontalmente
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 2. Al hacer clic en la flecha izquierda (NUEVA LÓGICA)
+        scrollLeftBtn.addEventListener('click', () => {
+            const currentActive = tabsContainer.querySelector('.service-tab.active');
+            if (!currentActive) return;
+
+            // Encontrar el elemento hermano anterior
+            const prevTab = currentActive.previousElementSibling;
+
+            // Si existe un tab anterior...
+            if (prevTab && prevTab.classList.contains('service-tab')) {
+                // 1. Simular un clic
+                prevTab.click();
+
+                // 2. Asegurarse de que esté visible
+                prevTab.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'nearest'
+                });
+            }
+            // Volver a revisar las flechas después de la animación
+            checkScroll();
+        });
+
+        // 3. Revisar el scroll CADA VEZ que el usuario mueva la barra
+        tabsContainer.addEventListener('scroll', checkScroll);
+
+        // 4. Revisar el scroll si la ventana cambia de tamaño
+        window.addEventListener('resize', checkScroll);
+        
+        // 5. Revisión inicial al cargar la página
+        setTimeout(checkScroll, 100); 
+    });
+    
 function setupHorizontalScroll() {
   const containers = document.querySelectorAll('.tabs2');
   containers.forEach(container => {
@@ -152,25 +239,25 @@ const validateSpotifyLink = value => {
 const pageConfig = {
     'plays_spo': {
         min: 1000, max: 100000000, step: 1000,
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 30.80; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 440.00; },
         validateLink: validateSpotifyLink,
         buildProduct: function(data) { return { tipo: 'Spotify Plays (USA/UK/CAN)', ...data }; }
     },
     'plays_spoEuro': {
         min: 1000, max: 100000000, step: 1000,
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 30.80; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 440.00; },
         validateLink: validateSpotifyLink,
         buildProduct: function(data) { return { tipo: 'Spotify Plays (Europa)', ...data }; }
     },
     'plays_spoAsia': {
         min: 1000, max: 100000000, step: 1000,
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 30.80; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 440.00; },
         validateLink: validateSpotifyLink,
         buildProduct: function(data) { return { tipo: 'Spotify Plays (Asia)', ...data }; }
     },
     'spoTrack': {
         min: 1000, max: 10000000, step: 1000,
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 110.00; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 440.00; },
         validateLink: validateSpotifyLink,
         buildProduct: function(data) { return { tipo: 'Spotify Track Plays', ...data }; }
     },
@@ -189,13 +276,13 @@ const pageConfig = {
     'spoUserFollow': {
         min: 1000, max: 10000000, step: 1000,  hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 384.00; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 480.00; },
         validateLink: validateSpotifyLink,
         buildProduct: data => ({ tipo: 'Spotify User Followers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan , link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
     'spoSearchPlays': {
         min: 1000, max: 10000000, step: 1000,
-        calculatePrice: function(cantidad) { return (cantidad / 1000) * 176.00; },
+        calculatePrice: function(cantidad) { return (cantidad / 1000) * 440.00; },
         validateLink: validateSpotifyLink,
         buildProduct: function(data) { return { tipo: 'Spotify Search Plays', ...data }; }
     },
@@ -292,6 +379,20 @@ function calcularPrecio(section) {
     resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
     resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
     resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+const totalElementContainer = document.getElementById(`res-total-seguidores`)?.parentElement;
+
+  if (section === 'seguidores' && totalElementContainer) { // Nos aseguramos que exista el contenedor
+    
+    if (esAnual) {
+      // SI es anual: lo mostramos y calculamos
+      totalElementContainer.style.display = 'flex';
+      document.getElementById(`res-total-seguidores`).innerText = (cantidad * 12).toLocaleString('es-MX');
+    } else {
+      // SI NO es anual (es mensual): lo ocultamos
+      totalElementContainer.style.display = 'none';
+    }
+
+  }
 }
 // --- FIN FUNCIÓN MODIFICADA ---
 
@@ -360,7 +461,7 @@ function handlePurchase(event, tipo, esCompraRapida = false) {
         identifier: resumen.querySelector(".line span:nth-child(2)")?.textContent.trim(),
         cantidad: document.getElementById(`res-cantidad-${tipo}`)?.textContent.trim(),
         total: resumen.querySelector("#resumenSubtotal")?.textContent.trim(),
-        link: document.getElementById(`facebookInput-${tipo}`)?.value.trim(),
+        link: document.getElementById(`spotifyInput-${tipo}`)?.value.trim(),
         
         // --- AÑADIDO ---
         // Lee el plan (Mensual/Anual) y el total (para la lógica de totalSeguidores)
