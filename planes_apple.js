@@ -163,10 +163,16 @@ const pageConfig = {
         // --- INICIO DE CORRECCIÓN DE PRECIO ---
         // Se elimina 'esAnual' para que el precio no cambie, 
         // como en las páginas anteriores.
-        calculatePrice: (cantidad) => {
-            const precioBase = (cantidad / 1000) * 134400.00;
-            return precioBase;
-        },
+               calculatePrice: (cantidad, esAnual) => {
+        const precioBase = 134400.00;
+        const unidades = cantidad / 1000;
+        
+        // Si es anual, cobramos el 80% del precio (20% descuento).
+        // Si es mensual, cobramos el 100%.
+        const factor = esAnual ? 0.80 : 1.0; 
+        
+        return unidades * precioBase * factor;
+    },
         // --- FIN DE CORRECCIÓN DE PRECIO ---
 
         validateLink: validateAppleMusicLink,
@@ -204,41 +210,37 @@ function calcularPrecio(section) {
     const config = pageConfig[section];
     const range = document.getElementById(`rango-${section}`);
     const resumen = document.querySelector(`#${section} .resumen`);
+    
+    // Validación de seguridad
     if (!config || !range || !resumen) return;
 
     const cantidad = parseInt(range.value);
+    
+    // 1. Detectamos si el switch "Anual" está encendido
     const planToggle = config.hasPlanToggle ? document.getElementById(`togglePlan-${section}`) : null;
     const esAnual = planToggle ? planToggle.checked : false;
     
-    // --- INICIO DE CORRECCIÓN DE PRECIO ---
-    // Se llama a la función sin 'esAnual' para que el subtotal no cambie
-    const subtotal = config.calculatePrice(cantidad);
-    // --- FIN DE CORRECCIÓN DE PRECIO ---
+    // 2. CORRECCIÓN IMPORTANTE:
+    // Pasamos 'esAnual' a la configuración. 
+    // Si es true, tu config debe aplicar el factor 0.80 (20% descuento).
+    const subtotal = config.calculatePrice(cantidad, esAnual);
 
     const iva = subtotal * 0.16;
     const total = subtotal + iva;
 
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    // 3. Actualizamos los textos (siempre con 2 decimales)
+    const formato = { minimumFractionDigits: 2, minimumFractionDigits: 2 };
     
-    // --- INICIO DE CORRECCIÓN "TOTAL ANUAL" ---
-    // (La variable 'esAnual' ya está definida arriba)
-    const totalElementContainer = document.getElementById('line-total-seguidores'); // ID del HTML
-    const totalElementSpan = document.getElementById(`res-total-${section}`); // ID dinámico: res-total-ratings_am
-
-    // Nos aseguramos que esta sección SÍ tenga un toggle y que los elementos existan
-    if (config.hasPlanToggle && totalElementContainer && totalElementSpan) { 
-        if (esAnual) {
-            // SI es anual: lo mostramos y calculamos
-            totalElementContainer.style.display = 'flex'; 
-            totalElementSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
-        } else {
-            // SI NO es anual (es mensual): lo ocultamos
-            totalElementContainer.style.display = 'none';
-        }
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', formato)}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', formato)}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', formato)}`;
+    
+    // 4. Aseguramos que NO se muestre la fila de multiplicar por 12
+    // (Ya que en el paso anterior pediste quitar esta lógica)
+    const totalElementContainer = document.getElementById('line-total-seguidores');
+    if (totalElementContainer) {
+        totalElementContainer.style.display = 'none';
     }
-    // --- FIN DE CORRECCIÓN "TOTAL ANUAL" ---
 }
 
 function actualizarSalida(section) {

@@ -176,7 +176,16 @@ const pageConfig = {
     'followers_tt': {
         min: 1000, max: 10000000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
-        calculatePrice: cantidad => (cantidad / 1000) * 480.00,
+               calculatePrice: (cantidad, esAnual) => {
+        const precioBase = 1440.00;
+        const unidades = cantidad / 1000;
+        
+        // Si es anual, cobramos el 80% del precio (20% descuento).
+        // Si es mensual, cobramos el 100%.
+        const factor = esAnual ? 0.80 : 1.0; 
+        
+        return unidades * precioBase * factor;
+    },
         validateLink: validateTikTokProfileLink,
         buildProduct: data => ({ tipo: 'TT Followers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan , link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
     },
@@ -210,63 +219,39 @@ function calcularPrecio(section) {
     const config = pageConfig[section];
     const range = document.getElementById(`rango-${section}`);
     const resumen = document.querySelector(`#${section} .resumen`);
+    
+    // Validación de seguridad
     if (!config || !range || !resumen) return;
 
     const cantidad = parseInt(range.value);
     
-    // 1. Obtener el precio base (actualmente el único precio)
-    const precioBase = config.calculatePrice(cantidad);
-    let subtotal = precioBase; // Por defecto, es el precio base
-
-    // *** INICIO DE CORRECCIÓN 1: Definir 'esAnual' ***
-    let esAnual = false; 
-    // *** FIN DE CORRECCIÓN 1 ***
-
-    // 2. Lógica futura para descuentos (actualmente desactivada)
+    // 1. PRIMERO: Detectamos si el usuario activó el plan Anual
+    let esAnual = false;
     if (config.hasPlanToggle) {
         const checkbox = document.getElementById(`togglePlan-${section}`);
-        if (checkbox && checkbox.checked) {
-            
-            // *** INICIO DE CORRECCIÓN 2: Asignar 'esAnual' ***
-            esAnual = true; // Es Anual
-            // *** FIN DE CORRECCIÓN 2 ***
-            
-            // Requerimiento actual: No aplicar descuento, usar el precio base
-            subtotal = precioBase; 
-        } else {
-            // Es Mensual
-            subtotal = precioBase;
-        }
+        esAnual = checkbox ? checkbox.checked : false;
     }
-    // --- FIN DE LÓGICA MODIFICADA ---
 
+    // 2. SEGUNDO: Calculamos el precio pasando el estado 'esAnual'
+    // La configuración se encargará de aplicar el 20% de descuento si es true.
+    const subtotal = config.calculatePrice(cantidad, esAnual);
+    
     const iva = subtotal * 0.16;
     const total = subtotal + iva;
     
-    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
-    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`;
+    // 3. Formato de moneda (Siempre 2 decimales para que se vea limpio)
+    const formato = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
 
-    // *** INICIO DE CORRECCIÓN 3: Reemplazar lógica para mostrar total anual ***
-    
-    // Usamos los IDs correctos de tu HTML:
-    // Contenedor: 'line-total-seguidores'
-    // Span: 'res-total-followers_tt' (que se genera con `res-total-${section}`)
+    resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', formato)}`;
+    resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', formato)}`;
+    resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', formato)}`;
+
+    // 4. Ocultamos la fila de "Total Anual" para que no estorbe
+    // (Ya que decidiste que solo quieres cambiar el precio, no multiplicar meses)
     const totalElementContainer = document.getElementById('line-total-seguidores');
-    const totalElementSpan = document.getElementById(`res-total-${section}`);
-
-    // Solo ejecutamos esto si la sección tiene un toggle y los elementos existen
-    if (config.hasPlanToggle && totalElementContainer && totalElementSpan) { 
-        if (esAnual) {
-            // SI es anual: lo mostramos y calculamos
-            totalElementContainer.style.display = 'flex'; // Usar 'flex' para que se alinee
-            totalElementSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
-        } else {
-            // SI NO es anual (es mensual): lo ocultamos
-            totalElementContainer.style.display = 'none';
-        }
+    if (totalElementContainer) {
+        totalElementContainer.style.display = 'none';
     }
-    // *** FIN DE CORRECCIÓN 3 ***
 }
 // --- FIN FUNCIÓN MODIFICADA ---
 
