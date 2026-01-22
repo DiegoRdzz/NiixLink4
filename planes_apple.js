@@ -163,16 +163,21 @@ const pageConfig = {
         // --- INICIO DE CORRECCIÓN DE PRECIO ---
         // Se elimina 'esAnual' para que el precio no cambie, 
         // como en las páginas anteriores.
-               calculatePrice: (cantidad, esAnual) => {
-        const precioBase = 134400.00;
-        const unidades = cantidad / 1000;
-        
-        // Si es anual, cobramos el 80% del precio (20% descuento).
-        // Si es mensual, cobramos el 100%.
-        const factor = esAnual ? 0.80 : 1.0; 
-        
-        return unidades * precioBase * factor;
-    },
+        calculatePrice: (cantidad, esAnual) => {
+            const precioBase = 134000.00; // Precio por cada 1,000 (mensual)
+            const unidades = cantidad / 1000;
+
+            if (esAnual) {
+                // Lógica:
+                // // 1. Calculamos el precio de 1 mes (unidades * precioBase)
+                // // 2. Multiplicamos por 12 meses
+                // // 3. Multiplicamos por 0.80 (para aplicar el 20% de descuento)
+            return (unidades * precioBase * 12) * 0.80;
+        } else {
+        // Precio normal de 1 solo mes
+        return unidades * precioBase;
+    }
+},
         // --- FIN DE CORRECCIÓN DE PRECIO ---
 
         validateLink: validateAppleMusicLink,
@@ -235,11 +240,19 @@ function calcularPrecio(section) {
     resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', formato)}`;
     resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', formato)}`;
     
-    // 4. Aseguramos que NO se muestre la fila de multiplicar por 12
-    // (Ya que en el paso anterior pediste quitar esta lógica)
-    const totalElementContainer = document.getElementById('line-total-seguidores');
-    if (totalElementContainer) {
-        totalElementContainer.style.display = 'none';
+    // (Opcional) Si tenías la fila de "Total Anual", la ocultamos para que no estorbe
+    const totalAnualContainer = document.getElementById('line-total-seguidores');
+    const totalAnualSpan = document.getElementById(`res-total-${section}`);
+    
+    if (totalAnualContainer && totalAnualSpan && config.hasPlanToggle) {
+        if (esAnual) {
+            // SI es anual: Lo mostramos (flex) y calculamos la cantidad x 12
+            totalAnualContainer.style.display = 'flex';
+            totalAnualSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
+        } else {
+            // SI NO es anual: Lo ocultamos
+            totalAnualContainer.style.display = 'none';
+        }
     }
 }
 

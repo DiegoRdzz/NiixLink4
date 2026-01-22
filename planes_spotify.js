@@ -277,13 +277,19 @@ const pageConfig = {
         min: 1000, max: 10000000, step: 1000,  hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: (cantidad, esAnual) => {
-    const precioBase = 480.00; // O el precio de esta página
-    const unidades = cantidad / 1000;
-    
-    // Aplica el 20% de descuento (factor 0.8) solo si esAnual es true
-    const factor = esAnual ? 0.80 : 1.0; 
-    
-    return unidades * precioBase * factor;
+            const precioBase = 480.00; // Precio por cada 1,000 (mensual)
+            const unidades = cantidad / 1000;
+
+            if (esAnual) {
+                // Lógica:
+                // // 1. Calculamos el precio de 1 mes (unidades * precioBase)
+                // // 2. Multiplicamos por 12 meses
+                // // 3. Multiplicamos por 0.80 (para aplicar el 20% de descuento)
+            return (unidades * precioBase * 12) * 0.80;
+        } else {
+        // Precio normal de 1 solo mes
+        return unidades * precioBase;
+    }
 },
         validateLink: validateSpotifyLink,
         buildProduct: data => ({ tipo: 'Spotify User Followers', usuario: data.identifier, cantidad: data.cantidad, total: data.total, plan: data.plan , link: data.link, totalSeguidores: data.plan.toLowerCase() === "anual" ? data.totalAnual : null })
@@ -355,37 +361,44 @@ function calcularPrecio(section) {
     const range = document.getElementById(`rango-${section}`);
     const resumen = document.querySelector(`#${section} .resumen`);
     
-    // Validación de seguridad
     if (!config || !range || !resumen) return;
 
     const cantidad = parseInt(range.value);
     
-    // 1. PRIMERO: Detectamos si el switch "Anual" está encendido
+    // 1. PRIMERO: Detectamos si el usuario quiere el plan Anual
     let esAnual = false;
     if (config.hasPlanToggle) {
         const checkbox = document.getElementById(`togglePlan-${section}`);
         esAnual = checkbox ? checkbox.checked : false;
     }
-    
-    // 2. SEGUNDO: Calculamos el precio pasando 'esAnual'
-    // Tu configuración (pageConfig) debe tener la lógica para multiplicar por 0.80 si recibe true.
-    const subtotal = config.calculatePrice(cantidad, esAnual);
 
+    // 2. SEGUNDO: Calculamos el precio enviando el estado de 'esAnual'
+    // La configuración decidirá si aplica el 20% de descuento o no.
+    const subtotal = config.calculatePrice(cantidad, esAnual);
+    
     const iva = subtotal * 0.16;
     const total = subtotal + iva;
-
-    // 3. Actualizamos los textos (siempre 2 decimales)
-    const formato = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     
+    // 3. Formato de moneda (2 decimales)
+    const formato = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+
     resumen.querySelector('#resumenSubtotal').textContent = `MXN$${subtotal.toLocaleString('es-MX', formato)}`;
     resumen.querySelector('#resumenIVA').textContent = `MXN$${iva.toLocaleString('es-MX', formato)}`;
     resumen.querySelector('.line strong + span').textContent = `MXN$${total.toLocaleString('es-MX', formato)}`;
 
-    // 4. LIMPIEZA: Ocultamos la fila de "Total Anual" 
-    // (Para cumplir tu requerimiento de NO multiplicar por 12 meses visualmente)
-    const totalElementContainer = document.getElementById('res-total-seguidores')?.parentElement;
-    if (totalElementContainer) {
-        totalElementContainer.style.display = 'none';
+    // (Opcional) Si tenías la fila de "Total Anual", la ocultamos para que no estorbe
+    const totalAnualContainer = document.getElementById('res-total-spoUserFollow');
+    const totalAnualSpan = document.getElementById(`res-total-${section}`);
+    
+    if (totalAnualContainer && totalAnualSpan && config.hasPlanToggle) {
+        if (esAnual) {
+            // SI es anual: Lo mostramos (flex) y calculamos la cantidad x 12
+            totalAnualContainer.style.display = 'flex';
+            totalAnualSpan.innerText = (cantidad * 12).toLocaleString('es-MX');
+        } else {
+            // SI NO es anual: Lo ocultamos
+            totalAnualContainer.style.display = 'none';
+        }
     }
 }
 // --- FIN FUNCIÓN MODIFICADA ---
