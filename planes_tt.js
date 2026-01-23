@@ -177,7 +177,7 @@ const pageConfig = {
         min: 1000, max: 10000000, step: 1000, hasPlanToggle: true,
         planText: { mensual: 'Costo Seguidor - <strong>MXN$0.47 / mes</strong>', anual: 'Costo Seguidor - <strong>MXN$0.25 / año</strong>' },
         calculatePrice: (cantidad, esAnual) => {
-            const precioBase = 1440.00; // Precio por cada 1,000 (mensual)
+            const precioBase = 480.00; // Precio por cada 1,000 (mensual)
             const unidades = cantidad / 1000;
 
             if (esAnual) {
