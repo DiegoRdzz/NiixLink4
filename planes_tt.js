@@ -205,15 +205,21 @@ const pageConfig = {
 function togglePlanText(section) {
     const config = pageConfig[section];
     if (!config?.hasPlanToggle) return;
+
     const checkbox = document.getElementById(`togglePlan-${section}`);
+    // Buscamos los elementos, pero permitimos que planText sea null
     const planText = document.getElementById(`planText-${section}`);
     const resumenPlan = document.getElementById(`res-plan-${section}`);
-    if (checkbox && planText && resumenPlan) {
+
+    // Solo exigimos que existan el checkbox y el resumen del plan
+    if (checkbox && resumenPlan) {
         if (checkbox.checked) {
-            planText.innerHTML = config.planText.anual;
+            // Solo intentamos cambiar el texto descriptivo si el elemento existe
+            if (planText) planText.innerHTML = config.planText.anual;
+            // Esto es lo que actualiza tu resumen
             resumenPlan.innerText = 'Anual';
         } else {
-            planText.innerHTML = config.planText.mensual;
+            if (planText) planText.innerHTML = config.planText.mensual;
             resumenPlan.innerText = 'Mensual';
         }
     }
