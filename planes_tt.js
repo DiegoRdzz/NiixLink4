@@ -151,11 +151,24 @@ const validateTikTokVideoLink = value => {
 };
 
 // Validar enlace de perfil de TikTok
+// Validar enlace de perfil de TikTok (VERSIÓN CORREGIDA)
 const validateTikTokProfileLink = value => {
-    const match = value.match(/(?:tiktok\.com\/@)([\w.-]+)/);
+    // 1. Verificación de seguridad: Si contiene "/video/", lo rechazamos inmediatamente
+    if (value.includes("/video/")) {
+        return { 
+            isValid: false, 
+            feedback: "❌ Ese es un enlace de video. Para seguidores, necesitamos el enlace del PERFIL." 
+        };
+    }
+
+    // 2. Regex Estricto:
+    // Busca tiktok.com/@usuario
+    // \/?$  -> Significa que debe terminar ahí (o tener una barra / opcional), pero nada más después.
+    const match = value.match(/tiktok\.com\/@([\w.-]+)\/?(?:\?.*)?$/);
+
     return match 
-        ? { isValid: true, identifier: 'Perfil de TikTok', feedback: "✅ Enlace de perfil válido." } 
-        : { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de que sea un enlace de perfil de TikTok." };
+        ? { isValid: true, identifier: `@${match[1]}`, feedback: "✅ Enlace de perfil válido." } 
+        : { isValid: false, feedback: "❌ Enlace no válido. Asegúrate de copiar el enlace de tu perfil." };
 };
 
 
